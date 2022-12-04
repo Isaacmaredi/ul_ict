@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+
+
+{% block title %}| {{my_profile.user.username}} details {% endblock title %}
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">  
+<div class="">
+    <div class="page-title">
+		<div class="title_left">
+            <h3>
+               {{my_profile.user.full_name}} <i>  Profile </i>
+            
+            </h3>
+		</div>	
+		<div class="title_right">
+			<div class="col-md-5 col-sm-5   form-group pull-right top_search">
+			
+				<nav aria-label="breadcrumb">   
+					<ol class="breadcrumb bg-light">
+						<li class="breadcrumb-item"><a href="{% url 'ict_dash:dashboard' %}">Home</a></li>
+						<li class="breadcrumb-item"> <a href="{% url 'ict_profiles:profile-list' %} ">User Profiles</a> </li>
+                        <li class="breadcrumb-item active" aria-current="page">{{my_profile.user.username}} </li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+    
+    <div class="clearfix"></div>
+
+    <div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+        <div class="x_title">
+    
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+            <div class="col-md-3 col-sm-3  profile_left">
+            <div class="profile_img">
+                <div id="crop-avatar">
+                <!-- Current avatar -->
+                <img class="img-circle img-fluid" src="{{my_profile.photo.url}}" height="200" width="200"  alt="Profile Photo" title="Change the avatar">
+                </div>
+            </div>
+
+            <h3> Designation:   
+            
+            <span class="text-secondary">
+                {{my_profile.position}}
+            </span>
+         
+            </h3>
+            <hr>
+            <h2> Birth Date: 
+            
+                <span class="text-secondary">
+                    {{my_profile.birth_date|date:"d F"}}
+                </span>
+             
+                </h2>
+            <hr>
+            <ul class="list-unstyled user_data">
+                <li><i class="fa fa-map-marker user-profile-icon"></i> &nbsp;&nbsp;&nbsp;{{my_profile.unit}}
+                </li>
+                <hr>
+                <li><i class="fa fa-phone user-profile-icon"></i> &nbsp;&nbsp;&nbsp; {{my_profile.user.mobile}}
+                </li>
+                <hr>
+                <li>
+                <i class="fa fa-briefcase user-profile-icon"></i> &nbsp;&nbsp;&nbsp; <strong>{{my_profile.office_ext}}</strong> 
+                </li>
+                <hr>
+                <li class="m-top-xs">
+                <i class="fa fa-envelope user-profile-icon"></i>
+                <a href="mailto:{{my_profile.user.email}}" target="_blank"> &nbsp;&nbsp;&nbsp;{{my_profile.user.email}}</a>
+                </li>
+            </ul>
+
+            <a href="{% url 'ict_profiles:profile-update' my_profile.id %}" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+            <br />
+
+            </div>
+            <div class="col-md-9 col-sm-9 ">
+
+            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                <span class="ml-2 text-center">
+                <h3> Total Licenses:  <span class="text-success">{{my_profile.licenses.all.count}} </span></h3> 
+                </span>
+                    <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+
+                        <!--Beneficiaries-->
+                        <table class="data table table-striped no-margin">
+                            <thead>
+                                <tr>
+                                <th>#</th>
+                                <th>License Name</th>
+                                <th>Software Category</th>
+                                <th >Start Date</th>
+                                <th>Next Renewal Date</th>
+                                <th>Time to Renewal</th>
+                                <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            
+                                {% for license in my_profile.user.licenses.all %}
+                                <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{license.name}}</td>
+                                <td>{{license.software_category}}</td>
+                                <td >{{license.inception_date|date:"d F Y"}}</td>
+                                <td >{{license.next_renewal_date|date:"d F Y"}}</td>
+                                <td>
+                                    {{license.next_renewal_date|timeuntil}}
+                                </td>
+                                <td>
+                                    <a href="{% url 'ict_licenses:license-update' license.id %}" >
+                                        <span class="glyphicon glyphicon-edit text-info" ></span> Edit 
+                                    </a> 
+                                </td>
+                                </tr>
+                                
+                                {% empty %}
+                                <tr>
+                                    <td colspan="6" class="text-center"><strong >No licenses recorded for this user!</strong> </td> 
+                                </tr>
+                                {% endfor %}  
+                                <tr>
+                                    <td colspan="6" class="text-center"></td>
+                                </tr>  
+                                <tr> 
+                                    <td colspan="4"></td>
+                                    <td colspan="1" class="text-center"> 
+
+                                        <a href="{% url 'ict_profiles:profile-list' %}">
+                                            <button class="btn btn-secondary btn-block">User Profiles</button>
+                                        </a>                                
+                                    </td>
+                                    <td colspan="1" class="text-center"> 
+                                        {% if not license %}
+                                        <a href="{% url 'ict_licenses:license-add' %}">
+                                            <button class="btn btn-primary">Add License</button>
+                                        </a>
+                                        {% else %}
+                                        <a href="{% url 'ict_licenses:license-add' %}">
+                                            <button class="btn btn-primary">Add More Licenses</button>
+                                        </a>
+                                        {% endif %}  
+                                    </td>
+                                </tr>                         
+                            </tbody>                 
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+<!-- /page content -->
+
+{% endblock content %}

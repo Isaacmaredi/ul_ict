@@ -42,8 +42,8 @@ class RegistrationForm(forms.ModelForm):
         for field in self.fields:
             self.fields[field].widget.attrs['class'] = 'form-control'
         
-        for key, field in self.fields.items():
-            field.label = ''
+        # for key, field in self.fields.items():
+        #     field.label = ''
         
         self.helper = FormHelper()
         self.helper.form_class = 'form-horizontal'

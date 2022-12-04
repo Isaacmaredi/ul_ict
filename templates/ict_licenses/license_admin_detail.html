@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}| {{license}} details {% endblock title %}
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+        <div class="title_left">
+            <h3>{{license.name}} License Details </h3>
+        </div>
+
+        <div class="title_right">
+            <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+            
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-light">
+                        <li class="breadcrumb-item"><a href="{% url 'ict_licenses:license-admin' %}">All Licenses</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{license.name}} </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        </div>
+        
+        <div class="clearfix"></div>
+
+        <div class="row">
+        <div class="col-md-12">
+            <div class="x_panel">
+            
+
+            <div class="x_content">
+
+            <div class="col-md-9 col-sm-9  ">
+
+                <ul class="stats-overview">
+                    <li>
+                    <span class="name"> Current License Cost </span>
+                    <span class="value text-secondary"> R{{license.current_cost|intcomma}} </span>
+                    </li>
+                    <li>
+                    <span class="name"> Total Contract Value</span>
+                    <span class="value text-secondary"> R{{license.contract.total_value|intcomma}} </span>
+                    </li>
+                    <li class="hidden-phone">
+                    <span class="name"> Balance Remaining </span>
+                    <span class="value text-secondary"> R{{license.contract.amount_outstanding|intcomma}} </span>
+                    </li>
+                </ul>
+                <ul class="stats-overview">
+                    <li>
+                {% if license.days_till_renewal > 180 %}
+                    <!-- <span class="name"> Current License Cost </span> -->
+                    <span class="value"> <strong class="btn btn-sm btn-block btn-success">License Status: Active - Ok!  </strong> </span>
+                    <span class="value text-secondary"> 
+                                Time to license renewal is: {{license.next_renewal_date|timeuntil}}                    
+                    </span>
+                    {% elif  license.days_till_renewal < 180  and license.days_till_renewal > 90 %} 
+                    <span class="value "><strong class="btn btn-sm btn-block btn-primary">License Status: Active - Alert 1!  </strong> </span>
+                    <span class="value text-secondary"> 
+                                Time to license renewal is:{{license.next_renewal_date|timeuntil}}                    
+                    </span>
+                    {% elif license.days_till_renewal < 90 and license.days_till_renewal >= 0 %} 
+                    <span class="value"><strong class=" btn btn-sm btn-block btn-warning">License Renewal Status: Active - Alert 2! </strong> </span>
+                    <span class="value text-secondary">
+                        Time to license renewal is: {{license.next_renewal_date|timeuntil}}
+                    </span>
+                    {% else %}
+                    <span class="value"><strong class="btn btn-sm btn-block btn-danger">License Renewal Status: Overdue! </strong></span>
+                    <span class="value text-secondary">
+                            License renewal is overdue by:  {{license.next_renewal_date|timesince}}     
+                    </span>
+                {% endif %}
+                </li>
+                <li>
+                    <span class="value text-secondary"> License Start Date: <strong class="text-success">{{license.start_date|date:'d F Y'}}</strong> </span><br>
+                    <span class="value text-secondary">License Renewal Date:&nbsp;&nbsp; <strong class="text-danger">{{license.next_renewal_date|date:'d F Y'}} </strong></span>
+                </li>
+                <li>
+                {% if license.contract.status == "Active - Ok" %}
+                    <span class="name"><strong class="btn btn-sm btn-block btn-success">Contract Status: 
+                        {{license.contract.status}}</strong>               
+                    </span>
+                    <span class="value text-secondary"> 
+                        Time to expiry is {{license.contract.end_date|timeuntil}}
+                    </span>
+                {% elif license.contract.status == "Active - Alert 1" %}
+                    <span class="value"><strong class="btn btn-sm btn-block btn-primary">Contract Status: 
+                        {{license.contract.status}}</strong>               
+                    </span>
+                    <span class="value text-secondary"> 
+                        Time to expiry is {{license.contract.end_date|timeuntil}}
+                    </span>
+                {% elif license.contract.status == "Active - Alert 2" %}   
+                    <span class="value"><strong class="btn btn-sm btn-block btn-warning">Contract Status: 
+                        {{license.contract.status}}</strong>               
+                    </span>
+                    <span class="value text-secondary"> 
+                        Time to expiry is {{license.contract.end_date|timeuntil}}
+                    </span>
+                {% else %}
+                <span class="value"><strong class="btn btn-sm btn-block btn-danger">Contract Status: 
+                    {{license.contract.status}}</strong>               
+                </span>
+                <span class="value text-secondary"> 
+                    Since {{license.contract.end_date|timesince}} ago
+                </span>
+                {% endif %}
+                </li>
+                </ul>
+                <br />
+                <div>
+
+                    <h4>More Information </h4>
+
+                    <!-- end of user messages -->
+                    <ul class="messages">
+                     <div class="col-md-6 col-sm-6">
+                        <li>
+                        
+                            <div class="message_wrapper">
+                            <h4 class="heading">License Description</h4>
+                            <blockquote class="message">{{license.description}} </blockquote>
+                            
+                            
+                            </div>
+                        </li>
+                        <li>
+                            
+                            <div class="message_wrapper">
+                            <h4 class="heading">Software Category</h4>
+                            <blockquote class="message">{{license.software_category}} </blockquote>
+                            <br />
+                        
+                            </div>
+                        </li>
+                        <li>
+                            
+                            <div class="message_wrapper">
+                            <h4 class="heading">Renewal Terms</h4>
+                            <blockquote class="message">{{license.renewal_term}} </blockquote>
+                            <br />
+                    
+                            </div>
+                        </li>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+
+                        <li>
+                            <div class="message_wrapper">
+                            <h4 class="heading">User Base</h4>
+                            <blockquote class="message">{{license.user_base}} </blockquote>
+                            <br />           
+                            </div>
+                        </li>
+                        <li>
+                            <div class="message_wrapper">
+                            <h4 class="heading">Number of Admin Users</h4>
+                            <blockquote class="message">{{license.num_admin_users|intcomma}} </blockquote>
+                            <br />
+                    
+                            </div>
+                        </li>
+                        <li>
+                            <div class="message_wrapper">
+                            <h4 class="heading">Number of End Users</h4>
+                            <blockquote class="message">{{license.num_end_users|intcomma}} </blockquote>
+                            <br />
+                    
+                            </div>
+                        </li>
+
+                    </div>
+                    
+                    </ul>
+                    <!-- end of user messages -->
+                </div>
+            </div>
+                <!-- start project-detail sidebar -->
+            <div class="col-md-3 col-sm-3  ">
+
+                <section class="panel">
+
+                    <div class="x_title">
+                    <h2>Contact Information</h2>
+                    <div class="clearfix"></div>
+                    </div>
+                    <div class="panel-body">
+                    
+                    <br />
+
+                    <div class="project_detail">
+
+                        <p class="title"><h5>Service Provider</h5> </p>
+                    
+                        <p>{{license.service_provider.name}}</p>
+                        <br>
+                        <p class="title"><h5>Service Provider Contact Person</h5> </p>
+                    
+                        <p><i class="fa fa-user text-secondary"></i>&nbsp;&nbsp;&nbsp;{{license.service_provider.contact_person}}</p>
+                        <p><i class="fa fa-phone text-primary"> </i>&nbsp;&nbsp;&nbsp; {{license.service_provider.contact_phone}}</p>
+                        <p> <i class="fa fa-envelope text-info"></i>
+                            &nbsp;&nbsp;&nbsp; 
+                        <a href="mailto:{{license.service_provider.email}}"> {{license.service_provider.email}}</p></a>
+                    </div>
+
+                    <br />  
+                    <h5>UL Contacts</h5>
+                    <ul class="list-unstyled project_files">
+                        <li><a href=""><i class="fa fa-user"></i> {{license.owner.full_name}}</a>
+                        </li>
+                        <li><a href=""><i class="fa fa-mobile text-primary"></i> {{license.owner.mobile}}</a>
+                        </li>
+                        <li><a href=""><i class="fa fa-phone text-secondary"></i> ext. {{license.owner.office_ext}}</a>
+                        </li>
+                        <li><a href="{{license.owner.user.email}}"><i class="fa fa-envelope text-info"></i> {{license.owner.user.email}}</a>
+                        </li>
+                        <li><a href="{{license.contract.contract_document.url}}" target="_blank"> <i class="fa fa-file-pdf-o text-danger"></i> {{license.contract.description}}</a>
+                        </li>         
+                    </ul>
+                    <br />
+
+                    <div class="text-center mtop20">
+                        <a href="{% url 'ict_licenses:license-admin' %}" class="btn btn-sm btn-secondary">License List</a>
+                        <a href="{% url 'ict_licenses:license-update' license.id %}" class="btn btn-sm btn-info">Edit License</a>
+                    </div>
+                    </div>
+
+                </section>
+
+                </div>
+                <!-- end project-detail sidebar -->
+
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+    <!-- /page content -->
+
+{% endblock content %}

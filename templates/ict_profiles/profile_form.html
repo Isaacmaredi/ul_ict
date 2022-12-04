@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags%}
+
+{% block title %}
+| Update User Profile 
+{% endblock title %}
+
+{% block content %}
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_right">
+                
+            <h3 class="text-info text-center"> Update User Profile  <small></small></h3>
+            <br>
+                <br>
+                <br>
+            </div>
+
+            
+        </div>
+        <div class="title_right">
+			<div class="col-md-5 col-sm-5   form-group pull-right top_search">
+			
+				<nav aria-label="breadcrumb">   
+					<ol class="breadcrumb bg-light">
+						<li class="breadcrumb-item"><a href="{% url 'ict_profiles:profile-admin' %} ">Profiles Admin</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Create Profile </li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+        
+        <div class="clearfix"></div>
+
+        <div class="row">
+            
+                <div class="x_panel">
+                    
+                
+                                <!-- start project list -->
+                        <div class="col-md-12 col-sm-12 ">
+                            <div class="x_panel">
+                                    <div class="x_title">                      
+                                    <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                    
+                                    <form action="" method="POST" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {{form|crispy}} 
+
+                                        <input type="submit" class="btn btn-success" value="Update Profile">
+                                    
+                                    </form>
+
+                                    </div>
+                                
+
+                            </div>
+                        </div>
+                  
+                </div>
+            
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{% static 'vendors/validator/multifield.js' %}"></script>
+<script src="{% static 'vendors/validator/validator.js' %}"></script>
+
+<script>
+    function hideshow(){
+        var password = document.getElementById("password1");
+        var slash = document.getElementById("slash");
+        var eye = document.getElementById("eye");
+        
+        if(password.type === 'password'){
+            password.type = "text";
+            slash.style.display = "block";
+            eye.style.display = "none";
+        }
+        else{
+            password.type = "password";
+            slash.style.display = "none";
+            eye.style.display = "block";
+        }
+
+    }
+</script>
+
+<script>
+    // initialize a validator instance from the "FormValidator" constructor.
+    // A "<form>" element is optionally passed as an argument, but is not a must
+    var validator = new FormValidator({
+        "events": ['blur', 'input', 'change']
+    }, document.forms[0]);
+    // on form "submit" event
+    document.forms[0].onsubmit = function(e) {
+        var submit = true,
+            validatorResult = validator.checkAll(this);
+        console.log(validatorResult);
+        return !!validatorResult.valid;
+    };
+    // on form "reset" event
+    document.forms[0].onreset = function(e) {
+        validator.reset();
+    };
+    // stuff related ONLY for this demo page:
+    $('.toggleValidationTooltips').change(function() {
+        validator.settings.alerts = !this.checked;
+        if (this.checked)
+            $('form .alert').remove();
+    }).prop('checked', false);
+
+</script>
+
+
+{% endblock content %}
+
+

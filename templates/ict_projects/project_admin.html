@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+| ICT Projects
+{% endblock title %}
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">  
+<div class="">
+<div class="page-title">
+    
+	<div class="title_left">
+        <h3>Total ICT Projects Count:&nbsp;&nbsp;&nbsp;{{total_projects}} </small></h3>	
+	</div>
+	<div class="title_right">
+		<div class="col-md-5 col-sm-5   form-group pull-right top_search">
+		
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb bg-light">
+					<li class="breadcrumb-item"><a href="{% url 'ict_profiles:profile-list' %}">Profiles</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Projects Admin List Page</li>
+				</ol>
+			</nav>
+		</div>
+	</div>  
+</div>
+	<div class="title_right">
+		<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+		<div class="input-group">
+			<span class="input-group-btn">
+				<!-- <form action="" method="GET">
+					<input type="text" name="mobile_phone" value="{{request.GET.mobile_phone}}" 
+					class="form-control" placeholder="Search...">
+					<button type="submit" class="btn btn-primary text-white" >Go!</button>
+				</form> -->
+			</span>
+		</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+
+	<div class="row">
+	<div class="col-md-12">
+		<div class="x_panel">
+		
+		<div class="x_content">
+			<div class="row">
+				<div class="col-md-3 col-sm-6  ">
+					<div class="pricing_footer bg-light">
+						<div class="title" >
+						<a href="#">
+                            <button class="btn btn-info">Add Project here</button>
+                        </a>
+						
+						</div>
+					</div>
+				</div>
+                <div class="col-md-3 col-sm-6  ">
+					
+				</div>
+				<div class="col-md-3 col-sm-6">
+					
+
+				</div>
+
+			</div>
+
+        <div class="card-box table-responsive"> 
+				<!-- start project list -->
+                <table class="table table-striped projects table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 3%"> #</th>
+                            <th style="width: 10%">Project Name</th>           
+                            <th style="width: 10%" > Start Date </th>
+                            <th style="width: 10%">End Date </th>
+							<th style="width: 10%">Total Milestones</th>
+				
+                            <th style="width: 20%" >Progress</th> 
+                            <th style="width: 10%"> Status </th> 
+                            <th >More Info</th>                  
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for project in projects %}
+                    <tr>
+                            <td >
+                                {{forloop.counter}}
+                            </td>
+                            <td >
+                                {{ project.name}}
+                            </td>
+                            <td >
+                                {{project.start_date|date:'d M Y'}}
+                            </td>
+                            <td >
+                                {{project.end_date|date:'d M Y'}}
+                            </td>
+							<td>
+							<span type="button" data-toggle="modal" data-target=".bs-example-modal-sm">{{project.milestones_count}}</span>
+									
+							<div class="modal fade bs-example-modal-sm" id= "myModalLabel1" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+			
+									<div class="modal-header">
+										<h4 class="modal-title" id="myModalLabel2">{{project.name}} Project</h4>
+										<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<ol>
+											{% for milestone in project.milestones.all %}
+											<li>{{milestone.name}} - 
+											<span >
+												{% if milestone.status == 'Completed' %}
+												<span class="text-success" >{{milestone.status}}</span>
+												{% elif  milestone.status == 'Not Started' %}
+												<span class="text-secondary" >{{milestone.status}} </span>
+												{% elif milestone.status == 'In Progress - On track'%}
+												<span class="text-primary">{{milestone.status}}</span>
+												{% elif milestone.status == 'In Progress - Delayed'%}
+												<span class="text-warning" >{{milestone.status}}</span>
+												{% else %}
+												<span class="text-danger">{{milestone.status}} </span>
+												{% endif %}
+											</span>
+										</li>
+											{% endfor %}
+										</ol>
+										
+										<h4>Total Milestones: {{project.milestones_count}} 
+											
+										</h4>
+										
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+										
+									</div>
+			
+									</div>
+								</div>
+								</div>
+								
+							</td>
+							
+							<td class="project_progress">
+																	
+								<div class="progress progress_lg">
+									<div class="progress-bar progress-bar-striped bg-info" role="progressbar" data-transitiongoal="{{project.total_progress}}">
+										<span class="text-center text-strong"> {{project.total_progress}}%</span>
+									</div>
+								</div>		
+									
+						</td>
+                            <td class="project_progress">
+                                <div class="progress progress_xl ">
+                                    {% if project.status == 'Completed' %}
+                                    <div class="progress-bar progress-bar-success" data-transitiongoal="100">{{project.status}}</div>
+                                    {% elif  project.status == 'Not Started' %}
+                                    <div class="progress-bar progress-bar-secondary" data-transitiongoal="100">{{project.status}} </div>
+                                    {% elif project.status == 'On track'%}
+                                    <div class="progress-bar progress-bar-striped bg-primary" data-transitiongoal="100">{{project.status}}</div>
+                                    {% elif project.status == 'Delayed'%}
+                                    <div class="progress-bar progress-bar-warning" data-transitiongoal="100">{{project.status}}</div>
+                                    {% else %}
+                                    <div class="progress-bar progress-bar-danger" data-transitiongoal="100">{{project.status}} </div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            
+                            <td >
+                                <a href="{% url 'ict_projects:project-admin-detail' project.pk %}" >
+                                    <span class="glyphicon glyphicon-info-sign text-info"></span> View Project Details
+                                </a>
+                            </td>                          
+                            {% empty %} 
+                            <th colspan="8" class="text-center">No projects recorded yet!</th colspan="8">
+                        </tr> 
+                {% endfor %}
+                    </tbody>
+                </table>
+			<!-- end project list -->
+        <!-- Pagination Section -->
+				<div class="row">
+					<div class="col-md-12" justify-content-right>
+						{% if page_obj.has_other_pages %}
+						<ul class="pagination nav navbar-right mx-right" >
+							{% if page_obj.has_previous %}
+							<li class="page-item">
+								<a href="?page={{page_obj.previous_page_number}}" class="page-link">Previous</a>
+							</li>
+						
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link">Previous</a>
+							</li>
+							{% endif %}
+							{% for i in page_obj.paginator.page_range %}
+							{% if page_obj.number == i %}
+								<li class="page-item active">
+								<a class="page-link">{{i}}</a>
+								</li>
+							{% else %}
+								<li class="page-item">
+								<a href="?page={{i}}" class="page-link">{{i}}</a>
+								</li>
+							{% endif %}
+							{% endfor %}
+							{% if page_obj.has_next %}
+							<li class="page-item">
+								<a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a>
+							</li>
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link">Next</a>
+							</li>
+							{% endif %}
+						</ul>
+						{% endif %}
+					</div>
+				</div>
+				<!--End pagination -->
+
+		</div>
+		</div>
+	</div>
+	</div>
+</div>
+</div>
+<!-- /page content -->
+
+{% endblock content %}

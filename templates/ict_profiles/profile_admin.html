@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %} | User Profiles {% endblock title %}
+
+{% block content %}
+<div class="right_col" role="main">
+<div class="">
+<div class="page-title">
+	<div class="title_left">
+		<h3>User Profiles Administration </small></h3>	
+	</div>
+	<div class="title_right">
+		<div class="col-md-5 col-sm-5   form-group pull-right top_search">
+		
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb bg-light">
+					<li class="breadcrumb-item"><a href="#">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">User Profiles</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+</div>
+	<div class="title_right">
+		<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+		<div class="input-group">
+			<span class="input-group-btn">
+				<!-- <form action="" method="GET">
+					<input type="text" name="mobile_phone" value="{{request.GET.mobile_phone}}" 
+					class="form-control" placeholder="Search...">
+					<button type="submit" class="btn btn-primary text-white" >Go!</button>
+				</form> -->
+			</span>
+		</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+
+	<div class="row">
+	<div class="col-md-12">
+		<div class="x_panel">
+		
+		<div class="x_content">
+			<div class="row">
+				<div class="col-md-3 col-sm-6  ">
+					<div class="pricing_footer bg-light">
+						<div class="title" >
+						<a href="{% url 'ict_accounts:register' %} ">
+                            <button class="btn btn-info">Add New User Account</button>
+                        </a>
+						  
+						</div>
+					</div>
+				</div>
+                <div class="col-md-3 col-sm-6  ">
+					
+				</div>
+				<div class="col-md-3 col-sm-6">
+					<!-- <div class="pricing_footer bg-light">
+						<div class="title">
+							<form action="" method="GET">
+								<input name="q" type="text" placeholder="Search member">
+								<button type="submit" class="btn btn-info"> Go...</button>
+							</form>
+						</div>
+					</div> -->
+
+				</div>
+
+			</div>
+
+			<div class="card-box table-responsive"> 
+				<!-- start project list -->
+				{% include 'partials/_alerts.html' %}
+				<table id="datatable" class="table table-striped table-bordered" style="width:100%">
+				<thead>
+					<tr>
+					<th style="width: 1%">#</th>
+					<th style="width: 10%">Member Name</th>
+					<th style="width: 10%">Member Image</th>
+					<th style="width: 10%">Mobile No.</th>
+					<th style="width: 10%">Email Address</th>
+					<th style="width: 3%">More Info</th>
+					<th style="width: 5%" colspan="3">Actions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for profile in profiles_admin %}
+					 {% if not profile.user.is_superuser  %}
+					<tr>
+					<td> {{forloop.counter}} </td>
+					<th>
+					<a href="{% url 'ict_profiles:profile-detail' profile.id %}">	<span class="text-secondary">
+                        {{profile.user.full_name}} - {{profile.user.is_superuser}}</span> </a>
+					</th>
+					<td>
+						<ul class="list-inline">
+						<li>
+							<img src="{{profile.photo.url}}" class="avatar" alt="Avatar">
+						</li>
+						</ul>
+					</td>
+					<td>{{profile.user.mobile_number}}</td>
+					<td> <a href="mailto:{{profile.user.email}}">{{profile.user.email}}</a> </td>
+	
+					
+					<td style="width: 5%"> 
+						<a href="{% url 'ict_profiles:profile-admin-detail' profile.id %} ">
+							<span class="glyphicon glyphicon-info-sign text-info"></span> View Details
+						</a>
+					</td>
+					<td style="width: 5%">
+						<a href="{% url 'ict_profiles:profile-update' profile.id %}" >
+							<span class="glyphicon glyphicon-edit text-success" ></span> Edit Profile
+						</a>
+					</td>
+					<td style="width: 5%">
+						<a href="#" disabled >
+							<span class="glyphicon glyphicon-trash text-danger" area-hiden="true" > </span> Delete
+						</a>
+					</td>
+			
+					</tr>
+						{% endif %}
+					{% endfor %}
+					
+				</tbody>
+				</table>
+				<!-- end project list -->
+				<!-- Pagination Section -->
+				<div class="row">
+					<div class="col-md-12" justify-content-right>
+						{% if page_obj.has_other_pages %}
+						<ul class="pagination nav navbar-right mx-right" >
+							{% if page_obj.has_previous %}
+							<li class="page-item">
+								<a href="?page={{page_obj.previous_page_number}}" class="page-link">Previous</a>
+							</li>
+						
+							{% else %}
+									<li class="page-item disabled">
+								<a class="page-link">Previous</a> 
+							</li>
+							{% endif %}
+								{% for i in page_obj.paginator.page_range %}
+							{% if page_obj.number == i %}
+								<li class="page-item active">
+								<a class="page-link">{{i}}</a>
+								</li>
+							{% else %}
+								<li class="page-item">
+								<a href="?page={{i}}" class="page-link">{{i}}</a>
+								</li>
+							{% endif %}
+							{% endfor %}
+							{% if page_obj.has_next %}
+							<li class="page-item">
+								<a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a>
+							</li>
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link">Next</a>
+							</li>
+							{% endif %}
+						</ul>
+						{% endif %}
+					</div>
+				</div>
+				<!--End pagination -->
+		</div>
+		</div>
+	</div>
+	</div>
+</div>
+</div>
+{% endblock content %} 

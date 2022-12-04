@@ -14,19 +14,19 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-print('OUR BASE DIRECTORY IS: ',BASE_DIR, 'INDEED')
+# print('OUR BASE DIRECTORY IS: ',BASE_DIR, 'INDEED')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-siv4ss2lf2b)-@#lu9!))wqi$1(5t=oz&ldg)_mf)4og8mozk3'
+# SECRET_KEY = 'django-insecure-siv4ss2lf2b)-@#lu9!))wqi$1(5t=oz&ldg)_mf)4og8mozk3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -38,9 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     #Python/Django packages
     'crispy_forms',  
     'django_extensions',
+    'bootstrapform',
+    'mathfilters',
     #Custom Apps
     'ict_accounts',
     'ict_contracts',
@@ -49,9 +52,11 @@ INSTALLED_APPS = [
     'ict_profiles',
     'ict_projects',
     'ict_vendors',  
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,7 +66,13 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
+
 ROOT_URLCONF = 'ict_main.urls'
+
+AUTH_USER_MODEL='ict_accounts.Account'
 
 TEMPLATES = [
     {
@@ -99,9 +110,16 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'OPTIONS': {
+            'user_attributes': ('email','username','first_name','last_name'),
+            
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTIONS': {
+            'min_length':8,
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -115,7 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LOGIN_REDIRECT_URL = 'ict_profiles:profile-list'
+LOGIN_REDIRECT_URL = 'ict_licenses:license-list'
 LOGIN_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
@@ -126,6 +144,10 @@ TIME_ZONE = 'Africa/Johannesburg'
 USE_I18N = True
 
 USE_L10N = True
+DECIMAL_SEPARATOR = '.'
+USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR = ' '
+NUMBER_GROUPING = 3
 
 USE_TZ = True
 
@@ -134,8 +156,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = (BASE_DIR / 'static',)
+STATICFILES_DIRS = [
+    BASE_DIR / 'ict_main/static',
+]
+STATIC_ROOT = BASE_DIR /'static'
 
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR /'media'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
@@ -146,3 +176,8 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+print('='*40)
+print ('SECRET KEY IS : ', SECRET_KEY)
+print('='*40) 
+print('DEBUG BOOLEAN VALUE IS ', DEBUG)
+print('='*40)

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}| Project details {% endblock title %}
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">  
+<div class="">
+    <div class="page-title">
+		<div class="title_left">
+            <h3>
+                {{project.name}} Project 
+            </h3>
+		</div>	
+		<div class="title_right">
+			<div class="col-md-5 col-sm-5   form-group pull-right top_search">
+			
+				<nav aria-label="breadcrumb">   
+					<ol class="breadcrumb bg-light">
+						<li class="breadcrumb-item"><a href="{% url 'ict_projects:project-admin' %} ">Projects Admin</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Project details </li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+    
+    <div class="clearfix"></div>
+
+    <div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+        <div class="x_title">
+    
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+
+            <div class="col-md-9 col-sm-9 ">
+                <h2>Details to follow!</h2>
+        </div>
+
+        
+
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- /page content -->
+
+{% endblock content %}

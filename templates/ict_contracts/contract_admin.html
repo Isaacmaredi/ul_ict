@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+| ICT Contracts
+{% endblock title %}
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">
+<div class="">
+<div class="page-title">
+    
+	<div class="title_left">
+        <h3>Total ICT Contracts:&nbsp;&nbsp;&nbsp;{{total_contracts}} </small></h3>	
+	</div>
+	<div class="title_right">
+		<div class="col-md-5 col-sm-5   form-group pull-right top_search">
+		
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb bg-light">
+					<li class="breadcrumb-item"><a href="{% url 'ict_profiles:profile-list' %}">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Contracts Admin</li>
+				</ol>
+			</nav>
+		</div>
+	</div>  
+</div>
+	<div class="title_right">
+		<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+		<div class="input-group">
+			<span class="input-group-btn">
+				<!-- <form action="" method="GET">
+					<input type="text" name="mobile_phone" value="{{request.GET.mobile_phone}}" 
+					class="form-control" placeholder="Search...">
+					<button type="submit" class="btn btn-primary text-white" >Go!</button>
+				</form> -->
+			</span>
+		</div>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+
+	<div class="row">
+	<div class="col-md-12">
+		<div class="x_panel">
+		
+		<div class="x_content">
+			<div class="row">
+				<div class="col-md-3 col-sm-6  ">
+					<div class="pricing_footer bg-light">
+						<div class="title" >
+						<a href="{% url 'ict_contracts:contract-add' %}">
+                            <button class="btn btn-info">Add a Contract</button>
+                        </a>
+						
+						</div>
+					</div>
+				</div>
+                <div class="col-md-3 col-sm-6  ">
+					
+				</div>
+				<div class="col-md-3 col-sm-6">
+					
+
+				</div>
+
+			</div>
+
+        <div class="card-box table-responsive"> 
+				<!-- start project list -->
+                <table class="table table-striped projects table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 3%"> #</th>
+                            <th style="width: 20%">Description   </th>           
+                            <th style="width: 10%" > Supplier  </th>
+                            <th style="width: 10%">Responsible Manager </th>
+                            <th style="width: 10%"> Status </th> 
+                            <th style="width: 15%" >Expiry Time</th>  
+                            <th  colspan="3" style="width: 24%" class="text-center">Actions</th>                  
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for contract in contracts %}
+                    <tr>
+                            <td style="width: 3%">
+                                {{forloop.counter}}
+                            </td>
+                            <td style="width:20%">
+                                {{ contract.description}}
+                            </td>
+                            <td style="width: 10%">
+                                {{contract.supplier}}
+                            </td>
+                            <td style="width: 10%">
+                                {{contract.owner}}
+                            </td> 
+                            <td class="vertical-align-mid" style="width: 10">
+                                <div class="progress">
+                                    {% if contract.status == 'Active - Ok' %}
+                                    <div class="progress-bar progress-bar-success" data-transitiongoal="100">{{contract.status}}</div>
+                                    {% elif  contract.status == 'Active - Alert 1' %}
+                                    <div class="progress-bar progress-bar-info" data-transitiongoal="100">{{contract.status}} </div>
+                                    {% elif contract.status == 'Active - Alert 2'%}
+                                    <div class="progress-bar progress-bar-warning" data-transitiongoal="100">{{contract.status}}</div>
+									{% elif contract.status == 'Contract is Perpertual'%}
+                                    <div class="progress-bar progress-bar bg-secondary" data-transitiongoal="100">{{contract.status}}</div>
+                                    {% else %}
+                                    <div class="progress-bar progress-bar-danger" data-transitiongoal="100">{{contract.status}} </div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                            <td style="width: 15%">
+								{% if contract.time_until_end > 0 %}
+                                {{contract.end_date|timeuntil}} to expiry
+								{% elif contract.time_until_end == -9999 %}
+								No expiry date
+                                {% else %}
+                                <strong class="text-danger">Expired {{contract.end_date|timesince}} ago </strong>   
+                                {% endif %}
+                            </td>
+                            <td style="width: 8%">
+                                <a href="{% url 'ict_contracts:contract-admin-detail' contract.id %}" >
+                                    <span class="glyphicon glyphicon-info-sign text-info"></span> Details
+                                </a>
+                            </td>
+                            <td style="width: 8%">
+                                <a href="{% url 'ict_contracts:contract-update' contract.id %}" >
+                                    <span class="glyphicon glyphicon-edit text-primary" ></span> Edit 
+                                </a>
+                            </td>
+
+                            <td style="width: 8%">
+                                <a href="{% url 'ict_contracts:contract-delete' contract.id %}" >
+                                    <span class="glyphicon glyphicon-trash text-danger" area-hiden="true" > </span> Delete
+                                </a>
+                            </td>  
+                            
+                            {% empty %} 
+                            <th colspan="8" class="text-center">No contracts recorded yet!</th colspan="8">
+                        </tr> 
+    
+                {% endfor %}
+                    </tbody>
+                </table>
+			<!-- end project list -->
+            <!-- Pagination Section -->
+				<div class="row">
+					<div class="col-md-12" justify-content-right>
+						{% if page_obj.has_other_pages %}
+						<ul class="pagination nav navbar-right mx-right" >
+							{% if page_obj.has_previous %}
+							<li class="page-item">
+								<a href="?page={{page_obj.previous_page_number}}" class="page-link">Previous</a>
+							</li>
+						
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link">Previous</a>
+							</li>
+							{% endif %}
+							{% for i in page_obj.paginator.page_range %}
+							{% if page_obj.number == i %}
+								<li class="page-item active">
+								<a class="page-link">{{i}}</a>
+								</li>
+							{% else %}
+								<li class="page-item">
+								<a href="?page={{i}}" class="page-link">{{i}}</a>
+								</li>
+							{% endif %}
+							{% endfor %}
+							{% if page_obj.has_next %}
+							<li class="page-item">
+								<a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a>
+							</li>
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link">Next</a>
+							</li>
+							{% endif %}
+						</ul>
+						{% endif %}
+					</div>
+				</div>
+				<!--End pagination -->
+
+		</div>
+		</div>
+	</div>
+	</div>
+</div>
+</div>
+<!-- /page content -->
+
+{% endblock content %}

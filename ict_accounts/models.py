@@ -51,8 +51,8 @@ class Account(AbstractBaseUser):
     last_login      = models.DateTimeField(auto_now_add=True)
     is_admin        = models.BooleanField(default=False)
     is_staff        = models.BooleanField(default=False)
-    is_active        = models.BooleanField(default=False)
-    is_superuser       = models.BooleanField(default=False)
+    is_active       = models.BooleanField(default=False)
+    is_superuser    = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
@@ -80,7 +80,7 @@ class Profile(models.Model):
     unit = models.CharField(max_length=200, verbose_name="ICT Unit")
     position = models.CharField(max_length=200, verbose_name="Designation")
     speed_dial = models.CharField(max_length=50, blank=True, null=True,verbose_name="Speed Dial")
-    photo = models.ImageField(default='default.png', upload_to=user_directory_path)
+    photo = models.ImageField(default='default2.png', upload_to=user_directory_path)
     
 
     def __str__(self):

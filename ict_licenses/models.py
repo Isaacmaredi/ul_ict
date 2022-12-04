@@ -118,7 +118,7 @@ class License(models.Model):
         ordering = ('-created',)
         
     def get_absolute_url(self):
-        return reverse ('licenses:license-admin-detail', kwargs={'pk':self.pk})
+        return reverse ('ict_licenses:license-admin-detail', kwargs={'pk':self.pk})
     
     def save(self, *args, **kwargs):
         renewal_delta = timedelta(days=365)

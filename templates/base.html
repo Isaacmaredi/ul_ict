@@ -1,0 +1,157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Meta, title, CSS, favicons, etc. -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/ico" />
+
+<title>UL ICT {% block title %}{% endblock title %} </title>
+
+
+<!-- Bootstrap -->
+<link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}"  rel="stylesheet">
+<!-- Font Awesome -->
+<link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}"  rel="stylesheet">
+<!-- NProgress -->
+<link href="{% static 'vendors/nprogress/nprogress.css' %}"  rel="stylesheet">
+<!-- iCheck -->
+<link href="{% static 'vendors/iCheck/skins/flat/green.css' %}"  rel="stylesheet">
+
+<!-- bootstrap-progressbar -->
+<link href="{% static 'vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css' %}"  rel="stylesheet">
+<!-- JQVMap -->
+<link href="{% static 'vendors/jqvmap/dist/jqvmap.min.css' %}"  rel="stylesheet"/>
+<!-- bootstrap-daterangepicker -->
+<link href="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.css' %}"  rel="stylesheet">
+
+<!-- Custom Theme Style -->
+<link href="{% static 'build/css/custom.min.css' %}"  rel="stylesheet">
+
+<script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous"></script>
+</head>
+
+<body class="nav-md" >
+<div class="container body"  >
+    <div class="main_container" >
+        {% include 'partials/_topnav.html' %}
+        {% include 'partials/_sidenav.html' %}
+        {% block content %}{% endblock content %}
+
+        
+    </div>
+    <footer class="footer-fixed">
+        <div class="pull-center">
+            ICT Contracts and Portfolio Management | <strong>Copyright © University of Limpopo <script>document.write(new Date().getFullYear());</script> </strong> <br>  
+        </div>
+        <div class="clearfix"></div>
+    </footer>
+</div>
+    <script>
+        document.body.addEventListener('htmx:configRequest',(event) => {
+            event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+        })
+    </script>
+    <!-- jQuery -->
+    <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+    <script src="{% static 'vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- FastClick -->
+    <script src="{% static 'vendors/fastclick/lib/fastclick.js' %}"></script>
+    <!-- NProgress -->
+    <script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
+    <!-- Chart.js -->
+    <script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script>
+    <!-- gauge.js -->
+    <script src="{% static 'vendors/gauge.js/dist/gauge.min.js' %}"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="{% static 'vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
+    <!-- iCheck -->
+    <script src="{% static 'vendors/iCheck/icheck.min.js' %}"></script>
+    <!-- Skycons -->
+    <script src="{% static 'vendors/skycons/skycons.js' %}"></script>
+    <!-- Flot -->
+    <script src="{% static 'vendors/Flot/jquery.flot.js' %}"></script>
+    <script src="{% static 'vendors/Flot/jquery.flot.pie.js' %}"></script>
+    <script src="{% static 'vendors/Flot/jquery.flot.time.js' %}"></script>
+    <script src="{% static 'vendors/Flot/jquery.flot.stack.js' %}"></script>
+    <script src="{% static 'vendors/Flot/jquery.flot.resize.js' %}"></script>
+    <!-- Flot plugins -->
+    <script src="{% static 'vendors/flot.orderbars/js/jquery.flot.orderBars.js' %}"></script>
+    <script src="{% static 'vendors/flot-spline/js/jquery.flot.spline.min.js' %}"></script>
+    <script src="{% static 'vendors/flot.curvedlines/curvedLines.js' %}"></script>
+    <!-- DateJS -->
+    <script src="{% static 'vendors/DateJS/build/date.js' %}"></script>
+    <!-- JQVMap -->
+    <script src="{% static 'vendors/jqvmap/dist/jquery.vmap.js' %}"></script>
+    <script src="{% static 'vendors/jqvmap/dist/maps/jquery.vmap.world.js' %}"></script>
+    <script src="{% static 'vendors/jqvmap/examples/js/jquery.vmap.sampledata.js' %}"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+    <!-- Chart.js -->
+    <script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script>
+    <!-- jQuery Sparklines -->
+    <script src="{% static 'vendors/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+    <!-- morris.js -->
+    <script src="{% static 'vendors/raphael/raphael.min.js' %}"></script>
+    <script src="{% static 'vendors/morris.js/morris.min.js' %}"></script>
+    <!-- gauge.js -->
+    <script src="{% static 'vendors/gauge.js/dist/gauge.min.js' %}"></script>
+
+    <!-- Datatables -->
+    <script src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+    <script src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+    <script src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
+    <script src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
+    <!-- iCheck -->
+	<script src="{% static 'vendors/iCheck/icheck.min.js' %}"></script>
+	<!-- bootstrap-daterangepicker -->
+	<script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
+	<script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script src="{% static 'vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js' %}"></script>
+	<script src="{% static 'vendors/jquery.hotkeys/jquery.hotkeys.js' %}"></script>
+	<script src="{% static 'vendors/google-code-prettify/src/prettify.js' %}"></script>
+	<!-- jQuery Tags Input -->
+	<script src="{% static 'vendors/jquery.tagsinput/src/jquery.tagsinput.js' %}"></script>
+	<!-- Switchery -->
+	<script src="{% static 'vendors/switchery/dist/switchery.min.js' %}"></script>
+	<!-- Select2 -->
+	<script src="{% static 'vendors/select2/dist/js/select2.full.min.js' %}"></script>
+	<!-- Parsley -->
+	<script src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
+	<!-- Autosize -->
+	<script src="{% static 'vendors/autosize/dist/autosize.min.js' %}"></script>
+	<!-- jQuery autocomplete -->
+	<script src="{% static 'vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js' %}"></script>
+	<!-- starrr -->
+	<script src="{% static 'vendors/starrr/dist/starrr.js' %}"></script>
+    <!-- NProgress -->
+    <script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="{% static 'vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
+    <!-- PNotify -->
+    <script src="{% static 'vendors/pnotify/dist/pnotify.js' %}"></script>
+    <script src="{% static 'vendors/pnotify/dist/pnotify.buttons.js' %}"></script>
+    <script src="{% static 'vendors/pnotify/dist/pnotify.nonblock.js' %}"></script>
+    <!-- Custom Template JS -->
+    <script src="{% static 'build/js/custom.min.js' %}"></script>
+    <script src="{% static 'build/js/mycustom.js' %}" ></script>
+
+</body>
+</html>

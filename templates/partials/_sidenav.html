@@ -1,0 +1,82 @@
+{% load static %}
+<div class="col-md-3 left_col menu_fixed">
+    <div class="left_col scroll-view" style="background-color:rgb(4, 59, 100)">
+        <div class="navbar nav_title text-center" style="border: 0;">
+
+            <a href="" class="site_title" style="background-color:rgb(4, 59, 100)">
+                <img src="{% static 'images/ul_logo_2.png' %}" style="width:75px" alt="UL Logo">
+            </a>
+            <div>
+                <!-- <h2 style="color: rgba(167, 143, 10, 0.856); text-decoration: underline; text-align: center; font-size: 20px; font-weight: bold">ICT Licensing & <br> Portfolio Management</h2> -->
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+
+        <!-- menu profile quick info -->
+        <div class="profile clearfix">
+
+        </div>
+        <br>
+        <br>
+        {% if request.user.is_authenticated or 'password-change' not in request.PATH %}
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu"
+                 style="background-color:rgb(4, 59, 100)">
+            <div class="menu_section">
+                <h3 style="color: rgba(240, 219, 99, 0.856);text-decoration:underline">Regular User Area</h3>
+                <ul class="nav side-menu">
+                    <li><a href="#"><i class="fa fa-tachometer"></i> Dashboard</a></li>
+                    <li><a><i class="fa fa-file"></i>Software Licensing<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+
+                            <li><a href="{% url 'ict_vendors:vendor-list' %}"> Vendors</a></li>
+                            <li><a href="{% url 'ict_contracts:contract-list' %}"> Contracts</a></li>
+                            <li><a href="{% url 'ict_licenses:license-list' %}">Licenses</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="{% url 'ict_projects:project-list' %}"><i class="fa fa-list"></i>ICT Projects</a>
+                    <li><a href="{% url 'ict_profiles:profile-list' %}"><i class="fa fa-group"></i>User Profiles</a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="menu_section">
+            {% if request.user.is_staff %}
+
+                <h3 style="color: rgba(240, 219, 99, 0.856);text-decoration:underline">Admin User Area</h3>
+                <ul class="nav side-menu">
+                <li><a><i class="fa fa-laptop"></i>Admin - Frontend <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <!-- <li><a href="{% url 'ict_profiles:profile-admin' %}">Manage User Profiles</a></li> -->
+                        <li><a href="{% url 'ict_vendors:vendor-admin' %}">Manage Vendors</a></li>
+                        <li><a href="{% url 'ict_contracts:contract-admin' %}">Manage Contracts </a></li>
+                        <li><a href="{% url 'ict_licenses:license-admin' %}">Manage Licenses</a></li>
+                        <!-- <li><a>Manage Portfolio<span class="fa fa-chevron-down"></span></a>
+                            <ul class="nav child_menu">
+                                <li class="sub_menu"><a href="{% url 'ict_projects:project-admin' %}">Projects</a>
+                                </li>
+                                </li>
+                            </ul>
+                        </li> -->
+                    </ul>
+                </li>
+                {% if request.user.is_superuser %}
+                    <li><a href="{% url 'admin:index' %}" target="_blank"><i class="fa fa-server"></i>
+                        Admin - Back Office
+                    </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        </ul>
+
+            <ul class="nav side-menu">
+                <li><a href="{% url 'ict_accounts:logout' %}"><i class="fa fa-sign-out"></i> Logout </a></li>
+            </ul>
+        {% endif %}
+        </div>
+        </div>
+
+    </div>
+</div>

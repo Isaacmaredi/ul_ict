@@ -1,0 +1,307 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block title %}| {{contract}} details {% endblock title %}
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">  
+<div class="">
+    <div class="page-title">
+		<div class="title_left">
+            <h3>
+                {{contract.name}} Contract 
+            </h3>
+		</div>	
+		<div class="title_right">
+			<div class="col-md-5 col-sm-5   form-group pull-right top_search">
+			
+				<nav aria-label="breadcrumb">   
+					<ol class="breadcrumb bg-light">
+						<li class="breadcrumb-item"><a href="{% url 'ict_contracts:contract-list' %} ">All Contracts</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Contract details </li>
+					</ol>
+				</nav>
+			</div>
+		</div>
+	</div>
+    
+    <div class="clearfix"></div>
+
+    <div class="row">
+    <div class="col-md-12 col-sm-12 ">
+        <div class="x_panel">
+        <div class="x_title"> 
+    
+            <div class="clearfix"></div>
+        </div>
+        <div class="x_content">
+
+
+            <div class="col-md-9 col-sm-9 ">
+                <div class="col-md-12 col-sm-12 " style="border:0px solid #e5e5e5;">
+                    
+                    <div class="col-md-6 col-sm-6">     
+                        <h2>Start Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                            <strong class="text-success">{{contract.start_date|date:"d F Y"}}</strong> 
+                        </h2>     
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <h2>Total Contract Value: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="text-secondary"> R{{contract.total_value|intcomma}}</strong> </h2>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">     
+                        <h2>End Date: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                            <strong class="text-danger">{{contract.end_date|date:"d F Y"}}</strong> 
+                        </h2>    
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <h2>Amount Outstanding: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="text-secondary"> R{{contract.amount_outstanding|intcomma}}</strong> </h2>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6">
+                        <h2>Duration:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>  {{contract.duration}} years</strong>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <h2 > Contract Type: 
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <strong > {{contract.agreement_type}}</strong> </h2> 
+                    </div>
+                    <hr>   
+                <h2 >&nbsp; </h2>
+
+            <div class="">
+                
+                <div class="product_price">   
+                    <div class="x_content bs-example-popovers">
+                        {% if contract.status == "Active - Ok" %}
+                        <button id="compose" class="btn btn-sm btn-success btn-block" type="button">
+                            <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
+                            Time to expiry is {{contract.end_date|timeuntil}}</strong>
+                        </button>
+                        {% elif contract.status == "Active - Alert 1" %}                     
+                        <button id="compose" class="btn btn-sm btn-primary btn-block" type="button">
+                            <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
+                                Time to expiry is {{contract.end_date|timeuntil}}</strong>
+                        </button>      
+                        {% elif contract.status == "Active - Alert 2" %}              
+                        <button id="compose" class="btn btn-sm btn-warning btn-block" type="button">
+                            <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
+                            Time to expiry is {{contract.end_date|timeuntil}}</strong>
+                        </button>  
+                        {% elif contract.status == 'Contract is Perpertual'%}
+                        <button id="compose" class="btn btn-sm btn-secondary btn-block" type="button">
+                            <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
+                            - No end date</strong>
+                        </button>
+                        {% else %}        
+                        <button id="compose" class="btn btn-sm btn-danger btn-block" type="button">
+                            <strong>Status: &nbsp;&nbsp;&nbsp;&nbsp;{{contract.status}}</strong> 
+                            <strong> since&nbsp; {{contract.end_date|timesince}} ago                         
+                        </button>            
+                        {% endif %}   
+                        </div>
+                    
+                        <h3 class="prod_title">&nbsp;</h3>
+                    
+                        <!-- start accordion -->
+                    <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">
+                        <div class="panel">
+                        <a class="panel-heading" role="tab" id="headingOne1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne1" aria-expanded="true" aria-controls="collapseOne">
+                            <h4 class="panel-title">Contract Contact Details</h4>
+                        </a>
+                        <div id="collapseOne1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                            <div class="panel-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Representatives</th>
+                                    <th>Name</th>
+                                    <th>Designation</th>
+                                    <th>Contact Details</th>
+                                    
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row" class="text-muted">Ul Signatory</th>
+                                    <td>{{contract.ul_signatory}}</td>
+                                    <td>Vice Chancellor & Principal</td>
+                                    <td>-</td>
+                                    
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-muted">Supplier Signatory</th>
+                                    <td>{{contract.supplier_signatory}}</td>
+                                    <td>Chief Executive Officer</td>
+                                    <td>-</td>
+                                </tr>
+                            <tr>
+                                <th scope="row" class="text-muted">UL Contact Person</th>
+                                <td>{{contract.created_by.profile}}</td>
+                                <td>Contract Admin</td>
+                                <td>{{contract.created_by.profile.mobile}}  | 
+                                    <a href="mailto:{{contract.created_by.profile.user.email}} "> 
+                                    {{contract.created_by.profile.user.email}}</td></a>
+                            </tr>
+                                <tr>
+                                    <th scope="row" class="text-muted">Supplier Contact Person</th>
+                                    <td>{{contract.supplier.contact_person}}</td>
+                                    <td>Account Manager</td>
+                                    <td>{{contract.supplier.contact_phone}}  | 
+                                        <a href="mailto:{{contract.supplier.email}}"> 
+                                        {{contract.supplier.email}}</td></a>
+                                </tr>
+                            </tbody>
+                            </table>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="panel">
+                        <a class="panel-heading collapsed" role="tab" id="headingTwo1" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo">
+                            <h4 class="panel-title"> <i>Domicilium Citandi et Executandi</i> </h4>
+                        </a>
+                        <div id="collapseTwo1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                            <div class="panel-body">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>University of Limpopo</th>
+                                        <th>Supplier</th>                            
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td >
+                                            1 University Road <br>
+                                            Mankweng <br>
+                                            Polokwane <br>
+                                            0072
+                                        </td>
+                                        <td>{{contract.supplier.physical_address}}</td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        </div>
+                        <div class="panel">
+                        <a class="panel-heading collapsed" role="tab" id="headingThree1" data-toggle="collapse" data-parent="#accordion1" href="#collapseThree1" aria-expanded="false" aria-controls="collapseThree">
+                            <h4 class="panel-title">Additional Comments/Notes</h4>
+                        </a>
+                        <div id="collapseThree1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                            <div class="panel-body">
+                            <p>
+                                <table class="table table-striped">
+                                    <thead>
+                            <tr colspan="4"> </tr>                                                      
+                                    
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="4">
+                                        {{contract.comments}}
+                                        </td>   
+                                    </tr>
+                                </tbody>
+                                </table>
+                            </p>
+                            
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                        <!-- end of accordion -->
+                
+                                                                
+                <br>
+                </div>
+                
+            </div>
+
+                
+    
+            <div class="product_social">
+                <ul class="list-inline display-layout">
+                
+                <li><a href="{{contract.contract_document.url}}" target="_blank"> 
+                    <button class="btn btn-light">
+                    <i class="fa fa-file-pdf-o text-danger mr-2"></i> Download Document
+                    </button> 
+                </a>
+                </li>
+                <li><a href="{% url 'ict_contracts:contract-list' %}"> 
+                    <button class="btn btn-light ml-5">
+                        <i class="fa fa-list mr-2 text-info"></i>Contracts List
+                    </button> 
+                    </a>
+                </li>
+                </ul>
+                </div>
+                </div>       
+        </div>
+
+            <div class="col-md-3 col-sm-3  profile_left">
+            <h2>Service Provider:  <strong class="text-secondary">{{contract.supplier.name}}</strong ></h2>
+            <div class="profile_img">
+                <div id="crop-avatar">
+                <!-- Current avatar -->
+                <img class="img-circle img-fluid text-center" src="{{contract.supplier.logo.url}}" height="150" width="150"  alt="Profile Photo" title="Change the avatar">
+                </div>
+            </div>
+
+            <h3> Contract ID:   
+            
+            <span class="text-secondary">
+                {{contract.contract_id}}
+            </span>
+         
+            </h3>
+            <hr>
+            <h2> Responsible Unit: 
+            
+                <span class="text-secondary">
+                    {{contract.responsible_unit}}
+                </span>
+            </h2>
+            <hr>
+            <h2> Responsible Manager: 
+            
+                <span class="text-secondary">
+                    {{contract.owner}}
+            </h2>
+            <hr>
+            <ul class="list-unstyled user_data">
+                <li><i class="fa fa-mobile text-primary"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{contract.owner.mobile}}
+                </li>
+                <hr>
+                <li><i class="fa fa-envelope text-info"></i> &nbsp;&nbsp;&nbsp; 
+                    <a href="mailto:{{contract.owner.user.email}}">{{contract.owner.user.email}}</a>
+                </li>
+                <hr>
+                <li>
+                <i class="fa fa-phone"></i> &nbsp;&nbsp;&nbsp; Extension:&nbsp;&nbsp; <strong>{{contract.owner.office_ext}}</strong> 
+                </li>
+                <hr>
+                <li class="m-top-xs">
+                <i class="fa fa-phone"> </i>&nbsp;&nbsp;&nbsp; Speed dial:&nbsp;&nbsp;<strong>{{contract.owner.speed_dial}}</strong>
+                </li>
+            </ul>
+
+         
+            <br />
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+<!-- /page content -->
+
+{% endblock content %}

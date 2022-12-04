@@ -31,4 +31,4 @@ class ContractCreateForm(ModelForm):
         self.helper.field_class = 'col-lg-9'
         self.helper.form_show_labels = True
         
-    
+      

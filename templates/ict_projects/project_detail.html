@@ -1,0 +1,336 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load mathfilters %}
+
+{% block title %}| Project details {% endblock title %}
+
+{% block content %}
+
+<!-- page content -->
+<div class="right_col" role="main">
+<div class="">
+    <div class="page-title">
+    <div class="title_left">
+        <h3>{{project.name}} Project</h3>
+    </div>
+    
+    <div class="title_left ">
+        <ul class="stats-overview bg-light">
+        <li class="bg-light"> 
+            {% if project.status == "Completed" %}
+            <strong>Status</strong>
+            <div class="progress progress_lg">
+                <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="100"">
+                {{project.status}}
+                </div>  
+            </div>
+            {% elif project.status == "Not Started" %}
+            <strong> Status</strong>
+            <div class="progress progress_lg">
+                <div class="progress-bar bg-secondary" role="progressbar" data-transitiongoal="100"">
+                {{project.status}}
+                </div>  
+            </div>
+            </div>
+            {% elif project.status == "On Track" %}    
+            <strong>Status</strong>
+                <div class="progress progress_lg">
+                    <div class="progress-bar bg-blue border-dark" role="progressbar" data-transitiongoal="100" >
+                    {{project.status}}
+                    </div>  
+                </div>
+            {% elif project.status == "Delayed" %}
+            <strong>Status</strong>
+            <div class="progress progress_lg">
+                <div class="progress-bar bg-orange" role="progressbar" data-transitiongoal="100"">
+                {{project.status}}
+                </div>  
+            </div>
+            {% else %}
+            <strong>Status</strong> 
+            <div class="progress progress_lg">
+                <div class="progress-bar bg-red" role="progressbar" data-transitiongoal="100"">
+                {{project.status}}
+                </div>  
+            </div>
+            {% endif %}
+        </li>               
+        <li>
+           <strong> Progress</strong> 
+                <div class="progress progress_lg" style="border:1px solid rgb(117, 114, 114)" >
+                <div class="progress-bar bg-purple" role="progressbar" data-transitiongoal="{{total_progress}}">
+                    {{total_progress}}%
+                </div>    
+        </li>
+
+        </ul>
+    </div>
+    </div>
+    
+    <div class="clearfix"></div>
+
+    <div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+        <div class="x_title">
+            
+            <ul class="stats-overview" stylec="background-color:rgb(243, 242, 242)">
+                <li>
+                <strong class="name"> Total Projet Cost </strong>
+                <span class="value text-danger"> R{{project.total_cost}} </span>
+                </li>
+                <li>
+                <strong class="name"> Amount Spent </strong>
+                <strong class="value text-success"> 
+                    R{{total_spent}}
+                </strong>
+                </li>
+                <li >
+                <strong class="name"> Amount Outstanding </strong>
+                <span class="value text-info"> R{{balance}} </span>
+                </li>    
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+
+        <div class="x_content">
+
+    <div class="col-md-9 col-sm-9  ">
+
+<div id="mainb" style="height:350px;">
+    <div class="col-md-12 col-sm-12">
+        <div class="bs-example" data-example-id="simple-jumbotron"> 
+            <div class="jumbotron"> 
+        
+            <div class="x_panel">
+                
+                    <div class="x_content">
+
+                        <!-- start accordion -->
+                            <div class="panel">
+                            <a class="panel-heading" role="tab" id="headingOne1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne1" aria-expanded="true" aria-controls="collapseOne">
+                                <h4 class="panel-title text-info text-strong">Project Milestones </h4>
+                            </a>
+                            
+                        <div class="panel-body">
+                            <table class="table  table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th style="width: 25%">Name</th>
+                                    <th style="width: 15%">Start Date</th>
+                                    <th style="width: 15%">End Date</th>
+                                    <th style="width: 15%">Actual End</th>
+                                    <th style="width: 15%">Status</th>
+                                    <th>Amount</th>
+                                    <th style="width: 15%">Weight</th>
+                                    <th>Paid</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for milestone in project.milestones.all %}
+                                    <tr>
+                                        <th scope="row">{{forloop.counter}}</th>
+                                        <td style="width: 25%" > 
+                                        <strong class="text-secondary">{{milestone.name}}</strong>   
+                                        
+                                        </td>
+                                        <td style="width: 15%">{{milestone.start_date|date:'d M Y'}}</td>
+                                        <td style="width: 15%">{{milestone.planned_end_date|date:'d M Y'}}</td>
+                                        <td style="width: 15%">{{milestone.actual_end_date|date:'d M Y'}}</td>
+                                        {% if milestone.status == 'Completed' %}                                    
+                                            <td style="width: 15%"> 
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 100%" 
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{milestone.status}}</div>
+                                            </div>     
+                                            </td>
+                                        {% elif milestone.status == 'On Track' %}
+                                        <td style="width: 15%"> 
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" style="width: 100%" 
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{milestone.status}}</div>
+                                            </div>       
+                                        </td>
+                                        {% elif milestone.status == 'Not Started' %}
+                                        <td style="width: 15%"> 
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped bg-secondary" role="progressbar" style="width: 100%" 
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{milestone.status}}</div>
+                                            </div> 
+                                        </td>
+                                        {% elif milestone.status == 'Delayed' %}
+                                        <td style="width: 15%"> 
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: 100%" 
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{milestone.status}}</div>
+                                            </div>                        
+                                        </td>
+                                        {% else %}
+                                        <td style="width: 15%"> 
+                                            <div class="progress">
+                                                <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" 
+                                                aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">{{milestone.status}}</div>
+                                            </div> 
+                                        </td>     
+                                        {% endif %}
+                                        <td>{{milestone.amount}}</td>
+                                        <td style="width:15">
+                                        <span data-toggle="tooltip" data-placement="top" title="Milestone Weight: {{milestone.weight}}%">
+                                            <span class="progress progress_md">                       
+                                                <span class="progress-bar bg- text-center" role="progressbar" data-transitiongoal="{{milestone.weight}}"> </span>
+                                            </span>  
+                                        </span>                      
+                                        </td>   
+                                        
+                                        <td>
+                                            {% if milestone.is_paid %}
+                                            <span class="glyphicon glyphicon-ok text-success" ></span>
+                                            {% else %}
+                                            <span class="glyphicon glyphicon-remove text-danger" ></span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %} 
+                                </tbody>
+                            </table>
+                    </div>
+                    <div class="text-center mtop20">
+                        <a href="{% url 'ict_projects:project-list' %}" class="btn btn-sm btn-info">Back to Project List</a>
+                        
+                      </div>
+                    </div>
+                    <hr>
+<div class="panel bg-light">
+                                <!--Project Team-->
+    
+<!--Project Team End-->
+</div>
+                        
+                    <!-- end of accordion -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>  
+        
+    
+            
+    </div>
+        
+
+
+</div>
+            <!-- start project-detail sidebar -->
+            <div class="col-md-3 col-sm-3  ">
+
+            <section class="panel">
+
+                <div class="x_title">
+                <h2>{{project.description}}</h2>
+                
+                <div class="clearfix"></div>
+                </div>
+                <div class="panel-body">
+                <h2 class="text-secondary"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp; <span class="text-success">Start: {{project.start_date|date:'d M Y'}}</span> </h2>
+                <h2 class="text-secondary"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp; <span class="text-danger">End: {{project.end_date|date:'d M Y'}}</span></h2>
+                <hr />
+                <div class="project_detail">
+                    
+                    <h5 >Service Provider Details</h5>
+                <ul class="list-unstyled project_files">
+                    <li> <strong>Company: </strong>&nbsp;&nbsp;&nbsp;{{project.service_provider}}</li>
+                    <li> <strong>Account Manager:</strong>&nbsp;&nbsp;&nbsp;{{project.service_provider.contact_person}} </li>
+                    <li> <strong>Contact Phone:</strong>&nbsp;&nbsp;&nbsp;{{project.service_provider.contact_phone}} </li>
+                    <li><strong>Executive Contact:</strong>&nbsp;&nbsp;&nbsp;{{project.service_provider.executive_contact}} </li>
+                </ul>
+                </div>
+
+                <hr/>
+                <h5>Project Documents</h5>
+                <ul class="list-unstyled project_files">
+                    
+                    <li><a href=""><i class="fa fa-file-pdf-o text-danger"></i> 
+                        <strong>Contract Document:</strong>&nbsp;&nbsp;&nbsp;
+                        {% if project.contract.contract_document %}
+                        {{project.contract.contract_document}}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;Document not available
+                        {% endif %}
+                    </a>
+                    </li>
+                    <li><a href=""><i class="fa fa-file-pdf-o text-danger"></i> 
+                        <strong>Project Plan:</strong>&nbsp;&nbsp;&nbsp;
+                        {% if project.contract.contract_documet %}
+                        {{project.contract.contract_document}}
+                        {% else %}
+                        &nbsp;&nbsp;&nbsp;Document not available
+                        {% endif %}
+                    </a>
+                    </li>
+                    
+                    
+                </ul>
+                <hr/>
+
+                </div>
+                <div>
+                    <h5 class="panel-title text-info text-strong">Project Team </h5>
+                        <!-- end of user messages -->
+                    <ul class="messages">
+                    {% for team_member in project.team.all %}
+                        <li>
+                        <img src="{{team_member.name.photo.url}}" class="avatar" alt="Avatar">
+                        <div class="message_date">
+                            
+                        </div>
+                        <div class="message_wrapper">
+                            <h6 class="heading">{{team_member.name.user.full_name}} - {{team_member.project_role}} </h6>
+                            <blockquote class="message"> 
+                                <span> 
+                                    <i class="fa fa-mobile"></i>
+                                    &nbsp;&nbsp; {{team_member.name.user.mobile_number}}
+                                </span>   
+                                &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;                  
+                                <span> 
+                                    <i class="fa fa-phone"></i>
+                                    &nbsp;&nbsp;{{team_member.name.user.office_ext}}
+                                </span>
+                                <p>
+                                    <i class="fa fa-envelope user-profile-icon"></i>
+                                    <a href="mailto:{{team_member.name.user.email}}" target="_blank"> 
+                                    &nbsp;&nbsp;{{team_member.name.user.email}}
+                                    </a>    
+                                </p>
+                                <!-- <strong>Unit:   </strong> {{team_member.name.unit}} -->
+                            </blockquote>
+                      
+                            
+                        </div>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                </div>
+            </section>
+
+            </div>
+            <!-- end project-detail sidebar -->
+
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+<!-- /page content -->
+
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
+<!-- /page content -->
+
+{% endblock content %}

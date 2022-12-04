@@ -59,7 +59,7 @@ def register(request):
             return redirect('/?command=verification&email='+email)
             
         else:
-            messages.error(request, "Please make sure you fill up all the fields")
+            messages.error(request, "Please rectify the errors below")
             
         
     else:
@@ -95,14 +95,16 @@ def login_view(request):
 
         if user is not None:
             auth.login(request, user)
+            print(user, 'USER IS LOGGED IN ')
             messages.success(request, f'Welcome, {user.first_name}! You are now logged in')
-            return redirect('licenses:license-list')
+            return redirect('ict_licenses:license-list')
         else:
             messages.error(request, 'Invalid credentials')
+            print('WRONG CREDENTIALS ')
             return redirect('ict_accounts:login')
     else:
-        return render(request, 'ict_accounts/login.html')   
-    
+        return render(request, 'ict_accounts/login.html')
+
 def logout_view(request): 
     auth.logout(request)
     messages.success(request, 'You are now logged out')
@@ -112,7 +114,7 @@ def logout_view(request):
 class MyPasswordChangeView(LoginRequiredMixin,PasswordChangeView):
     template_name = 'ict_accounts/password_change_form.html'
     success_url = reverse_lazy ('ict_accounts:password-change-done')  
-    success_message = 'Password changed successfully. You may login with the new password!'
+    success_message = 'Password changed successfully. You may login with your new password!'
 
 
 class MyPasswordChangeDoneView(PasswordChangeDoneView):
@@ -179,7 +181,7 @@ def reset_password(request):
             messages.success(request, 'Password reset successful')
             return redirect('ict_accounts:login')
         else:
-            messages.error(request, 'Password do not match!')
+            messages.error(request, 'Passwords do not match!')
             return redirect('ict_accounts:reset-password')
     else:
         form = PasswordResetForm()
