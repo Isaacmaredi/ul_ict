@@ -2,6 +2,7 @@ from unicodedata import name
 from django.db import models
 from django.db.models import Sum 
 from django.urls import reverse
+from datetime import datetime, date
 
 
 from ict_vendors.models import Vendor
@@ -103,6 +104,14 @@ class Milestone (models.Model):
     
     def __str__(self):
         return self.name
+    
+    @property
+    def update(self, *args, **kwargs):
+        todate = date.now()
+        if self.planned_end_date < todate and self.status!= "Completed":
+            self.status = "Delayed"
+        return super(Milestone, self).update(*args, **kwargs)
+        
     
     # @property
     # def amount_outstanding(self):

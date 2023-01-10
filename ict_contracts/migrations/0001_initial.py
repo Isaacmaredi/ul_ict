@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ('agreement_type', models.CharField(choices=[(None, 'Select agreement type'), ('Master Service Agreement', 'Master Service Agreement'), ('Service Level Agreement', 'Service Level Agreement'), ('Fixed Contract', 'Fixed Contract'), ('Subscription Agreement', 'Subscription Agreement'), ('Pay-per-Use', 'Pay-per-Use')], max_length=150, verbose_name='Agreement Type')),
                 ('start_date', models.DateField()),
                 ('end_date', models.DateField(blank=True, null=True)),
-                ('status', models.CharField(default='Active - Ok', editable=False, max_length=300)),
+                ('status', models.CharField(default='Ok', editable=False, max_length=300)),
                 ('date_signed', models.DateField(blank=True, null=True)),
                 ('ul_signatory', models.CharField(max_length=300, verbose_name='UL Signatory')),
                 ('supplier_signatory', models.CharField(max_length=300, verbose_name='Supplier Signatory')),

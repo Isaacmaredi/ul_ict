@@ -13,7 +13,7 @@ class LicenseCreateForm(ModelForm):
     
     class Meta:
         model = License
-        exclude = ['owner']
+        exclude = ['owner','renewal']
         widgets = {
             'start_date':DateInput(attrs={'placeholder':'yyyy-mm-dd'}), 
             'name':forms.TextInput(attrs= {'placeholder':'License Unique Name'}),  
@@ -31,4 +31,14 @@ class LicenseCreateForm(ModelForm):
     
         self.helper.form_show_labels = True
         
+class LicenseRenewForm(ModelForm):
+    class Meta:
+        model = License
+        fields = ('start_date','current_cost',
+                'service_provider','renewal')
+        
+        widgets = widgets = {
+            'start_date':DateInput(attrs={'placeholder':'yyyy-mm-dd'}),
+        } 
+    
     

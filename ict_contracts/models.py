@@ -3,6 +3,9 @@ from django.urls import reverse
 # from django.contrib.auth.models import User
 from ict_vendors.models import Vendor
 from ict_accounts.models import Profile
+from django.db.models import F, Value, DecimalField
+from django.db.models.functions import Coalesce
+from django.db.models.aggregates import Sum
 # from profiles.models import Profile
 from django.conf import settings
 from datetime import datetime, date, timedelta
@@ -18,7 +21,6 @@ AGREEMENT_TYPE_CHOICES = [
     ('Subscription Agreement','Subscription Agreement'),
     ('Pay-per-Use','Pay-per-Use'),
 ]
-
 # Create your models here.
 class Contract(models.Model):
     name = models.CharField(max_length=200)
@@ -29,14 +31,12 @@ class Contract(models.Model):
                                 on_delete=models.DO_NOTHING)
     total_value = models.DecimalField(default=Decimal('0.0'), decimal_places=2, max_digits=10, 
                                     verbose_name="Contract Value")
-    amount_outstanding = models.DecimalField(default=Decimal('0.0'),decimal_places=2, max_digits=10,
-                                            verbose_name="Amount Outstanding", editable=False)
     agreement_type = models.CharField(verbose_name="Agreement Type" ,max_length=150, 
                                     choices=AGREEMENT_TYPE_CHOICES)
     start_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
     # duration = models.IntegerField(blank=True, null=True)
-    status = models.CharField(max_length=300, default='Active - Ok', editable=False)
+    # status = models.CharField(max_length=300, default='Ok')
     date_signed = models.DateField(blank=True, null=True)
     ul_signatory = models.CharField(max_length=300, verbose_name="UL Signatory")
     supplier_signatory = models.CharField(max_length=300, verbose_name="Supplier Signatory")
@@ -44,7 +44,7 @@ class Contract(models.Model):
     comments = models.TextField()
     uploaded = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING,editable=False)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING, blank=False)
     
     def __str__(self):  
         return self.name
@@ -55,6 +55,11 @@ class Contract(models.Model):
         
     def get_absolute_url(self):
         return reverse ('ict_contracts:contract-admin-detail', kwargs={'pk':self.pk})
+    
+    # def save(self, *args, **kwargs):
+    #     if not self.created_by:
+    #         self.created_by = self.get_current_user()
+    #     super().save(*args, **kwargs)
     
     @property
     def duration(self):
@@ -68,34 +73,29 @@ class Contract(models.Model):
         return duration
 
     @property
-    def time_until_end(self, *args, **kwargs):
+    def days_until_end(self, *args, **kwargs):
         today = date.today()
         if not self.end_date:
-            days_until_int= -9999
+            days_until = -9999
         else:
             days = self.end_date - today
-            days_until= str(days).split(' ')[0]
-            days_until_int= int(days_until, *args, **kwargs)
-            # print('*'* 20)
-            # print('Days Untill: ',days_until_int)
-            # print('*'* 20)
-        return days_until_int
+            days_until=int(str(days).split(' ')[0]) 
+        return days_until
 
-    # print(type(time_until_end))
-    
-    def save(self, *args, **kwargs):
-        if self.time_until_end > 365:  
-            self.status = "Active - Ok"
-        elif self.time_until_end < 365 and self.time_until_end >= 180:
-            self.status = "Active - Alert 1"
-        elif self.time_until_end < 180 and self.time_until_end >= 0:
-            self.status = "Active - Alert 2"
-        elif self.time_until_end == -9999:
-            self.status = "Contract is Perpertual"
+    @property
+    def status(self, *args, **kwargs):
+        if self.days_until_end > 365:  
+            status_value = "Ok"
+        elif self.days_until_end < 365 and self.days_until_end >= 180:
+            status_value = "Attention"
+        elif self.days_until_end < 180 and self.days_until_end >= 0:
+            status_value = "Warning"
+        elif self.days_until_end == -9999:
+            status_value = "Perpertual"
         else:
-            self.status = "Expired"
-        return super(Contract, self).save(*args,**kwargs)
-        
+            status_value = "Expired"
+        return status_value
+    
     @property
     def days_till_renewal(self):
         today = date.today()

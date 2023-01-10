@@ -30,7 +30,7 @@
     <div class="clearfix"></div>
 
     <div class="row">
-    <div class="col-md-12 col-sm-12 ">
+    <div class="col-md-12 col-sm-12 "> 
         <div class="x_panel">
         <div class="x_title">
     
@@ -41,22 +41,22 @@
 
             <div class="col-md-9 col-sm-9 ">
                 <div class="col-sm-6 mail_list_column">
-                        {% if contract.status == "Active - Ok" %}
+                        {% if contract.status == "Ok" %}
                         <button id="compose" class="btn btn-sm btn-success btn-block" type="button">
                             <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
                             Time to expiry is {{contract.end_date|timeuntil}}</strong>
                         </button>
-                        {% elif contract.status == "Active - Alert 1" %}                     
+                        {% elif contract.status == "Attention" %}                     
                         <button id="compose" class="btn btn-sm btn-primary btn-block" type="button">
                             <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
                                 Time to expiry is {{contract.end_date|timeuntil}}</strong>
                         </button>      
-                        {% elif contract.status == "Active - Alert 2" %}              
+                        {% elif contract.status == "Warning" %}              
                         <button id="compose" class="btn btn-sm btn-warning btn-block" type="button">
                             <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
                             Time to expiry is {{contract.end_date|timeuntil}}</strong>
                         </button>  
-                        {% elif contract.status == 'Contract is Perpertual'%}
+                        {% elif contract.status == 'Perpertual'%}
                         <button id="compose" class="btn btn-sm btn-secondary btn-block" type="button">
                             <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
                             - No end date</strong>
@@ -90,7 +90,7 @@
                     </div>
 
                     <div class="col-md-6 col-sm-6">
-                        <h2>Amount Outstanding: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="text-secondary"> R{{contract.amount_outstanding|intcomma}}</strong> </h2>
+                        <h2>Amount Outstanding: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="text-secondary"> R</strong> </h2>
                     </div>
 
                     <div class="col-md-6 col-sm-6">

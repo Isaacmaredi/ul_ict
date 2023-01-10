@@ -11,7 +11,7 @@ class DateInput(forms.DateInput):
 class ContractCreateForm(ModelForm):
     class Meta:
         model = Contract
-        fields = '__all__'
+        exclude = ['created_by']
         
         widgets = {
             'start_date':DateInput(),

@@ -2,6 +2,7 @@
 {% load static %}
 {% load bootstrap %}
 {% load crispy_forms_tags %}
+{% load contracts_extras %}
 
 
 {% block title %}
@@ -10,56 +11,77 @@
 
 {% block content %}
 
+
+
 <!-- page content -->
 <div class="right_col" role="main">
 <div class="">
 <div class="page-title">
 	<div class="title_left">
-		<h3>List of ICT Contracts : {{total_contracts}} in total</small></h3>	
+		<h3>List of ICT Contracts &nbsp;&nbsp;&nbsp; <span class="badge badge-info">Total:&nbsp;&nbsp; {{total_contracts}}</span> </h3>	
 	</div>
 	<div class="title_right">
-		<div class="col-md-5 col-sm-5   form-group pull-right top_search">
+		<div class="col-md-5 col-sm-12  form-group pull-right top_search">
 		
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb bg-light">
-					<li class="breadcrumb-item"><a href="{% url 'ict_profiles:profile-list' %}">Home</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ict_dash:dashboard' %}">Home</a></li>
 					<li class="breadcrumb-item active" aria-current="page">All Contracts</li>
 				</ol>
 			</nav>
 		</div>
 	</div>  
 </div>
-	<div class="title_right">
-		<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-		<div class="input-group">
-			<span class="input-group-btn">
-				
-			</span>
-		</div>
-		</div>
-	</div>
-	<div class="clearfix"></div>
+	
+	<!-- <div class="clearfix"></div> -->
 
 	<div class="row">
 	<div class="col-md-12">
 		<div class="x_panel">
 		
-		<div class="x_content">
+		<div class="x_content"> 
 			<div class="row">
-				
-                <div class="col-md-3 col-sm-6">
+		
+				<div class="x_panel " style="padding-top:2px; padding-bottom:3px">
+			
+					<div class="jumbotron" style="padding-top:2px; padding-bottom:2px">
+						<form class="form-label-left input_mask" method="GET">
 
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <!-- <legend > <strong>  Search or Filter by Specified Fields</strong></legend>
-                            <hr>
-                                {{filter.form|crispy}}
-                                <input type="submit" class="btn btn-secondary" value="Filter Search"> -->
-                        </div>
-                    </form>
-                    <hr>
+							<div class="col-md-3 col-sm-6  form-group has-feedback">
+								
+								{{form.name|as_crispy_field}}
+					
+							</div>
+
+							<div class="col-md-3 col-sm-6  form-group has-feedback">
+								{{form.supplier|as_crispy_field}}
+							</div>
+
+							<div class="col-md-3 col-sm-6  form-group has-feedback">
+								{{form.owner|as_crispy_field}}
+							</div>
+							<div class="col-md-1 col-sm-6  form-group has-feedback">
+								{{form.end_date_year|as_crispy_field}}
+							</div>
+							
+							
+		
+							<div class="ln_solid"></div>
+							<div class="form-group pull-right top_search">
+								<div class="col-md-2 col-sm-6  offset-md-1">
+								
+								<span class="input-group-btn">
+									<button type="submit" class="btn btn-secondary text-white">Search/Filter...</button>
+								</span>
+									
+								</div>
+							</div>
+
+						</form>
+
+					</div>
+						
 				</div>
-
 			</div>
 
         <div class="card-box table-responsive"> 
@@ -69,11 +91,13 @@
                     <thead>
                         <tr>
                             <th >#</th>
-                            <th style="width: 15%">Name</th>           
-                            <th style="width: 15%" > Supplier </th>
-                            <th style="width: 10%" >Created By</th>
-                            <th style="width: 15%">Responsible Manager </th>        
-                            <th style="width: 15%"> Status </th>   
+                            <th style="width: 20%">Name</th>           
+                            <th style="width: 10%" > Supplier </th>
+                        
+                            <th style="width: 10%"> Manager  </th>        
+                            
+                            <th style="width: 15%"> Status </th>  
+							<th>End Date</th> 
                             <th style="width: 15%">Time to Expiry</th>
                             <th  style="width: 15%" >More</th>                  
                         </tr>
@@ -84,40 +108,40 @@
                             <td>
                                 {{forloop.counter}}
                             </td>
-                            <td style="width:15%">
-                                {{ contract.name}}
-                            </td>
-                            <td style="width: 15%">
-                                {{contract.supplier}}
+                            <td style="width:20%">
+                                {{ contract.name}} 
                             </td>
                             <td style="width: 10%">
-                                {{contract.created_by.full_name}}
-                            </td>
-                            <td style="width: 15%">
-                                {{contract.owner}}
-                            </td>      
+                                {{contract.supplier}}
+                            </td> 
+                            
+                            <td style="width: 10%">
+                                {{contract.owner}} 
+                            </td>  										    
+							
                             <td class="vertical-align-mid">
                                 <div class="progress">
-                                    {% if contract.status == 'Active - Ok' %}
-                                    <div class="progress-bar progress-bar-success" data-transitiongoal="100">{{contract.status}}</div>
-                                    {% elif  contract.status == 'Active - Alert 1' %}
-                                    <div class="progress-bar progress-bar-info" data-transitiongoal="100">{{contract.status}} </div>
-                                    {% elif contract.status == 'Active - Alert 2'%}
-                                    <div class="progress-bar progress-bar-warning" data-transitiongoal="100">{{contract.status}}</div>
-									{% elif contract.status == 'Contract is Perpertual'%}
-                                    <div class="progress-bar progress-bar bg-secondary" data-transitiongoal="100">{{contract.status}}</div>
+                                    {% if contract.status == 'Ok' %}
+                                    <div class="progress-bar progress-bar-success" data-transitiongoal="100"><strong>{{contract.status}}</strong></div>
+                                    {% elif  contract.status == 'Attention' %}
+                                    <div class="progress-bar progress-bar-info" data-transitiongoal="100"><strong>{{contract.status}} </strong></div>
+                                    {% elif contract.status == 'Warning'%}
+                                    <div class="progress-bar progress-bar-warning" data-transitiongoal="100"><strong>{{contract.status}}</strong></div>
+									{% elif contract.status == 'Perpertual'%}
+                                    <div class="progress-bar progress-bar bg-secondary" data-transitiongoal="100"><strong>{{contract.status}}</strong></div>
                                     {% else %}
-                                    <div class="progress-bar progress-bar-danger" data-transitiongoal="100">{{contract.status}} </div>
+                                    <div class="progress-bar progress-bar-danger" data-transitiongoal="100"><strong>{{contract.status}} </strong></div>
                                     {% endif %}
                                 </div>
                             </td>
+							<td>{{contract.end_date}}</td>
                             <td style="width: 15%">
-                                {% if contract.time_until_end > 0 %}
+                                {% if contract.days_until_end > 0 %}
                                 {{contract.end_date|timeuntil}} 
-								{% elif contract.time_until_end == -9999 %}
-								No expiry date
+								{% elif contract.days_until_end == -9999 %}
+								No expiry date 
                                 {% else %}
-                                <strong class="text-danger">Expired {{contract.end_date|timesince}} ago </strong>   
+                                <strong class="text-danger">Expired {{contract.end_date|timesince}} ago  </strong>   
                                 {% endif %}
                             </td>
                             <td style="width: 15%">
@@ -140,7 +164,7 @@
 						<ul class="pagination nav navbar-right mx-right" >
 							{% if page_obj.has_previous %}
 							<li class="page-item">
-								<a href="?page={{page_obj.previous_page_number}}" class="page-link">Previous</a>
+								<a href="{% contracts_url page_obj.previous_page_number 'page' request.GET.urlencode %}" class="page-link">Previous</a>
 							</li>
 						
 							{% else %}
@@ -155,13 +179,13 @@
 								</li>
 							{% else %}
 								<li class="page-item">
-								<a href="?page={{i}}" class="page-link">{{i}}</a>
+								<a href="{% contracts_url i 'page' request.GET.urlencode %} " class="page-link">{{i}}</a>
 								</li>
 							{% endif %}
 							{% endfor %}
 							{% if page_obj.has_next %}
 							<li class="page-item">
-								<a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a>
+								<a href="{% contracts_url page_obj.next_page_number 'page'  request.GET.urlencode %}" class="page-link">Next</a>
 							</li>
 							{% else %}
 							<li class="page-item disabled">

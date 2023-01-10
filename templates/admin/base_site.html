@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block branding %}
+
+    <h1 id="head">
+        <img src="{% static 'images/ul_logo_2.png' %}" 
+        alt="UL ICT Licenses" class="brand_img">
+        ICT Licensing and Portfolio: &nbsp;&nbsp;    <strong style="font-weight:bold; color:#c8ab4c">Admin Area</strong>
+    </h1>
+
+{% endblock branding %}
+
+{% block extrastyle %}
+
+    <link rel="stylesheet" href="{% static 'build/css/admin.css' %}">
+
+{% endblock extrastyle %}

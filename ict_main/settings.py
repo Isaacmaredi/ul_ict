@@ -42,8 +42,11 @@ INSTALLED_APPS = [
     #Python/Django packages
     'crispy_forms',  
     'django_extensions',
+    'django_filters',
     'bootstrapform',
     'mathfilters',
+    'debug_toolbar',
+    # 'admin_honeypot',
     #Custom Apps
     'ict_accounts',
     'ict_contracts',
@@ -52,7 +55,7 @@ INSTALLED_APPS = [
     'ict_profiles',
     'ict_projects',
     'ict_vendors',  
-    'debug_toolbar',
+    
 ]
 
 MIDDLEWARE = [
@@ -72,7 +75,7 @@ INTERNAL_IPS = [
 
 ROOT_URLCONF = 'ict_main.urls'
 
-AUTH_USER_MODEL='ict_accounts.Account'
+AUTH_USER_MODEL='ict_accounts.Account' 
 
 TEMPLATES = [
     {
@@ -145,9 +148,9 @@ USE_I18N = True
 
 USE_L10N = True
 DECIMAL_SEPARATOR = '.'
-USE_THOUSAND_SEPARATOR = True
-THOUSAND_SEPARATOR = ' '
-NUMBER_GROUPING = 3
+# USE_THOUSAND_SEPARATOR = True
+# THOUSAND_SEPARATOR = ' '
+# NUMBER_GROUPING = 3
 
 USE_TZ = True
 

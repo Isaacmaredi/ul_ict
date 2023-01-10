@@ -1,83 +1,105 @@
-{% extends "base.html" %}
-{% load crispy_forms_tags %}
-{% load humanize %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>ICT Portfolio - User Login</title>
+
+    <!-- Bootstrap -->
+    <link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{% static 'vendors/nprogress/nprogress.css' %}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
+</head>
+
+<body class="nav-md" style="background-color:rgb(4, 59, 100)">
+    <div class="container body">
+        <div class="main_container">
+        <!-- page content -->  
+        <div class="col-md-12">
+            <div class="col-middle">
+                <div class="text-center">
+                    <img src="{% static 'images/ul_logo_2.png' %}" class="text-center"
+                    style="width:150px; height:100px; margin-left:auto; margin-right:auto; display:block;" alt="UL Logo">
+
+                    <h3>University of Limpopo </h3>
+                    <h2>ICT Portfolio Managememt</h2>
+                    
+                    <section class="section-content padding-y" style="min-height:84vh">
 
 
-{% block title %} | Login {% endblock title %}
-
-
-{% block content %}
-
-<div class="container body"> 
-    <div class="main_container">
-  <!-- page content -->
-        <div class="right_col" role="main">
-            <div class="">
-                
-                <div class="clearfix"></div>
-
-                <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                        <div class="x_panel mx-auto text-center">
-                            <h1 >User Login</h1>
-                            <h2>ICT Contracts & Portfolio</h2>
-                                <div class="clearfix"></div>
+                        <div class="card mx-auto" style="max-width: 600px; margin-top:50px;">
+                            <div class="card-header bg-primary text-light">
+                                {% include 'partials/_alerts.html' %}
+                            <h2>User Login</h2>
                             </div>
-                            <div class="x_content">
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6 mx-auto">
-                                        {% include 'partials/_alerts.html' %}
-                                    </div>
+                            
+                            <div class="card-body">
                                 
-                                </div>
-
-                                <section class="section-content padding-y" style="min-height:84vh">
-                                    <div class="card mx-auto" style="max-width: 600px; margin-top:100px;">
-                                        <div class="card-body">
-                                            <!-- <h4 class="card-title mb-4">Login</h4> -->
-                                            <form class="" action="" data-parsley-validate  method="POST" >
-                                                {% csrf_token %}              
-                                                    <div class="form-group">
-                                                    <label for="username"></label>
-                                                    <input type="text" name="email" class="form-control" placeholder="Email Address" required>
-                                                    </div>
-                                    
-                                                    <div class="form-group">
-                                                    <label for="password"></label>
-                                                    <input type="password" name="password" class="form-control" placeholder="Password" required>
-                                                    </div>                     
-                                                <br>                                                
-                                                <div class="ln_solid">
-                                                    <div class="form-group">
-                                                        <div class="col-md-6 offset-md-3">
-                                                            <button type='submit' class="btn btn-primary">Submit</button>
-                                                            <a href="{% url 'ict_accounts:forgot-password' %}"  class="btn btn-secondary">Forgot Password?</a>                             
-                                                        </div>   
-                                                    </div>
-                                                </div>
-                                                <br>
-                                                <br>
-                                                <div class="col-md-6 offset-md-3">
-                                                    <span class="text-dark"> Not have an account? <a href="{% url 'ict_accounts:register' %}"> <strong class="text-primary">Click here</strong> </a> to register</span>
-                                                </div>
-                                            </form>
+                                <form class="" action="" data-parsley-validate  method="POST" >
+                                    {% csrf_token %}              
+                                        <div class="form-group">
+                                        <label for="username"></label>
+                                        <input type="text" name="email" class="form-control" placeholder="Email Address" required>
+                                        </div>
+                        
+                                        <div class="form-group">
+                                        <label for="password"></label>
+                                        <input type="password" name="password" class="form-control" placeholder="Password" required>
+                                        </div>                     
+                                    <br>                                                
+                                    <div class="ln_solid">
+                                        <div class="form-group">
+                                            <div class="col-md-6 offset-md-3">
+                                                <button type='submit' class="btn btn-primary">Login</button>
+                                                <a href="{% url 'ict_accounts:forgot-password' %}"  class="btn btn-secondary">Forgot Password?</a>                             
+                                            </div>   
                                         </div>
                                     </div>
-
-                                </section>
-                            
-                                
+                                    <br>
+                                    <br>
+                                    <div class="col-md-6 offset-md-3">
+                                        <span class="text-dark"> Do not have an account? <a href="{% url 'ict_accounts:register' %}"> <strong class="text-primary">Click here</strong> </a> to register</span>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                    </div>
-                </div>
+
+                    </section>
+                    <br>
+               
+                
+            </div>
             </div>
         </div>
-    </div>
+        <!-- /page content -->
+</div>
+</div>
 
-<!-- /page content -->
+    <!-- jQuery -->
+    <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+   <script src="{% static 'vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- FastClick -->
+    <script src="{% static 'vendors/fastclick/lib/fastclick.js' %}"></script>
+    <!-- NProgress -->
+    <script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
 
-{% endblock content %}
+    <!-- Custom Theme Scripts -->
+    <script src="{% static 'build/js/custom.min.js' %}"></script>
+    <script src="{% static 'build/js/mycustom.js' %}" ></script>
+
+  </body>
+</html>
 
 
 
@@ -90,16 +112,7 @@
 
 
 
-<!-- <div class="form-group">
-    <label for="email"></label>
-    <input type="text" name="email" class="form-control" placeholder="Email" required>
-    </div>
 
-    <div class="form-group">
-    <label for="password"></label>
-    <input type="password" name="password" class="form-control" placeholder="Password" required>
-    </div>
-    <hr>
-    <br>
 
-    <input type="submit" value="Login" class="btn-info btn-lg btn-block" > -->
+
+

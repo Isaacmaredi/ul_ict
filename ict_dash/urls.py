@@ -5,5 +5,5 @@ app_name = 'ict_dash'
 
 
 urlpatterns =[
-    path('dashboard/', views.DashboardView.as_view(), name='dashboard'),
+    path('dashboard/', views.dash, name='dashboard'),
 ]

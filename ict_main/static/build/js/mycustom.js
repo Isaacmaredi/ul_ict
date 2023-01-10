@@ -1,7 +1,7 @@
 // Alerts
 setTimeout(function() {
     $('#message').fadeOut('slow');
-}, 3000);
+}, 6000);
 
 // Footer copyright full year 
 const date = new Date();

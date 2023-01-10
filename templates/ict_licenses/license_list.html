@@ -1,187 +1,203 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% load licenses_extras %}
 
 {% block title %}
 | ICT Licenses
 {% endblock title %}
 
-{% block content %}
+{% block content %}  
 
 <!-- page content -->
-<div class="right_col" role="main">
-<div class="">
-<div class="page-title">
-    
-	<div class="title_left">
-        <h3>Total Number of ICT Licenses:&nbsp;&nbsp;&nbsp;{{tot_licenses}} </small></h3>	
-	</div>
-	<div class="title_right">
-		<div class="col-md-5 col-sm-5   form-group pull-right top_search">
-		
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb bg-light">
-					<li class="breadcrumb-item"><a href="{% url 'ict_profiles:profile-list' %}">Home</a></li>
-					<li class="breadcrumb-item active" aria-current="page">ICT Licenses Admin</li>
-				</ol>
-			</nav>
-		</div>
-	</div>  
-</div>
-	<div class="title_right">
-		<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-		<div class="input-group">
-			<span class="input-group-btn">
-				<!-- <form action="" method="GET">
-					<input type="text" name="mobile_phone" value="{{request.GET.mobile_phone}}" 
-					class="form-control" placeholder="Search...">
-					<button type="submit" class="btn btn-primary text-white" >Go!</button>
-				</form> -->
-			</span>
-		</div>
-		</div>
-	</div>
-	<div class="clearfix"></div>
-
-	<div class="row">
-	<div class="col-md-12">
-		<div class="x_panel">
-		
-		<div class="x_content">
-			<div class="row">
-				
-                <div class="col-md-3 col-sm-6  ">
-					
-				</div>
-				<div class="col-md-3 col-sm-6">
-					<!-- <div class="pricing_footer bg-light">
-						<div class="title">
-							<form action="" method="GET">
-								<input name="" type="text" placeholder="Search license">
-								<button type="submit" class="btn btn-info"> Go...</button>
-							</form>
-						</div>
-					</div> -->
-				</div>
-
+<div class="right_col" role="main"> 
+	<div class="">
+		<div class="page-title">
+			
+			<div class="title_left">
+				<h3>List of Software Licenses&nbsp;&nbsp;&nbsp; <span class="badge badge-info"> Total: &nbsp;&nbsp; {{total_licenses}} </span></h3>	
 			</div>
-
-        <div class="card-box table-responsive"> 
-						
-						{% include 'partials/_alerts.html' %}
-				<!-- start project list -->
-                <table class="table projects table-bordered">
-                    <thead>
-                        <tr>
-                            <th style="width:2%">No. #</th>
-						
-                            <th style="width:15%" > License Name</th>
-                            <th style="width:20%" >Contract</th>
-                            
-                            <th style="width:25%">Renewal Status</th>
-                            
-                            <th style="width: 8%">Start Date</th>
-                            <th style="width: 8%">Renewal Due </th>
-                            <th  style="width: 15%" class="text-center">More Info</th>
-                        </tr>
-                        {% for license in licenses %}
-                        <tr>
-                            <td>{{forloop.counter}} </td>
-                    
-                            <td> <a href="{% url 'ict_licenses:license-detail' license.id %}"  >{{license.name}} </a></td>
-                            <td>{{license.contract}}</td>
-                            
-                            <td>    
-                            {% if license.days_till_renewal > 180 %}
-                                <button class="btn btn-sm btn-success btn-block">      
-                                <strong>Active-Ok!</strong> &nbsp;&nbsp;
-                                        Renewal due in:&nbsp;&nbsp;<strong >{{license.next_renewal_date|timeuntil}}</strong>
-                                </button>
-
-                            {% elif license.days_till_renewal < 180  and license.days_till_renewal > 90 %}
-                                <button class="btn btn-sm btn-info btn-block">
-                                    <strong>Attention!&nbsp;&nbsp;</strong> 
-                                    Renewal due in:&nbsp;&nbsp; <strong> {{license.next_renewal_date|timeuntil}}</strong>
-                                </button>
-                            {% elif license.days_till_renewal < 90 and license.days_till_renewal >= 0 %}
-
-                                <button class="btn btn-sm  btn-warning btn-block">
-                                    <strong>Warning!</strong> &nbsp;&nbsp;
-                                        Renewal due in:&nbsp;&nbsp; 
-                                        <strong >{{license.next_renewal_date|timeuntil}} 
-                                </button>
-                            {% else %}
-                                <button class="btn btn-sm btn-danger btn-block">
-                                    <strong>Overdue!</strong> &nbsp;&nbsp;
-                                    Renewal overdue by:&nbsp;&nbsp; <strong >{{license.next_renewal_date|timesince}} 
-                                </button>
-
-                            {% endif %}
-                            </td>
-
-                            
-                            <td>{{license.start_date}}</td>
-                            <td>{{license.next_renewal_date}}</td>
-                            <td style="width:15%">
-                                <a href="{% url 'ict_licenses:license-detail' license.id %}">
-                                    <span class="glyphicon glyphicon-info-sign text-info"></span> Details
-                                </a>
-                            </td>        
-                        </tr>
-                            {% empty %} 
-                        <tr>
-                            <th colspan="8" class="text-center">No licenses recorded yet!</th colspan="8">
-                        </tr> 
-    
-                {% endfor %}
-                    </tbody>
-                </table>
-			<!-- end project list -->
-        <!-- Pagination Section -->
-				<div class="row">
-					<div class="col-md-12" justify-content-right>
-						{% if page_obj.has_other_pages %}
-						<ul class="pagination nav navbar-right mx-right" >
-							{% if page_obj.has_previous %}
-							<li class="page-item">
-								<a href="?page={{page_obj.previous_page_number}}" class="page-link">Previous</a>
-							</li>
-						
-							{% else %}
-							<li class="page-item disabled">
-								<a class="page-link">Previous</a>
-							</li>
-							{% endif %}
-							{% for i in page_obj.paginator.page_range %}
-							{% if page_obj.number == i %}
-								<li class="page-item active">
-								<a class="page-link">{{i}}</a>
-								</li>
-							{% else %}
-								<li class="page-item">
-								<a href="?page={{i}}" class="page-link">{{i}}</a>
-								</li>
-							{% endif %}
-							{% endfor %}
-							{% if page_obj.has_next %}
-							<li class="page-item">
-								<a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a>
-							</li>
-							{% else %}
-							<li class="page-item disabled">
-								<a class="page-link">Next</a>
-							</li>
-							{% endif %}
-						</ul>
-						{% endif %}
-					</div>
+			<div class="title_right">
+				<div class="col-md-5 col-sm-5   form-group pull-right top_search">
+				
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb bg-light">
+							<li class="breadcrumb-item"><a href="{% url 'ict_dash:dashboard' %}">Home</a></li>
+							<li class="breadcrumb-item active" aria-current="page">ICT Licenses Admin</li>
+						</ol>
+					</nav>
 				</div>
-				<!--End pagination -->
+			</div>  
+		</div>
+		
+		<div class="clearfix"></div>
 
-		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="x_panel">
+				
+				<div class="x_content">
+					<div class="row">  
+				
+						<div class="x_panel " style="padding-top:2px; padding-bottom:2px">
+							{% include 'partials/_alerts.html' %}
+							<div class="jumbotron" style="padding-top:2px; padding-bottom:2px">
+								<form class="form-label-left input_mask" metho="GET">
+
+									<div class="col-md-3 col-sm-6  form-group has-feedback">
+										
+										{{form.name|as_crispy_field}}
+							
+									</div>
+
+									<div class="col-md-3 col-sm-6  form-group has-feedback">
+										{{form.owner|as_crispy_field}}
+									</div>
+
+									<div class="col-md-3 col-sm-6  form-group has-feedback">
+										{{form.software_category|as_crispy_field}}
+									</div>
+									
+									
+									
+				
+									<div class="ln_solid"></div>
+									<div class="form-group pull-right top_search">
+										<div class="col-md-2 col-sm-6  offset-md-1">
+										
+										<span class="input-group-btn">
+											<button type="submit" class="btn btn-info text-white">Search/Filter...</button>
+										</span>
+											
+										</div>
+									</div>
+
+								</form>
+
+							</div>
+								
+						</div>	
+						
+				<div class="card-box table-responsive"> 
+						<!-- start project list -->
+						<table class="table projects table-bordered">
+							<thead>
+								<tr>
+									<th style="width:2%">No. #</th>
+								
+									<th style="width:15%" > License Name</th>
+									<th style="width:20%" >Contract</th>
+									
+									<th style="width:25%">Renewal Status</th>
+									<!-- <th style="width:15%"> Renewal Due</th> -->
+									<th style="width: 8%">Start Date</th>
+									<th style="width: 8%">Renewal Due </th>
+									<th  style="width: 15%" class="text-center">More Info</th>
+								</tr>
+								{% for license in licenses %}
+								<tr>
+									<td>{{forloop.counter}} </td>
+							
+									<td> <a href="{% url 'ict_licenses:license-detail' license.id %}"  >{{license.name}} </a></td>
+									
+									<td>{{license.contract}}</td>
+									
+									<td class="vertical-align-mid" style="width:25%" >
+									<div class="progress"> 
+										{% if license.days_till_renewal > 180 %}
+											<div class="progress-bar progress-bar-success" data-transitiongoal="100">      
+										<strong>Ok! &nbsp;&nbsp;&nbsp;&nbsp;Renewal due in {{license.next_renewal_date|timeuntil}}</strong>
+												
+											</div>
+
+										{% elif license.days_till_renewal < 180  and license.days_till_renewal > 90 %}
+											<div class="progress-bar progress-bar-primary" data-transitiongoal="100">
+												<strong>Attention! &nbsp;&nbsp;&nbsp;&nbsp;Renewal due in {{license.next_renewal_date|timeuntil}} 
+											</div>
+										{% elif license.days_till_renewal < 90 and license.days_till_renewal >= 0 %}
+
+											<div class="progress-bar progress-bar-warning" data-transitiongoal="100">
+												<strong>Last Warning! &nbsp;&nbsp;&nbsp;&nbsp; Renewal due in {{license.next_renewal_date|timeuntil}} </strong> 
+
+											</div>
+										{% else %}
+											<div class="progress-bar progress-bar-danger" data-transitiongoal="100">
+												<strong>Overdue! &nbsp;&nbsp;&nbsp;&nbsp; Renewal overdue by {{license.next_renewal_date|timesince}} </strong> 				
+											</div>
+
+										{% endif %}
+									</div>    
+								
+									</td>
+									<!-- <td style="width:15%">
+										{{license.next_renewal_date|timeuntil}}
+									</td> -->
+									
+									<td>{{license.start_date}}</td>
+									<td>{{license.next_renewal_date}}</td>
+									<td style="width:15%">
+										<a href="{% url 'ict_licenses:license-detail' license.id %}">
+											<span class="glyphicon glyphicon-info-sign text-info"></span> Details
+										</a>
+									</td>        
+								</tr>
+									{% empty %} 
+								<tr>
+									<th colspan="8" class="text-center">No licenses recorded yet!</th colspan="8">
+								</tr> 
+			
+						{% endfor %}
+							</tbody>
+						</table>
+					<!-- end project list -->
+				<!-- Pagination Section -->
+						<div class="row">
+							<div class="col-md-12" justify-content-right>
+								{% if page_obj.has_other_pages %}
+								<ul class="pagination nav navbar-right mx-right" >
+									{% if page_obj.has_previous %}
+									<li class="page-item">
+										<a href="{% licenses_url page_obj.previous_page_number 'page' request.GET.urlencode %}" class="page-link">Previous</a>
+									</li>
+								
+									{% else %}
+									<li class="page-item disabled">
+										<a class="page-link">Previous</a>
+									</li>
+									{% endif %}
+									{% for i in page_obj.paginator.page_range %}
+									{% if page_obj.number == i %}
+										<li class="page-item active">
+										<a class="page-link">{{i}}</a>
+										</li>
+									{% else %}
+										<li class="page-item">
+										<a href="{% licenses_url i 'page' request.GET.urlencode %}" class="page-link">{{i}}</a>
+										</li>
+									{% endif %}
+									{% endfor %}
+									{% if page_obj.has_next %}
+									<li class="page-item">
+										<a href="{% licenses_url page_obj.next_page_number 'page'  request.GET.urlencode %}}" class="page-link">Next</a>
+									</li>
+									{% else %}
+									<li class="page-item disabled">
+										<a class="page-link">Next</a>
+									</li>
+									{% endif %}
+								</ul>
+								{% endif %}
+							</div>
+						</div>
+						<!--End pagination -->
+
+				</div>
+				</div>
+			</div>
+			</div>
 		</div>
 	</div>
 	</div>
-</div>
 </div>
 <!-- /page content -->
 

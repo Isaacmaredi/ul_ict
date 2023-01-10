@@ -11,7 +11,7 @@
     <div class="page-title">
 		<div class="title_left">
             <h3>
-                {{contract.name}} Contract 
+                {{contract.name}} 
             </h3>
 		</div>	
 		<div class="title_right">
@@ -27,14 +27,14 @@
 		</div>
 	</div>
     
-    <div class="clearfix"></div>
+    
 
     <div class="row">
     <div class="col-md-12 col-sm-12 ">
         <div class="x_panel">
         <div class="x_title"> 
     
-            <div class="clearfix"></div>
+            
         </div>
         <div class="x_content">
 
@@ -48,7 +48,15 @@
                         </h2>     
                     </div>
                     <div class="col-md-6 col-sm-6">
-                        <h2>Total Contract Value: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="text-secondary"> R{{contract.total_value|intcomma}}</strong> </h2>
+                        {% if contract.total_value > 0 %}
+                        <h2>Total Contract Value: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <strong class="text-secondary"> R{{contract.total_value|intcomma}}</strong> 
+                        </h2>
+                        {% else %}
+                        <h2>Total Contract Value: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <strong class="text-secondary"> N/A</strong>
+                            </h2>
+                        {% endif %}
                     </div>
 
                     <div class="col-md-6 col-sm-6">     
@@ -58,40 +66,58 @@
                     </div>
 
                     <div class="col-md-6 col-sm-6">
-                        <h2>Amount Outstanding: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong class="text-secondary"> R{{contract.amount_outstanding|intcomma}}</strong> </h2>
+                        {% if contract.total_value > 0 %}
+                        <h2>Amount Outstanding: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <strong class="text-secondary"> R{{amount_outstanding}}</strong> 
+                        </h2>
+                        {% else %}
+                        <h2>Amount Outstanding: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <strong class="text-secondary"> N/A</strong>
+                            </h2>
+                        {% endif %}
+
                     </div>
 
                     <div class="col-md-6 col-sm-6">
-                        <h2>Duration:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>  {{contract.duration}} years</strong>
+                        {% if contract.duration == None %}
+                        <h2>Duration:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                            <strong class="text-danger"> Indefinite (Evergreen Contract)</strong>
+                        </h2>
+                        {% else %}
+                        <h2>Duration:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                            <strong> {{contract.duration}} years</strong>
+                        </h2>
+                        {% endif %}
+
                     </div>
                     <div class="col-md-6 col-sm-6">
                         <h2 > Contract Type: 
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <strong > {{contract.agreement_type}}</strong> </h2> 
                     </div>
-                    <hr>   
+                
                 <h2 >&nbsp; </h2>
 
             <div class="">
                 
                 <div class="product_price">   
                     <div class="x_content bs-example-popovers">
-                        {% if contract.status == "Active - Ok" %}
+                        {% if contract.status == "Ok" %}
                         <button id="compose" class="btn btn-sm btn-success btn-block" type="button">
                             <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
                             Time to expiry is {{contract.end_date|timeuntil}}</strong>
                         </button>
-                        {% elif contract.status == "Active - Alert 1" %}                     
+                        {% elif contract.status == "Attention" %}                     
                         <button id="compose" class="btn btn-sm btn-primary btn-block" type="button">
                             <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
                                 Time to expiry is {{contract.end_date|timeuntil}}</strong>
                         </button>      
-                        {% elif contract.status == "Active - Alert 2" %}              
+                        {% elif contract.status == "Warning" %}              
                         <button id="compose" class="btn btn-sm btn-warning btn-block" type="button">
                             <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
                             Time to expiry is {{contract.end_date|timeuntil}}</strong>
                         </button>  
-                        {% elif contract.status == 'Contract is Perpertual'%}
+                        {% elif contract.status == 'Perpertual'%}
                         <button id="compose" class="btn btn-sm btn-secondary btn-block" type="button">
                             <strong> Status: {{contract.status}}  &nbsp;&nbsp;&nbsp;&nbsp;
                             - No end date</strong>
@@ -263,7 +289,7 @@
             <h2> Responsible Unit: 
             
                 <span class="text-secondary">
-                    {{contract.responsible_unit}}
+                    {{contract.owner.unit}}
                 </span>
             </h2>
             <hr>

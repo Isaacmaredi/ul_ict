@@ -10,34 +10,58 @@ from django.views.generic import (ListView, DetailView,
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse, reverse_lazy
 from .models import *
+from .filters  import ProjectFilter
 
 
 # Create your views here.
+class FilteredListView(ListView):
+    filterset_class = None
 
-class ProjectListView(LoginRequiredMixin,ListView):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return self.filterset.qs.distinct()
+    
+    # def get_queryset(self):
+    #     qs = super().get_queryset()
+    #     qs = qs.annotate(sum_related=Sum('related_field_name'))
+    #     return qs
+    
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['sum_related'] = self.get_queryset().aggregate(Sum('sum_related'))['sum_related__sum']
+    #     return context
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(FilteredListView,self).get_context_data(*args,**kwargs)
+
+            
+        context['filterset'] = self.filterset
+        context['form'] = self.filterset.form
+        # context['total_progress'] = self.filterset.aggregate(
+        #     total_progress=Sum(F('milestones__weight'), 
+        #             filter=(Q(milestones__status__exact='Completed') & Q(milestones__is_paid=True)) 
+        #             )
+        #         )['total_progress']
+        context['total_projects'] = self.filterset.qs.count()
+        
+        return context
+    
+    
+
+class ProjectListView(LoginRequiredMixin, FilteredListView):
     model = Project
     template_name = 'ict_projects/project_list.html'
+    filterset_class = ProjectFilter
     context_object_name = 'projects'
     paginate_by = 10
     
-    def get_context_data(self, *args, **kwargs):
-        context = super(ProjectListView,self).get_context_data(*args, **kwargs)
-        context['total_projects'] = Project.objects.all().count()
-        context['projects'] = Project.objects.annotate(
-                    milestones_count=Count(
-                    'milestones')
-                    ).annotate(
-                    completed_milestones=Count(
-                    'milestones',
-                    filter=(Q(milestones__status__exact='Completed') & Q(milestones__is_paid=True))       
-                    )
-                ).annotate(
-                    total_progress=Sum(F('milestones__weight'), 
-                    filter=(Q(milestones__status__exact='Completed') & Q(milestones__is_paid=True)) 
-                    )
-                )
-        return context
     
+    # def get_context_data(self, *args, **kwargs):
+    #     context = super(ProjectListView,self).get_context_data(*args, **kwargs)
+
+    #     return context
+
 class ProjectAdminListView(LoginRequiredMixin,ListView):
     model = Project
     template_name = 'ict_projects/project_admin.html'

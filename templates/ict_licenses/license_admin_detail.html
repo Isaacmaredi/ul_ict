@@ -48,24 +48,24 @@
                     </li>
                     <li class="hidden-phone">
                     <span class="name"> Balance Remaining </span>
-                    <span class="value text-secondary"> R{{license.contract.amount_outstanding|intcomma}} </span>
+                    <span class="value text-secondary"> R} </span>
                     </li>
                 </ul>
                 <ul class="stats-overview">
                     <li>
                 {% if license.days_till_renewal > 180 %}
                     <!-- <span class="name"> Current License Cost </span> -->
-                    <span class="value"> <strong class="btn btn-sm btn-block btn-success">License Status: Active - Ok!  </strong> </span>
+                    <span class="value"> <strong class="btn btn-sm btn-block btn-success">License Status: Ok!  </strong> </span>
                     <span class="value text-secondary"> 
                                 Time to license renewal is: {{license.next_renewal_date|timeuntil}}                    
                     </span>
                     {% elif  license.days_till_renewal < 180  and license.days_till_renewal > 90 %} 
-                    <span class="value "><strong class="btn btn-sm btn-block btn-primary">License Status: Active - Alert 1!  </strong> </span>
+                    <span class="value "><strong class="btn btn-sm btn-block btn-primary">License Status: Attention!  </strong> </span>
                     <span class="value text-secondary"> 
                                 Time to license renewal is:{{license.next_renewal_date|timeuntil}}                    
                     </span>
                     {% elif license.days_till_renewal < 90 and license.days_till_renewal >= 0 %} 
-                    <span class="value"><strong class=" btn btn-sm btn-block btn-warning">License Renewal Status: Active - Alert 2! </strong> </span>
+                    <span class="value"><strong class=" btn btn-sm btn-block btn-warning">License Renewal Status: Warning! </strong> </span>
                     <span class="value text-secondary">
                         Time to license renewal is: {{license.next_renewal_date|timeuntil}}
                     </span>
@@ -81,21 +81,21 @@
                     <span class="value text-secondary">License Renewal Date:&nbsp;&nbsp; <strong class="text-danger">{{license.next_renewal_date|date:'d F Y'}} </strong></span>
                 </li>
                 <li>
-                {% if license.contract.status == "Active - Ok" %}
+                {% if license.contract.status == "Ok" %}
                     <span class="name"><strong class="btn btn-sm btn-block btn-success">Contract Status: 
                         {{license.contract.status}}</strong>               
                     </span>
                     <span class="value text-secondary"> 
                         Time to expiry is {{license.contract.end_date|timeuntil}}
                     </span>
-                {% elif license.contract.status == "Active - Alert 1" %}
+                {% elif license.contract.status == "Attention" %}
                     <span class="value"><strong class="btn btn-sm btn-block btn-primary">Contract Status: 
                         {{license.contract.status}}</strong>               
                     </span>
                     <span class="value text-secondary"> 
                         Time to expiry is {{license.contract.end_date|timeuntil}}
                     </span>
-                {% elif license.contract.status == "Active - Alert 2" %}   
+                {% elif license.contract.status == "Warning" %}   
                     <span class="value"><strong class="btn btn-sm btn-block btn-warning">Contract Status: 
                         {{license.contract.status}}</strong>               
                     </span>

@@ -20,7 +20,8 @@ from django.conf.urls.static import static
 import debug_toolbar
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
+    path('securelogin/', admin.site.urls),
     path('', include('ict_accounts.urls'), name='accounts'),
     path('contracts/', include('ict_contracts.urls'), name ='contracts'), 
     path('licenses/', include('ict_licenses.urls'), name ='licenses'), 
@@ -35,5 +36,5 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     
-admin.site.site_header ='UL ICT Contracts and Portfolio Admin' 
-admin.site.index_title ='Manage ICT Contracts and Portfolio'
+# admin.site.site_header ='UL ICT Contracts and Portfolio Admin' 
+# admin.site.index_title ='Manage ICT Contracts and Portfolio'

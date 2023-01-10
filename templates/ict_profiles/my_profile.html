@@ -107,7 +107,7 @@
                             </thead>
                             <tbody>
                             
-                                {% for license in my_profile.user.licenses.all %}
+                                {% for license in my_profile.licenses.all %}
                                 <tr>
                                 <td>{{forloop.counter}}</td>
                                 <td>{{license.name}}</td>

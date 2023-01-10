@@ -16,8 +16,10 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 
+from django.contrib.auth.views import PasswordResetView
+
 from .models  import Account, Profile
-from .forms import RegistrationForm, PasswordResetForm
+from .forms import RegistrationForm, MyPasswordResetForm
 
 from django.template import RequestContext
 
@@ -96,8 +98,8 @@ def login_view(request):
         if user is not None:
             auth.login(request, user)
             print(user, 'USER IS LOGGED IN ')
-            messages.success(request, f'Welcome, {user.first_name}! You are now logged in')
-            return redirect('ict_licenses:license-list')
+            messages.success(request, f'Welcome, {user.first_name}. Please find time to update your profile if not done yet!')
+            return redirect('ict_dash:dashboard')
         else:
             messages.error(request, 'Invalid credentials')
             print('WRONG CREDENTIALS ')
@@ -160,20 +162,25 @@ def reset_password_validate(request, uidb64, token):
         messages.success(request, 'Please reset your password')
         return redirect('ict_accounts:reset-password')
     else:
-        messages.error(request, 'This link has expired. Please run forget password again!')
+        messages.error(request, 'This link has expired. Please run forgot password again!')
         return redirect('ict_accounts:login')
 
+# class MyPasswordResetView(PasswordResetView):
+#     template_name = 'ict_accounts/reset_password.html'
+#     success_url = reverse_lazy('ict_accounts:login')
+    
+#     def form_valid(self, form):
+#         form.save()
+#         messages.success('Password reset was done successfully')
+#         return super().form_valid(form)
+    
 
 def reset_password(request):
     if request.method == 'POST':
         password = request.POST['password']
-        password2 = request.POST['password2']
-        form = PasswordResetForm(request.POST)
-        if form.is_valid():
-            password = form.cleaned_data['password']
-            password2 = form.cleaned_data['password2']
+        confirm_password = request.POST['confirm_password']
 
-        if password == password2:
+        if password == confirm_password:
             uid = request.session.get('uid')
             user = Account.objects.get(pk=uid)
             user.set_password(password)
@@ -181,11 +188,7 @@ def reset_password(request):
             messages.success(request, 'Password reset successful')
             return redirect('ict_accounts:login')
         else:
-            messages.error(request, 'Passwords do not match!')
+            messages.error(request, 'Passwords did not match!')
             return redirect('ict_accounts:reset-password')
     else:
-        form = PasswordResetForm()
-        context = {
-            'form': form,
-        }
-        return render(request, 'ict_accounts/reset_password.html',context)
+        return render(request, 'ict_accounts/reset_password.html')

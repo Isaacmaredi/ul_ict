@@ -1,0 +1,32 @@
+#header {
+    height: auto;
+    width: auto;
+    background:rgb(4, 59, 100, 0.9);
+    color:#fff;
+}
+
+#branding h1 {
+    color:#fff;
+}
+
+a:link, a:visited {
+    color:rgb(4, 59, 100, 0.9);
+}
+
+div.breadcrumbs {
+    color:#fff;
+    background:#c8ab4c;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background:rgb(4, 59, 100, 0.8);
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background:rgb(4, 59, 100, 0.8);
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: #c8ab4c;
+    color:#fff;
+}

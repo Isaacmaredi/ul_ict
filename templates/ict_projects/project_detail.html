@@ -56,9 +56,9 @@
             {% endif %}
         </li>               
         <li>
-           <strong> Progress</strong> 
+        <strong> Progress</strong> 
                 <div class="progress progress_lg" style="border:1px solid rgb(117, 114, 114)" >
-                <div class="progress-bar bg-purple" role="progressbar" data-transitiongoal="{{total_progress}}">
+                <div class="progress-bar bg-info" role="progressbar" data-transitiongoal="{{total_progress}}">
                     {{total_progress}}%
                 </div>    
         </li>
@@ -77,17 +77,17 @@
             <ul class="stats-overview" stylec="background-color:rgb(243, 242, 242)">
                 <li>
                 <strong class="name"> Total Projet Cost </strong>
-                <span class="value text-danger"> R{{project.total_cost}} </span>
+                <span class="value text-danger"> R{{project.total_cost|intcomma}} </span>
                 </li>
                 <li>
                 <strong class="name"> Amount Spent </strong>
                 <strong class="value text-success"> 
-                    R{{total_spent}}
+                    R{{total_spent|intcomma}}
                 </strong>
                 </li>
                 <li >
                 <strong class="name"> Amount Outstanding </strong>
-                <span class="value text-info"> R{{balance}} </span>
+                <span class="value text-info"> R{{balance|intcomma}} </span>
                 </li>    
             </ul>
             <div class="clearfix"></div>
@@ -100,7 +100,7 @@
 <div id="mainb" style="height:350px;">
     <div class="col-md-12 col-sm-12">
         <div class="bs-example" data-example-id="simple-jumbotron"> 
-            <div class="jumbotron"> 
+            <div class="jumbotron" style="padding-top:1rem; padding-bottom:2rem"> 
         
             <div class="x_panel">
                 
@@ -224,15 +224,10 @@
 </div>
             <!-- start project-detail sidebar -->
             <div class="col-md-3 col-sm-3  ">
-
+            
             <section class="panel">
-
-                <div class="x_title">
-                <h2>{{project.description}}</h2>
-                
-                <div class="clearfix"></div>
-                </div>
-                <div class="panel-body">
+            <div class="jumbotron" style="padding-top:1rem;padding-bottom:2rem"> 
+            <div class="panel-body " >
                 <h2 class="text-secondary"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp; <span class="text-success">Start: {{project.start_date|date:'d M Y'}}</span> </h2>
                 <h2 class="text-secondary"><i class="fa fa-calendar"></i>&nbsp;&nbsp;&nbsp; <span class="text-danger">End: {{project.end_date|date:'d M Y'}}</span></h2>
                 <hr />
@@ -240,79 +235,89 @@
                     
                     <h5 >Service Provider Details</h5>
                 <ul class="list-unstyled project_files">
-                    <li> <strong>Company: </strong>&nbsp;&nbsp;&nbsp;{{project.service_provider}}</li>
-                    <li> <strong>Account Manager:</strong>&nbsp;&nbsp;&nbsp;{{project.service_provider.contact_person}} </li>
-                    <li> <strong>Contact Phone:</strong>&nbsp;&nbsp;&nbsp;{{project.service_provider.contact_phone}} </li>
-                    <li><strong>Executive Contact:</strong>&nbsp;&nbsp;&nbsp;{{project.service_provider.executive_contact}} </li>
+                    <li> <span>Company: </span>&nbsp;&nbsp;&nbsp;{{project.service_provider}}</li>
+                    <li> <span>Account Manager:</span>&nbsp;&nbsp;&nbsp;{{project.service_provider.contact_person}} </li>
+                    <li> <span>Contact Phone:</span>&nbsp;&nbsp;&nbsp;{{project.service_provider.contact_phone}} </li>
+                    <li><span>Executive Contact:</span>&nbsp;&nbsp;&nbsp;{{project.service_provider.executive_contact}} </li>
                 </ul>
                 </div>
 
                 <hr/>
                 <h5>Project Documents</h5>
                 <ul class="list-unstyled project_files">
-                    
-                    <li><a href=""><i class="fa fa-file-pdf-o text-danger"></i> 
-                        <strong>Contract Document:</strong>&nbsp;&nbsp;&nbsp;
-                        {% if project.contract.contract_document %}
-                        {{project.contract.contract_document}}
-                        {% else %}
-                        &nbsp;&nbsp;&nbsp;Document not available
-                        {% endif %}
+                    {% if project.contract.contract_document %}
+                    <li><a href=" {{project.contract.contract_document.url}}" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i> 
+                        <span>Download: {{project.contract.name}}</span>&nbsp;&nbsp;&nbsp;
+                        
                     </a>
-                    </li>
+                </li>
+                        {% else %}
+                    <li> &nbsp;&nbsp;&nbsp;Document not available</li>
+                        {% endif %}        
                     <li><a href=""><i class="fa fa-file-pdf-o text-danger"></i> 
-                        <strong>Project Plan:</strong>&nbsp;&nbsp;&nbsp;
+                        <span>Project Plan:</span>&nbsp;&nbsp;&nbsp;
                         {% if project.contract.contract_documet %}
                         {{project.contract.contract_document}}
                         {% else %}
                         &nbsp;&nbsp;&nbsp;Document not available
                         {% endif %}
                     </a>
-                    </li>
-                    
-                    
+                    </li>                 
                 </ul>
-                <hr/>
-
                 </div>
-                <div>
-                    <h5 class="panel-title text-info text-strong">Project Team </h5>
-                        <!-- end of user messages -->
-                    <ul class="messages">
-                    {% for team_member in project.team.all %}
-                        <li>
-                        <img src="{{team_member.name.photo.url}}" class="avatar" alt="Avatar">
-                        <div class="message_date">
-                            
-                        </div>
-                        <div class="message_wrapper">
-                            <h6 class="heading">{{team_member.name.user.full_name}} - {{team_member.project_role}} </h6>
-                            <blockquote class="message"> 
-                                <span> 
-                                    <i class="fa fa-mobile"></i>
-                                    &nbsp;&nbsp; {{team_member.name.user.mobile_number}}
-                                </span>   
-                                &nbsp;&nbsp;&nbsp;||&nbsp;&nbsp;&nbsp;                  
+            </div>
+
+            <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2><i class="fa fa-align-left"></i> <strong class="text-info">Project Team</strong> </h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                    
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+
+                    <!-- start accordion -->
+                    <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">  
+                      {% for team_member in project.team.all %}
+                      <div class="panel">
+                        <a class="panel-heading collapsed" role="tab" id="headingTwo1" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo">
+                            <img src="{{team_member.name.photo.url}}" class="avatar" alt="Avatar"> 
+                            <h4 class="panel-title"> <a href="{% url 'ict_profiles:profile-detail' team_member.name.pk %}">{{team_member.name.user.full_name}}</a> 
+
+                            </h4>
+                        </a>
+                        <div id="collapseTwo1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                          <div class="panel-body">
+                              
+                            <p><strong>{{team_member.project_role}}</strong></p>
+                            <p><span> 
+                                <i class="fa fa-mobile"></i>
+                                &nbsp;&nbsp; {{team_member.name.user.mobile_number}}
+                                </span>
+                            </p>
+                            <p>
                                 <span> 
                                     <i class="fa fa-phone"></i>
                                     &nbsp;&nbsp;{{team_member.name.user.office_ext}}
                                 </span>
-                                <p>
-                                    <i class="fa fa-envelope user-profile-icon"></i>
-                                    <a href="mailto:{{team_member.name.user.email}}" target="_blank"> 
-                                    &nbsp;&nbsp;{{team_member.name.user.email}}
-                                    </a>    
-                                </p>
-                                <!-- <strong>Unit:   </strong> {{team_member.name.unit}} -->
-                            </blockquote>
-                      
-                            
+                            </p>
+                        
                         </div>
-                        </li>
+                    </div>
+                    </div>
                     {% endfor %}
-                    </ul>
+                
+                    <!-- end of accordion -->
+
+
                 </div>
+            </div>
+            </div>
+                
             </section>
+        
 
             </div>
             <!-- end project-detail sidebar -->

@@ -1,110 +1,120 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+{% load static %}
 {% load crispy_forms_tags %}
-{% load humanize %}
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <title>ICT Portfolio - User Registration </title>
 
-{% block title %} | Register {% endblock title %}
+    <!-- Bootstrap -->
+    <link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{% static 'vendors/nprogress/nprogress.css' %}" rel="stylesheet">
 
+    <!-- Custom Theme Style -->
+    <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
+</head>
 
-{% block content %}
-<!-- page content -->
+<body class="nav-md" style="background-color:rgb(4, 59, 100)">
+    <div class="container body">
+        <div class="main_container">
+        <!-- page content -->  
+        <div class="col-md-12">
+            <div class="col-middle">
+                <div class="text-center">
+                    <img src="{% static 'images/ul_logo_2.png' %}" class="text-center"
+                    style="width:120px; margin-left:auto; margin-right:auto; display:block;" alt="UL Logo">
 
-<div class="container body"> 
-    <div class="main_container">
-
-        <div class="right_col" role="main">
-            <div class="">
-                <div class="clearfix"> </div>  
-                    <div class="row">
-                            <div class="col-md-12 col-sm-12 ">
-                                <div class="x_panel">
-                            <br>
-                            <br>
-                            <div class="x_panel mx-auto text-center">
-                                <h1 >User Registration</h1>
+                    <h3>University of Limpopo </h3>
+                    <h2>ICT Portfolio Managememt</h2>
+                    
+            <section class="section-content padding-y" style="min-height:84vh">
+                    <div class="card mx-auto" style="max-width: 600px; margin-top:50px;">
+                        <div class="card-header bg-primary text-light">
+                            {% include 'partials/_alerts.html' %}
+                        <h2>User Registration </h2>
+                    </div>
+                            
+                    <div class="card-body">
                                 
-                                    <div class="clearfix"></div>
-                                </div>
-                
+                        <form method="POST" >
+                            {% csrf_token %}
                             
-                            
-                                        <form class="" data-parsley-validate  method="POST" >
-                                            {% csrf_token %}
-                                        
-                                            {% include 'partials/_alerts.html' %}
-                                            
-                                                <div class="item form-group"> 
-                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="first-name">
-                                                    </label>
-                                                    <div class="col-md-6 col-sm-6 ">
-                                                    {{form.first_name|as_crispy_field}}
-                                                    </div>
-                                                </div>
-                                                <div class="item form-group">
-                                                    <label class="col-form-label col-md-3 col-sm-3 label-align" for="last-name"> 
-                                                    </label>
-                                                    <div class="col-md-6 col-sm-6 ">
-                                                        {{form.last_name|as_crispy_field}}
-                                                    </div>
-                                                </div>
-                                                <div class="item form-group">
-                                                    <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align"></label>
-                                                    <div class="col-md-6 col-sm-6 ">
-                                                        {{form.email|as_crispy_field}}
-                                                    </div>
-                                                </div>
-                                                <div class="item form-group">
-                                                    <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align"></label>
-                                                    <div class="col-md-6 col-sm-6 ">
-                                                        {{form.mobile_number|as_crispy_field}}
-                                                    </div>
-                                                </div>
-                                            
-                                                <div class="item form-group">
-                                                    <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align"></label>
-                                                    <div class="col-md-6 col-sm-6 ">
-                                                        {{form.password|as_crispy_field}}
-                                                    </div>
-                                                </div>
-                                                <div class="item form-group">
-                                                    <label for="middle-name" class="col-form-label col-md-3 col-sm-3 label-align"></label>
-                                                    <div class="col-md-6 col-sm-6 ">
-                                                        {{form.password2|as_crispy_field}}
-                                                    </div>
-                                                </div>
-                                            
-                                                
-                                                <div class="ln_solid"></div>
-                                                <div class="item form-group">
-                                                    <div class="col-md-6 col-sm-6 offset-md-3">
-                                                        <button class="btn btn-primary" type="button">
-                                                        <a href="{% url 'ict_accounts:login' %}"> <span class="text-white">Cancel </span> </a>
-                                                        </button>
-                                                        <button class="btn btn-secondary" type="reset">Reset</button>
-                                                        <button type="submit" class="btn btn-success">Submit</button>
-                                                        <span class="text-dark text-center"> 
-                                                            <br>
-                                                            <br>
-                                                            Already have an account? 
-                                                            <a href="{% url 'ict_accounts:login' %}"> 
-                                                                <strong class="text-info">Click here</strong>
-                                                            </a> to login
-                                                        </span>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <br>             
-                                        </form>
+                                {{form|crispy}}   
+                                <div class="ln_solid"></div>
+                                <div class="item form-group">
+                                    <div class="col-md-6 col-sm-12 offset-md-3">
+                                        <button class="btn btn-primary" type="button">
+                                        <a href="{% url 'ict_accounts:login' %}"> <span class="text-white">Cancel </span> </a>
+                                        </button>
+                                        <button type="submit" class="btn btn-success">Register</button>
+                                        <span class="text-dark text-center"> 
+                                            <br>
+                                            <br>
+                                            Already have an account? 
+                                            <a href="{% url 'ict_accounts:login' %}"> 
+                                                <strong class="text-info">Click here</strong>
+                                            </a> to login
+                                        </span>
+                                    </div>                 
+                                </div> 
+                        </form>
                         </div>
                     </div>
-                </div>
-            </div>  
+                </section>  
+            </div>
+            </div>
         </div>
-    </div>
+        <!-- /page content -->
 </div>
-<!-- /page content -->
+</div>
 
-{% endblock content %}
+    <!-- jQuery -->
+    <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap -->
+   <script src="{% static 'vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- FastClick -->
+    <script src="{% static 'vendors/fastclick/lib/fastclick.js' %}"></script>
+    <!-- NProgress -->
+    <script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{% static 'build/js/custom.min.js' %}"></script>
+    <script src="{% static 'build/js/mycustom.js' %}" ></script>
+
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            
+                                              
+               
 
 
 
