@@ -3,14 +3,12 @@ from django.urls import reverse
 
 
 LOCATION_TYPE_CHOICES = [
-    (None, 'Select company nationality'),
     ('LOCAL','Local'),
     ('MNC','Multinational Company'),
     ('FOREIGN','Foreign Based')        
 ]
     
 SUPPLIER_CHANNEL_CHOICES = [
-    (None,'Select supllier channel'),
     ('Direct-OEM','Direct-OEM'),
     ('INDIRECT-OEM','Indirect-OEM'), 
     ('LSP','Licensed Solutions Provider'),

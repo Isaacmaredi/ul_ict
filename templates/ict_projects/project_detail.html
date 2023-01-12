@@ -269,28 +269,28 @@
 
             <div class="col-md-12 col-sm-12  ">
                 <div class="x_panel">
-                  <div class="x_title">
+                <div class="x_title">
                     <h2><i class="fa fa-align-left"></i> <strong class="text-info">Project Team</strong> </h2>
                     <ul class="nav navbar-right panel_toolbox">
                     
                     </ul>
                     <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
+                </div>
+                <div class="x_content">
 
-                    <!-- start accordion -->
-                    <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">  
-                      {% for team_member in project.team.all %}
-                      <div class="panel">
-                        <a class="panel-heading collapsed" role="tab" id="headingTwo1" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo">
+                <!-- start accordion -->
+                <div class="accordion" id="accordion1" role="tablist" aria-multiselectable="true">  
+                    {% for team_member in project.team.all %}
+                    <div class="panel">
+                    <a class="panel-heading collapsed" role="tab" id="headingTwo1" data-toggle="collapse" data-parent="#accordion1" href="#collapseTwo1" aria-expanded="false" aria-controls="collapseTwo">
                             <img src="{{team_member.name.photo.url}}" class="avatar" alt="Avatar"> 
                             <h4 class="panel-title"> <a href="{% url 'ict_profiles:profile-detail' team_member.name.pk %}">{{team_member.name.user.full_name}}</a> 
 
                             </h4>
                         </a>
                         <div id="collapseTwo1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                          <div class="panel-body">
-                              
+                        <div class="panel-body">
+                    
                             <p><strong>{{team_member.project_role}}</strong></p>
                             <p><span> 
                                 <i class="fa fa-mobile"></i>

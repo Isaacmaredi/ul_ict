@@ -34,13 +34,7 @@
 
 		<div class="row">
 			<div class="x_panel">
-				<div class="text-right">
-					<a href="{% url 'ict_licenses:license-add' %}" class="btn btn-secondary btn-sm">
-						ADD SOFTWARE LICENSE&nbsp;
-						<i class="fa fa-plus"></i>
-					</a>
-	 
-				</div>
+	
 			<div class="col-md-12">
 				
 				
@@ -48,8 +42,10 @@
 					<div class="row">  
 				
 						<div class="x_panel " style="padding-top:2px; padding-bottom:2px">
-							{% include 'partials/_alerts.html' %}
+							
+							
 							<div class="jumbotron" style="padding-top:2px; padding-bottom:2px">
+								{% include 'partials/_alerts.html' %}
 								<form class="form-label-left input_mask" metho="GET">
 
 									<div class="col-md-3 col-sm-6  form-group has-feedback">
@@ -83,7 +79,10 @@
 								</form>
 
 							</div>
-								
+							<a href="{% url 'ict_licenses:license-add' %}" class="btn btn-dark bg-dark btn-sm" style="padding-bottom:3px">
+								ADD SOFTWARE LICENNSE &nbsp;
+								<i class="fa fa-plus"></i>
+							</a>
 						</div>	
 						
 				<div class="card-box table-responsive"> 

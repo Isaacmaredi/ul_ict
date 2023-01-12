@@ -5,13 +5,33 @@ from django.views.generic import (ListView, DetailView, CreateView,
                                 UpdateView, DeleteView)
 from ict_accounts.models import Profile
 from .forms import ProfileCreateForm
+from .filters import ProfileFilter
 # Create your views here.
+class FilteredListView(ListView):
+    
+    class FilteredListView(ListView):
+        filterset_class = None
 
-class ProfileListView(LoginRequiredMixin, ListView):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return self.filterset.qs.distinct()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(FilteredListView,self).get_context_data(*args,**kwargs)
+        # Pass the filterset to the template - it provides the form.
+        context['filterset'] = self.filterset
+        context['form'] = self.filterset.form
+        context['total_users'] = self.filterset.qs.count()
+        return context
+
+
+class ProfileListView(LoginRequiredMixin, FilteredListView):
     model = Profile
     context_object_name = 'profiles'
+    filterset_class = ProfileFilter
 
-    paginate_by = 10
+    paginate_by = 3
     template_name = 'ict_profiles/profile_list.html'    
 
 class ProfileAdminListView(LoginRequiredMixin, ListView):

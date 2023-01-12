@@ -1,165 +1,184 @@
 {% extends "base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
+{% load vendor_extras %}
 
 
 {% block content %}
 
 <!-- page content -->
 <div class="right_col" role="main">
-<div class="">
-<div class="page-title">
-	<div class="title_left">
-		<h3>Manage Vendors </small></h3>	
-	</div>
-	<div class="title_right">
-		<div class="col-md-5 col-sm-5   form-group pull-right top_search">
-		
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb bg-light">
-					<li class="breadcrumb-item"><a href="{% url 'ict_dash:dashboard' %}">Home</a></li>
-					<li class="breadcrumb-item active" aria-current="page">Vendor Admin</li>
-				</ol>
-			</nav>
-		</div>
-	</div>
-</div>
-	<div class="title_right">
-		<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-		<div class="input-group">
-			<span class="input-group-btn">
-				<!-- <form action="" method="GET">
-					<input type="text" name="mobile_phone" value="{{request.GET.mobile_phone}}" 
-					class="form-control" placeholder="Search...">
-					<button type="submit" class="btn btn-primary text-white" >Go!</button>
-				</form> -->
-			</span>
-		</div>
-		</div>
-	</div>
-	<div class="clearfix"></div>
-
-	<div class="row">
-	<div class="col-md-12">
-		<div class="x_panel">
-		
-		<div class="x_content">
-			<div class="row">
-				<div class="col-md-3 col-sm-6  ">
-					<div class="pricing_footer bg-light">
-						<div class="title" >
-						<a href="{% url 'ict_vendors:vendor-add' %}">
-                            <button class="btn btn-info">Add a Vendor</button>
-                        </a>
-						
-						</div>
-					</div>
-				</div>
-                <div class="col-md-3 col-sm-6  ">
-					
-				</div>
-				<div class="col-md-3 col-sm-6">
-					<div class="pricing_footer bg-light">
-						<!-- <div class="title">
-							<form action="" method="GET">
-								<input name="" type="text" placeholder="Search member">
-								<button type="submit" class="btn btn-info"> Go...</button>
-							</form>
-						</div> -->
-					</div>
-
-				</div>
-
-			</div>
-
-		<div class="card-box table-responsive"> 
-				<!-- start project list -->
-			{% for vendor in vendors%}
-			<div class="col-md-55">
-				<div class="thumbnail">
-					<div class="image view view-first">
-						<img style="width: 70%; height: 100%; display: block;" 
-							class="img-circle img-fluid" src="{{vendor.logo.url}}" alt="Picture" />
-						<div class="mask">
-							<p>Footprint: {{vendor.location_footprint}}</p>
-							<div class="tools tools-bottom"> 
-								<a href="#"><i class="fa fa-link">
-								<span data-toggle="tooltip" title="Physial Address: {{vendor.physical_address}}">
-									&nbsp;Addr
-								</span> </i></a>
-								<a href="{% url 'ict_vendors:vendor-update' vendor.id %}">
-									<i class="fa fa-pencil text-info"></i>&nbsp;Edit
-								</a>
-								<a href="{% url 'ict_vendors:vendor-delete' vendor.id %}"><i class="fa fa-times text-danger"></i>&nbsp;Delete
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="caption">
-						<strong><p>Contact Person:  {{vendor.contact_person}}</p> </strong> 
-						<small> 
-							<i class="fa fa-envelope user-profile-icon text-info"></i>&nbsp;&nbsp;&nbsp;
-							<a href="mailto:{{vendor.email}}">{{vendor.email}}</a> 
-						</small> <br>
-						<small>
-								<i class="fa fa-phone user-profile-icon text-primary" ></i>&nbsp;&nbsp;&nbsp;
-								{{vendor.contact_phone}}
-						</small>		
-					</div>
-				</div>
-			</div>
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+				<h3 >ICT Vendors &nbsp;&nbsp;&nbsp; <span class="badge badge-info"> Total:&nbsp;&nbsp; {{total_vendors}}</span> </h3>
 				
-				{% empty %}
-				<div class="col-md-12">
-					<h2>No vendors recorded yet!</h2>
-				</div>
-				{% endfor %}
-				<!-- Pagination Section -->
-				
-			<!-- end project list -->
+			</div>
+            <div class="title_right">
+                <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+                
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-light">
+                            <li class="breadcrumb-item"><a href="{% url 'ict_dash:dashboard' %}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Vendor List</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        
+        <div class="clearfix"></div>
 
-		</div>
-		</div>
-	</div>
-	</div>
-	<div class="row">
-					<div class="col-md-12" justify-content-right>
-						{% if page_obj.has_other_pages %}
-						<ul class="pagination nav navbar-right mx-right" >
-							{% if page_obj.has_previous %}
-							<li class="page-item">
-								<a href="?page={{page_obj.previous_page_number}}" class="page-link">Previous</a>
-							</li>
-						
-							{% else %}
-							<li class="page-item disabled">
-								<a class="page-link">Previous</a>
-							</li>
-							{% endif %}
-							{% for i in page_obj.paginator.page_range %}
-							{% if page_obj.number == i %}
-								<li class="page-item active">
-								<a class="page-link">{{i}}</a>
-								</li>
-							{% else %}
-								<li class="page-item">
-								<a href="?page={{i}}" class="page-link">{{i}}</a>
-								</li>
-							{% endif %}
-							{% endfor %}
-							{% if page_obj.has_next %}
-							<li class="page-item">
-								<a href="?page={{page_obj.next_page_number}}" class="page-link">Next</a>
-							</li>
-							{% else %}
-							<li class="page-item disabled">
-								<a class="page-link">Next</a>
-							</li>
-							{% endif %}
-						</ul>
-						{% endif %}
-					</div>
-				</div>
-</div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="x_panel">
+                    
+                    <div class="x_content">
+                        <div class="row">
+                            
+                           
+                            <div class="col-md-12 col-sm-12 text-center">
+                                <div class="jumbotron" style="padding-top:2px; padding-bottom:2px">
+
+                                    <form class="form-label-left input_mask">
+                        
+                                        <form class="form-label-left input_mask" method="GET">
+                        
+                                            <div class="col-md-3 col-sm-6  form-group has-feedback">
+                                    
+                                                {{form.name|as_crispy_field}}
+                                    
+                                            </div>  
+                            
+                                            <div class="col-md-3 col-sm-6  form-group has-feedback">
+                                                {{form.location_footprint|as_crispy_field}}
+                                            </div>
+                                            <div class="col-md-3 col-sm-6  form-group has-feedback">
+                                                {{form.supplier_channel|as_crispy_field}}
+                                            </div>
+                                            <div class="ln_solid"></div>
+                                            <div class="form-group pull-right top_search">
+                                                <div class="col-md-3 col-sm-6  offset-md-1">
+                                                
+                                                <span class="input-group-btn">
+                                                    <button type="submit" class="btn btn-secondary text-white">Search/Filter...</button>
+                                                </span>
+                                                    
+                                                </div>
+                                            </div>
+                        
+                                        </form>
+                                    </div>	
+
+                            </div>
+
+                        </div>
+						<a href="{% url 'ict_vendors:vendor-add' %}" class="btn btn-dark bg-dark btn-sm">
+							ADD VENDOR&nbsp;
+							<i class="fa fa-plus"></i>
+						</a>
+                        <div class="card-box table-responsive"> 
+                            <!-- start project list -->
+                        {% for vendor in vendors %}
+                            <div class="col-md-55">
+                                <hr style="border: 1px solid rgb(134, 134, 134)" >
+                                <div class="thumbnail">
+                                    <div class="image view view-first">
+                                        <img style="width: 70%; height: 100%; display: block;" 
+                                            class="img-circle img-fluid" src="{{vendor.logo.url}}" alt="Picture" />
+                                        <div class="mask">
+                                            <p>Footprint: {{vendor.location_footprint}}</p>
+                                            <div class="tools tools-bottom">
+                                                <a href="#"><i class="fa fa-building ">
+                                                    <span data-toggle="tooltip" title="{{vendor.physical_address}}" >
+                                                        Adr
+                                                    </span> </i>
+                                                </a>
+                                                <a href="#"><i class="fa fa-mobile ">
+                                                    <span data-toggle="tooltip" title="{{vendor.executive_contact}} - {{vendor.exe_contact_phone}}">
+                                                        Exec
+                                                    </span> </i>
+                                                </a>
+                                                <a href="#"><i class="fa fa-link ">
+                                                    <span data-toggle="tooltip" title="{{vendor.supplier_channel}}">
+                                                        Channel
+                                                    </span></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="caption">
+                                        <strong><p>Contact Person:  {{vendor.contact_person}}</p> </strong> 
+                                        <small> 
+                                            <i class="fa fa-envelope user-profile-icon text-info"></i>&nbsp;&nbsp;&nbsp;
+                                            <a href="mailto:{{vendor.email}}">{{vendor.email}}</a> 
+                                        </small> <br>
+                                        <small>
+                                                <i class="fa fa-phone user-profile-icon text-primary" ></i>&nbsp;&nbsp;&nbsp;
+                                                {{vendor.contact_phone}}
+                                        </small>		
+                                    </div>
+                                </div>
+                            
+                            </div>
+                                
+                                {% empty %}
+                                <div class="col-md-12">
+                                    <h2>No vendors recorded yet!</h2>
+                                </div>
+                            
+                                {% endfor %}
+
+                        </div>
+                        <!--End Vendor list-->
+
+                        <!-- Pagination Section -->
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12" justify-content-right>
+                                {% if page_obj.has_other_pages %}
+                                <ul class="pagination nav navbar-right mx-right" >
+                                    {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a href="{% vendors_url page_obj.previous_page_number 'page' request.GET.urlencode %}" class="page-link">Previous</a>
+                                    </li>
+                                
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link">Previous</a>
+                                    </li>
+                                    {% endif %}
+                                    {% for i in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                        <li class="page-item active">
+                                        <a class="page-link">{{i}}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item">
+                                        <a href="{% vendors_url i 'page' request.GET.urlencode %} " class="page-link">{{i}}</a>
+                                        </li>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a href="{% vendors_url page_obj.next_page_number 'page'  request.GET.urlencode %}" class="page-link">Next</a>
+                                    </li>
+                                    {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link">Next</a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    <!-- end pagination  -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- /page content -->
 

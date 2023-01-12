@@ -30,10 +30,10 @@ class RegistrationForm(forms.ModelForm):
         password = cleaned_data.get('password')
         password2 = cleaned_data.get('password2')
 
-        # if password != password2:
-        #     raise forms.ValidationError(
-        #         "Passwords do not match!"
-        #     )
+        if password != password2:
+            raise forms.ValidationError(
+                "Passwords do not match!"
+            )
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
@@ -53,15 +53,15 @@ class RegistrationForm(forms.ModelForm):
         self.helper.field_class = 'col-md-10'
 
 class MyPasswordResetForm(SetPasswordForm):
-    # password = forms.CharField(widget=forms.PasswordInput(attrs={
-    #     'placeholder': 'Password',
-    #     'class': 'form-control',
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Password',
+        'class': 'form-control',
         
-    # }),validators=[validate_password])
-    # password2 = forms.CharField(widget=forms.PasswordInput(attrs={
-    #     'placeholder': 'Confirm Password',
-    #     'class': 'form-control',
-    # }))
+    }),validators=[validate_password])
+    password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Confirm Password',
+        'class': 'form-control',
+    }))
 
     class Meta:
         model = Account

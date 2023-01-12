@@ -6,29 +6,39 @@ from django.views.generic import (CreateView,ListView,
 from .forms import VendorCreateForm
 
 from .models import Vendor
+from .filters import VendorFilter
 # Create your views here.
-class VendorListView(LoginRequiredMixin,ListView):
-    model = Vendor
-    template_name = 'ict_vendors/vendor_list.html'
-    paginate_by = 15
-    context_object_name = 'vendors'
-    
-    def get_context_data(self,*args,**kwargs):
-        context = super(VendorListView, self).get_context_data(*args, **kwargs)
-        context['total_vendors'] = Vendor.objects.all().count()
-        # context['mncs'] = Vendor.objects.filter(location_type='MNC').count()
+
+class FilteredListView(ListView):
+    filterset_class = None
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        return self.filterset.qs.distinct()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(FilteredListView,self).get_context_data(*args,**kwargs)
+        # Pass the filterset to the template - it provides the form.
+        context['filterset'] = self.filterset
+        context['form'] = self.filterset.form
+        context['total_vendors'] = self.filterset.qs.count()
         return context
 
-class VendorAdminListView(LoginRequiredMixin,ListView):
+class VendorListView(LoginRequiredMixin, FilteredListView):
+    model = Vendor
+    template_name = 'ict_vendors/vendor_list.html'
+    paginate_by = 10
+    filterset_class = VendorFilter
+    context_object_name = 'vendors'
+
+class VendorAdminListView(LoginRequiredMixin, FilteredListView):
     model = Vendor
     template_name = 'ict_vendors/vendor_admin.html'
-    paginate_by = 15
+    filterset_class = VendorFilter
+    paginate_by = 10
     context_object_name = 'vendors'
     
-    def get_context_data(self,*args,**kwargs):
-        context = super(VendorAdminListView, self).get_context_data(*args, **kwargs)
-        context['total_vendors'] = Vendor.objects.all().count()
-        return context
 
 class VendorDetailView(LoginRequiredMixin,DetailView):
     model = Vendor

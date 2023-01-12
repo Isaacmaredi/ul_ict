@@ -12,24 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# print('OUR BASE DIRECTORY IS: ',BASE_DIR, 'INDEED')
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-siv4ss2lf2b)-@#lu9!))wqi$1(5t=oz&ldg)_mf)4og8mozk3'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
-
-# ALLOWED_HOSTS = []
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -95,8 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ict_main.wsgi.application'
 
-
-# Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
@@ -121,7 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
-            'min_length':8,
+            'min_length':8
         }
     },
     {
@@ -136,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LOGIN_REDIRECT_URL = 'ict_licenses:license-list'
+LOGIN_REDIRECT_URL = 'ict_dash:dashboard'
 LOGIN_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
@@ -148,9 +129,6 @@ USE_I18N = True
 
 USE_L10N = True
 DECIMAL_SEPARATOR = '.'
-# USE_THOUSAND_SEPARATOR = True
-# THOUSAND_SEPARATOR = ' '
-# NUMBER_GROUPING = 3
 
 USE_TZ = True
 
@@ -166,7 +144,7 @@ STATIC_ROOT = BASE_DIR /'static'
 
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR /'media'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Default primary key field type
@@ -180,7 +158,7 @@ try:
 except ImportError:
     pass
 print('='*40)
-print ('SECRET KEY IS : ', SECRET_KEY)
+print ('SECRET KEY IS - true local settings  : ', SECRET_KEY)
 print('='*40) 
 print('DEBUG BOOLEAN VALUE IS ', DEBUG)
 print('='*40)

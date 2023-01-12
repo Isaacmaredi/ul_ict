@@ -3,7 +3,7 @@ from django import template
 register = template.Library()  
 
 @register.simple_tag
-def contracts_url(value, field_name, urlencode=None):
+def vendors_url(value, field_name, urlencode=None):
     url = '?{}={}'.format(field_name, value)
     
     if urlencode:
