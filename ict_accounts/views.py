@@ -60,9 +60,6 @@ def register(request):
             messages.success(request, f'Thank you for registering. A verification email has been sent to your email address {to_email}. Please check and verify it.')
             return redirect('/?command=verification&email='+email)
             
-        else:
-            messages.error(request, "Please rectify the errors below")
-            
         
     else:
         form = RegistrationForm()
@@ -98,18 +95,16 @@ def login_view(request):
         if user is not None:
             auth.login(request, user)
             print(user, 'USER IS LOGGED IN ')
-            messages.success(request, f'Welcome, {user.first_name}. Please find time to update your profile if not done yet!')
+            messages.success(request, f'Welcome, {user.first_name}. Please find some time to update your profile if not done yet!')
             return redirect('ict_dash:dashboard')
         else:
             messages.error(request, 'Invalid credentials')
-            print('WRONG CREDENTIALS ')
             return redirect('ict_accounts:login')
     else:
         return render(request, 'ict_accounts/login.html')
 
 def logout_view(request): 
     auth.logout(request)
-    messages.success(request, 'You are now logged out')
     return redirect ('ict_accounts:login')
         
     
@@ -164,15 +159,6 @@ def reset_password_validate(request, uidb64, token):
     else:
         messages.error(request, 'This link has expired. Please run forgot password again!')
         return redirect('ict_accounts:login')
-
-# class MyPasswordResetView(PasswordResetView):
-#     template_name = 'ict_accounts/reset_password.html'
-#     success_url = reverse_lazy('ict_accounts:login')
-    
-#     def form_valid(self, form):
-#         form.save()
-#         messages.success('Password reset was done successfully')
-#         return super().form_valid(form)
     
 
 def reset_password(request):
