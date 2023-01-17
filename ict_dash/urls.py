@@ -6,4 +6,5 @@ app_name = 'ict_dash'
 
 urlpatterns =[
     path('dashboard/', views.dash, name='dashboard'),
+    path('dash/', views.ContractValueView.as_view(), name='dash'),
 ]

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
-{% load profile_extras %}
+{% load profile_extras %}  
 
 {% block title %} | User Profiles {% endblock title %}
 
@@ -9,7 +9,7 @@
 	<div class="">    
 		<div class="page-title">
 			<div class="title_left">
-				<h3 >List User Profiles &nbsp;&nbsp;&nbsp; <span class="badge badge-info"> Total:&nbsp;&nbsp; {{total_users}}</span> </h3>
+				<h3 >User Profiles &nbsp;&nbsp;&nbsp; <span class="badge badge-info"> Total:&nbsp;&nbsp; {{total_users}}</span> </h3>
 			</div>
 			<div class="title_right">
 				<div class="col-md-5 col-sm-5   form-group pull-right top_search">
@@ -31,8 +31,9 @@
 			<div class="x_panel">
 				<div class="x_content">
 						<div class="col-md-12 col-sm-12  text-center">	
+							<h4 class="text-info " style="margin-top: 0">Search and Filters</h4>
 							<div class="jumbotron" style="padding-top:2px; padding-bottom:2px">
-
+								
 								<form class="form-label-left input_mask">
 					
 									<form class="form-label-left input_mask" method="GET">

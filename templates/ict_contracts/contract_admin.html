@@ -16,7 +16,7 @@
 <div class="page-title " style="padding-bottom:1px;">
     
 	<div class="title_left">
-        <h3 >List of ICT Contracts &nbsp;&nbsp;&nbsp; <span class="badge badge-info"> Total:&nbsp;&nbsp; {{total_contracts}}</span> </h3>
+        <h3 >ICT Contracts &nbsp;&nbsp;&nbsp; <span class="badge badge-info"> Total:&nbsp;&nbsp; {{total_contracts}}</span> </h3>
 		
 	</div>  
 	<div class="title_right">
@@ -45,8 +45,9 @@
 
 	<div class="row">
 		 
-		<div class="x_panel">
-			
+		<div class="x_panel" style="padding-top:2px; padding-bottom:3px">
+		<div class="col-md-12 sm-12 text-center">
+			<h4 class="text-info " style="margin-top: 0">Search and Filters</h4>
 		<div class="jumbotron" style="padding-top:2px; padding-bottom:2px">
 
 			<form class="form-label-left input_mask">
@@ -83,6 +84,7 @@
 
 				</form>
 			</div>
+		</div>
 			<a href="{% url 'ict_contracts:contract-add' %}" class="btn btn-dark bg-dark btn-sm" style="padding-bottom:3px">
 				ADD CONTRACT &nbsp;
 				<i class="fa fa-plus"></i>

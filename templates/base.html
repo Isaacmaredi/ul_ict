@@ -28,8 +28,13 @@
 <!-- bootstrap-daterangepicker -->
 <link href="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.css' %}"  rel="stylesheet">
 
+
 <!-- Custom Theme Style -->
 <link href="{% static 'build/css/custom.min.css' %}"  rel="stylesheet">
+
+<!--ChartJS CDN-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/chart.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
 
 <script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous"></script>
 </head>
@@ -39,9 +44,11 @@
     <div class="main_container" >
         {% include 'partials/_topnav.html' %}
         {% include 'partials/_sidenav.html' %}
-        {% block content %}{% endblock content %}
 
+        {% block content %}
         
+        {% endblock content %}   
+
     </div>
     <footer class="footer-fixed">
         <div class="pull-center">
@@ -55,6 +62,10 @@
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
         })
     </script>
+    <!--CahrtJs-->
+
+    <!-- <script src="https://cdnjs.com/libraries/Chart.js"></script> -->
+
     <!-- jQuery -->
     <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
     <!-- Bootstrap -->
@@ -64,7 +75,7 @@
     <!-- NProgress -->
     <script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
     <!-- Chart.js -->
-    <script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script>
+    <!-- <script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script> -->
     <!-- gauge.js -->
     <script src="{% static 'vendors/gauge.js/dist/gauge.min.js' %}"></script>
     <!-- bootstrap-progressbar -->
@@ -93,7 +104,7 @@
     <script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
     <script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
     <!-- Chart.js -->
-    <script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script>
+    <!-- <script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script> -->
     <!-- jQuery Sparklines -->
     <script src="{% static 'vendors/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
     <!-- morris.js -->

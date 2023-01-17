@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{%load static %}
+
+{% block title %}
+    Dashboard
+{% endblock title %}
+
+
+
+{% block content %}
+
+  <!-- page content -->
+   <!-- page content -->
+   <div class="right_col" role="main">
+    <div class="">
+      
+
+      <div class="clearfix"></div>
+
+      <div class="row">
+        {% for license in profiles.licenses.all %}
+        <strong class="text-primary">{{license.owner}} - {{license.name}} expires on {{license.next_renewal_date}}<br>
+            
+        {% endfor %}
+      </div>
+      <div class="clearfix"></div>
+      <br />
+    </div>
+  </div>
+  <!-- /page content -->
+
+
+  <!-- /page content -->
+{% endblock content %}
+
+
+
+
+
+

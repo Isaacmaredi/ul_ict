@@ -3,9 +3,41 @@
 
 {% block title %}
 Dashboard
-{% endblock title %}
+{% endblock title %}  
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/chart.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+
+{% block scripts %}
+
+<script>
+    const ctx = document.getElementById('myChart');
+    
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+        labels: [{%for item in contract_name_list %}'{{item}}',{%endfor%}]
+        datasets: [{
+            label: '# of Votes',
+            data: ['{{contract_value_list}}'],
+            borderWidth: 1
+        }]
+        },
+        options: {
+        scales: {
+            y: {
+            beginAtZero: true
+            }
+        }
+        }
+    });
+    </script>
+
+{% endblock scripts %}
+
 
 {% block content %}
+
 
 <!-- page content -->
 <div class="right_col" role="main">
@@ -18,19 +50,19 @@ Dashboard
     </div>
 
     <div class="clearfix"></div>
-    {% include 'partials/_alerts.html' %}
+
     <div class="row">
         <div class="col-md-12">
         <div class="x_panel">
             
             <div class="x_content">
-
+                {% include 'partials/_alerts.html' %}
             <div class="row">
                 
 
 
                 <div class="col-md-3">
-               
+            
                 <div class="thumbnail">
                     
                     <div class="image view view-first">
@@ -52,8 +84,7 @@ Dashboard
                     </a>
                     
                     </div>
-                
-               
+
                 </div>
                 <div class="col-md-3">
                 <div class="thumbnail">
@@ -114,34 +145,33 @@ Dashboard
                 </a>
                 </div>
                 </div>
-                <!-- <div class="col-md-3">
-                <div class="thumbnail">
-                    <div class="image view view-first">
-                    <img style="width: 100%; display: block;" src="{% static 'images/media.jpg' %}" alt="image" />
-                    <div class="mask no-caption">
-                        <div class="tools tools-bottom">
-                            <a href="{% url 'ict_profiles:profile-list' %}"><i class="fa fa-eye text-warning">&nbsp;View User Profiles</i>  </a>
-                        </div>
-                    </div>
-                    </div>
-                <a href="{% url 'ict_profiles:profile-list' %}">
-                    <div class="caption">
-                        <p><strong style="color:darkred">{{num_users}}</strong>
-                        </p>
-                        <p><strong class="text-primary">Users</strong></p>
-                    </div>
-                </a>
+            
+            </div>
+
+
+            </div>
+
+            <!--Start top leyer graphs-->
+            <div class="x_panel">
+
+                <div class="x_content">
+            <div class="row">
+
+                <canvas id="myChart" ></canvas>
+    
+            </div>
+
                     
                 </div>
-                </div> -->
             </div>
-            </div>
+        
+        
         </div>
         </div>
     </div>
     </div>
 </div>
 <!-- /page content -->
-
+<canvas id="myChart"></canvas>
 
 {% endblock content %}

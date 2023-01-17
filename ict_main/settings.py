@@ -22,13 +22,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    #Python/Django packages
+    #Python/Django libraries/packages
     'crispy_forms',  
     'django_extensions',
     'django_filters',
     'bootstrapform',
     'mathfilters',
     'debug_toolbar',
+    'celery',
+    'django_celery_results',
     # 'admin_honeypot',
     #Custom Apps
     'ict_accounts',
@@ -37,8 +39,8 @@ INSTALLED_APPS = [
     'ict_licenses',
     'ict_profiles',
     'ict_projects',
-    'ict_vendors',  
-    
+    'ict_vendors', 
+    'ict_tasks', 
 ]
 
 MIDDLEWARE = [
@@ -102,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
-            'min_length':8
+            'min_length':8,
         }
     },
     {
@@ -133,6 +135,17 @@ DECIMAL_SEPARATOR = '.'
 USE_TZ = True
 
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Django Celery variables and settings 
+CELERY_TIMEZONE = "Africa/Johannesburg"
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_CACHE_BACKEND  = 'django-db'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -150,15 +163,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 #Local Settings file
 try:
     from .local_settings import *
 except ImportError:
     pass
-print('='*40)
-print ('SECRET KEY IS - true local settings  : ', SECRET_KEY)
-print('='*40) 
-print('DEBUG BOOLEAN VALUE IS ', DEBUG)
-print('='*40)
+# print('='*40)
+# print ('SECRET KEY IS - obtained from local settings  : ', SECRET_KEY)
+# print('='*40) 
+# print('DEBUG BOOLEAN VALUE IS ', DEBUG)
+# print('='*40)

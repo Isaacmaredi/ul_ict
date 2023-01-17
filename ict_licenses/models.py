@@ -80,7 +80,7 @@ class License(models.Model):
                                         choices=RENEWAL_TERM_CHOICES)
     pricing_model = models.CharField(verbose_name="Pricing Model" ,max_length=200, 
                                         choices=PRICING_MODEL_CHOICES)
-    start_date = models.DateField(verbose_name="Inception Date", null=True, blank=True)
+    start_date = models.DateTimeField(verbose_name="Inception Date", null=True, blank=True)
     next_renewal_date = models.DateField(verbose_name="Next Renewal Date" ,blank=True, 
                                             null=True, editable=False)
     current_cost = models.DecimalField(default=Decimal('0.0'), decimal_places=2,

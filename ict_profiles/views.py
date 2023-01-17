@@ -31,14 +31,14 @@ class ProfileListView(LoginRequiredMixin, FilteredListView):
     context_object_name = 'profiles'
     filterset_class = ProfileFilter
 
-    paginate_by = 3
+    paginate_by = 6
     template_name = 'ict_profiles/profile_list.html'    
 
 class ProfileAdminListView(LoginRequiredMixin, ListView):
     model = Profile
     context_object_name = 'profiles_admin'
     template_name = 'ict_profiles/profile_admin.html'
-    paginate_by = 10
+    paginate_by = 6
 
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):

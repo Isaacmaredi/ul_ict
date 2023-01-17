@@ -12,6 +12,6 @@ class VendorFilter(FilterSet):
     def __init__(self,*args,**kwargs):
         super(VendorFilter, self).__init__(*args,**kwargs)
         
-        self.filters['name'].label ="Filter by Vendor Name"
+        self.filters['name'].label ="Search by Vendor Name"
         self.filters['location_footprint'].label ="Filter by Vendor Footprint"
         self.filters['supplier_channel'].label = "Filter by Supplier Channel"

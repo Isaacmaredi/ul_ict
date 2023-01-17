@@ -15,7 +15,7 @@
 		<div class="page-title">
 			
 			<div class="title_left">
-				<h3>List of Software Licenses&nbsp;&nbsp;&nbsp; <span class="badge badge-info"> Total: &nbsp;&nbsp; {{total_licenses}} </span></h3>	
+				<h3>Software Licenses&nbsp;&nbsp;&nbsp; <span class="badge badge-info"> Total: &nbsp;&nbsp; {{total_licenses}} </span></h3>	
 			</div>
 			<div class="title_right">
 				<div class="col-md-5 col-sm-5   form-group pull-right top_search">
@@ -39,55 +39,41 @@
 				<div class="x_content">
 					<div class="row">  
 				
-						<div class="x_panel " style="padding-top:2px; padding-bottom:2px">
-							{% include 'partials/_alerts.html' %}
-							<div class="jumbotron" style="padding-top:2px; padding-bottom:2px">
+					<div class="x_panel " style="padding-top:2px; padding-bottom:2px">
+						<div class="col-md-12 sm-12 text-center">	
+							<h4 class="text-info " style="margin-top: 0">Search and Filters</h4>					
+							<div class="jumbotron" style="padding-top:2px; padding-bottom:2px">						
 								<form class="form-label-left input_mask" metho="GET">
-
-									<div class="col-md-3 col-sm-6  form-group has-feedback">
-										
-										{{form.name|as_crispy_field}}
-							
+									<div class="col-md-3 col-sm-6  form-group has-feedback">								
+										{{form.name|as_crispy_field}}							
 									</div>
-
 									<div class="col-md-2 col-sm-6  form-group has-feedback">
 										{{form.owner|as_crispy_field}}
 									</div>
-
 									<div class="col-md-3 col-sm-6  form-group has-feedback">
 										{{form.software_category|as_crispy_field}}
 									</div>
 									<div class="col-md-2 col-sm-6  form-group has-feedback">
 										{{form.status|as_crispy_field}}
-									</div>
-									
-									
-									
-				
+									</div>		
 									<div class="ln_solid"></div>
 									<div class="form-group pull-right top_search">
-										<div class="col-md-2 col-sm-6  offset-md-1">
-										
+										<div class="col-md-2 col-sm-6  offset-md-1">									
 										<span class="input-group-btn">
 											<button type="submit" class="btn btn-info text-white">Search/Filter...</button>
-										</span>
-											
+										</span>											
 										</div>
 									</div>
-
 								</form>
-
 							</div>
-								
-						</div>	
-						
+						</div>							
+						</div>						
 				<div class="card-box table-responsive"> 
 						<!-- start project list -->
 						<table class="table projects table-bordered">
 							<thead>
 								<tr>
-									<th style="width:2%">No. #</th>
-								
+									<th style="width:2%">No. #</th>					
 									<th style="width:15%" > License Name</th>
 									<th style="width:20%" >Contract</th>
 									
@@ -99,43 +85,30 @@
 								</tr>
 								{% for license in licenses %}
 								<tr>
-									<td>{{forloop.counter}} </td>
-							
+									<td>{{forloop.counter}} </td>					
 									<td> <a href="{% url 'ict_licenses:license-detail' license.id %}"  >{{license.name}} </a></td>
-									
-									<td>{{license.contract}}</td>
-									
+									<td>{{license.contract}}</td>								
 									<td class="vertical-align-mid" style="width:25%" >
 									<div class="progress"> 
 										{% if license.days_till_renewal > 180 %}
 											<div class="progress-bar progress-bar-success" data-transitiongoal="100">      
-										<strong>Ok! &nbsp;&nbsp;&nbsp;&nbsp;Renewal due in {{license.next_renewal_date|timeuntil}}</strong>
-												
+										<strong>Ok! &nbsp;&nbsp;&nbsp;&nbsp;Renewal due in {{license.next_renewal_date|timeuntil}}</strong>										
 											</div>
-
 										{% elif license.days_till_renewal < 180  and license.days_till_renewal > 90 %}
 											<div class="progress-bar progress-bar-primary" data-transitiongoal="100">
 												<strong>Attention! &nbsp;&nbsp;&nbsp;&nbsp;Renewal due in {{license.next_renewal_date|timeuntil}} 
 											</div>
 										{% elif license.days_till_renewal < 90 and license.days_till_renewal >= 0 %}
-
 											<div class="progress-bar progress-bar-warning" data-transitiongoal="100">
 												<strong>Last Warning! &nbsp;&nbsp;&nbsp;&nbsp; Renewal due in {{license.next_renewal_date|timeuntil}} </strong> 
-
 											</div>
 										{% else %}
 											<div class="progress-bar progress-bar-danger" data-transitiongoal="100">
 												<strong>Overdue! &nbsp;&nbsp;&nbsp;&nbsp; Renewal overdue by {{license.next_renewal_date|timesince}} </strong> 				
 											</div>
-
 										{% endif %}
-									</div>    
-								
-									</td>
-									<!-- <td style="width:15%">
-										{{license.next_renewal_date|timeuntil}}
-									</td> -->
-									
+									</div>    							
+									</td>									
 									<td>{{license.start_date}}</td>
 									<td>{{license.next_renewal_date}}</td>
 									<td style="width:15%">
@@ -147,13 +120,10 @@
 									{% empty %} 
 								<tr>
 									<th colspan="8" class="text-center">No licenses recorded yet!</th colspan="8">
-								</tr> 
-			
+								</tr> 			
 						{% endfor %}
 							</tbody>
 						</table>
-					<!-- end project list -->
-				<!-- Pagination Section -->
 						<div class="row">
 							<div class="col-md-12" justify-content-right>
 								{% if page_obj.has_other_pages %}
@@ -161,8 +131,7 @@
 									{% if page_obj.has_previous %}
 									<li class="page-item">
 										<a href="{% licenses_url page_obj.previous_page_number 'page' request.GET.urlencode %}" class="page-link">Previous</a>
-									</li>
-								
+									</li>							
 									{% else %}
 									<li class="page-item disabled">
 										<a class="page-link">Previous</a>
@@ -192,8 +161,6 @@
 								{% endif %}
 							</div>
 						</div>
-						<!--End pagination -->
-
 				</div>
 				</div>
 			</div>
