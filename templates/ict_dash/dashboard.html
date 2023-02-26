@@ -81,22 +81,33 @@ Dashboard
                 <div class="x_content">
             <div class="row ">
                <div class="col-md-6 sm-12">
-                
-                {{div|safe}}
+                {% if num_contracts == 0 %}
+                    <h2> Data not available! Graph will show once data has been captured. </h2>       
+                {% else %}
+                    {{div|safe}}
+                {% endif %}
                </div>
-               <div class="col-md-6 sm-12">             
-                {{div2|safe}}
+               <div class="col-md-6 sm-12"> 
+                {% if num_licenses == 0 %}
+                    <h2> Data not available! Graph will show once data has been captured. </h2>       
+                {% else %}            
+                    {{div2|safe}}
+                {% endif %}
                </div>  
             </div>
 
             <div class="row p-5">
                 <div class="col-md-6 sm-12">
+                    {% if num_contracts == 0 %}
+                        <h2> Data not available! Graph will show once data has been captured. </h2>       
+                    {% else %}
                     {{div3|safe}}
+                    {% endif %}
                 </div>
 
                 <div class="col-md-6 sm-12">
                     {% if num_projects == 0 %}
-                        <h3> No projects recorded in database! </h3>       
+                        <h2> Data not available! Graph will show once data has been captured. </h2>       
                     {% else %}
                         {{div4|safe}}
                     {% endif %}
