@@ -58,13 +58,6 @@ class Project(models.Model):
     def __str__(self):
         return self.name
     
-    # @property
-    # def amount_outstanding(self):
-    #     milestone_total = Project.objects.annotate( total = Sum('milestones__amount'))
-    #     if self.amount_outstanding == 0:
-    #         return self.total_cost - milestone_total
-    #     else:
-    #         return self.pramount_outstanding - self.milestone_total
     
     def get_absolute_url(self,**kwargs):
         return reverse('ict_projects:project-list')

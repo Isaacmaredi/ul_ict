@@ -1,15 +1,10 @@
+from datetime import date, timedelta
 from django.db import models
-
-# Create your models here.
-from django.db import models
-from decimal import Decimal
 from django.urls import reverse
 from ict_contracts.models import Contract
-from ict_accounts.models import Account, Profile
-from ict_vendors.models import Vendor
 
-from datetime import datetime, date, timedelta
-from django.utils import timezone
+from ict_vendors import Vendor
+from ict_accounts import Profile
 from decimal import Decimal
 
 LICENSE_SERVICE_CHOICES = [
@@ -64,11 +59,11 @@ PRICING_MODEL_CHOICES = [
     ('Minutes & Storage','Minutes & Storage'),
 ]
 
-class License(models.Model):
+class TestLicense(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()  
     contract = models.ForeignKey(Contract,on_delete=models.DO_NOTHING, null=True, blank=True, 
-                                    related_name='licenses')
+                                    related_name='testlicenses')
     software_category = models.CharField(verbose_name="Software Category", max_length=250, 
                                             choices=SOFTWARE_CATEGORY_CHOICES)
     renewal_term = models.CharField(verbose_name="Renewal Term", max_length=250, 
@@ -82,7 +77,7 @@ class License(models.Model):
                                         max_digits=10, verbose_name="Current Cost")
     is_renewed = models.BooleanField(verbose_name="Renew License", default=False)
     service_provider = models.ForeignKey(Vendor, verbose_name="Service Provider", 
-                                            on_delete=models.CASCADE, related_name='licenses')
+                                            on_delete=models.CASCADE, related_name='testlicenses')
     user_base = models.CharField(verbose_name="User Base" ,max_length=250, 
                                     choices=USER_BASE_CHOICES)
     num_admin_users = models.PositiveIntegerField(verbose_name="Number of Admin Users", 
@@ -91,14 +86,16 @@ class License(models.Model):
                                                 null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True) 
-    owner = models.ForeignKey(Profile, on_delete=models.DO_NOTHING, related_name='licenses')
+    owner = models.ForeignKey(Profile, on_delete=models.DO_NOTHING, related_name='testlicenses')
     is_closed = models.BooleanField(default=False)
-
+    
+    
     def __str__(self):
         return self.name
- 
-    # class Meta:
-    #     ordering = ('-current_cost',)
+    
+    
+    class Meta:
+        ordering = ('-created',)
         
     def get_absolute_url(self):
         return reverse ('ict_licenses:license-detail', kwargs={'pk':self.pk})
@@ -107,14 +104,15 @@ class License(models.Model):
         renewal_delta = timedelta(days=365)
         if self.start_date:
             self.next_renewal_date = self.start_date + renewal_delta
-        super(License,self).save(*args, **kwargs)
+        super(TestLicense,self).save(*args, **kwargs)
         
     def update(self, *args, **kwargs):
         renewal_delta = timedelta(days=365)
         if self.renewal:
             self.next_renewal_date = self.start_date + renewal_delta
-        super(License, self).update(*args, **kwargs)
-                   
+        super(TestLicense, self).update(*args, **kwargs)
+            
+        
     @property
     def days_till_renewal(self):
         today = date.today()
@@ -124,8 +122,8 @@ class License(models.Model):
         return int_days_until  
     
 class Renewal(models.Model):
-    license = models.ForeignKey(License, on_delete=models.DO_NOTHING, related_name='renewals')
-    renewal_date = models.DateField()
+    license = models.ForeignKey(TestLicense, on_delete=models.DO_NOTHING, related_name='renewals')
+    renewal_start_date = models.DateField()
     amount = models.DecimalField(default=Decimal(0.0), max_digits=8, decimal_places=2)
     is_paid = models.BooleanField(default=False)
     # renewal_count = models.IntegerField(default=0, verbose_name='Renewal Count')

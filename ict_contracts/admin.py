@@ -1,6 +1,6 @@
 from django.contrib import admin
-
-from .models import Contract
+  
+from .models import Contract  
 
 @admin.register(Contract)
 class ContractAdmin(admin.ModelAdmin):
@@ -9,3 +9,8 @@ class ContractAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change,):
         obj.created_by = request.user
         super().save_model(request, obj, form, change)
+    
+    list_per_page = 15
+    list_filter = ('owner',)
+  
+  

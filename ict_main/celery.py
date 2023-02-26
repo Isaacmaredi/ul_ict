@@ -27,6 +27,6 @@ def debug_task(self):
 app.conf.beat_schedule = {
     'send-email-every-single-minute': {
         'task': 'ict_tasks.tasks.license_renewal_notify',
-        'schedule': crontab(hour = 14, minute = 5),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight 
+        'schedule': crontab(hour = 23, minute = 18),  # change to `crontab(minute=0, hour=0)` if you want it to run daily at midnight 
     },
 }

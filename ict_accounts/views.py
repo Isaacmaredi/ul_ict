@@ -6,7 +6,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView
+from django.contrib.auth.views import PasswordChangeView, PasswordChangeDoneView, PasswordResetView
 
 # User activation
 from django.contrib.sites.shortcuts import get_current_site
@@ -173,6 +173,10 @@ def reset_password(request):
             user.save()
             messages.success(request, 'Password reset successful')
             return redirect('ict_accounts:login')
+        elif len(password)<8:
+            print(len(password))
+            messages.error(request,'Password is too short! Must be 8 characters or more.')
+            return render(request, 'ict_accounts/reset_password.html')
         else:
             messages.error(request, 'Passwords did not match!')
             return redirect('ict_accounts:reset-password')

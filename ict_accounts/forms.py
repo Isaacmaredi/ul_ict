@@ -34,6 +34,13 @@ class RegistrationForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Passwords do not match!"
             )
+    
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if Account.objects.filter(username=username).exists():
+            raise forms.ValidationError('Username already exists. Please contact admin for unique account name')
+        return username
 
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)

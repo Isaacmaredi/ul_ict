@@ -2,7 +2,7 @@ from django.urls import path
 from django.contrib.auth.views import LoginView
 from .views import (ProfileListView, ProfileDetailView,
                     ProfileCreateView, ProfileUpdateView,ProfileDeleteView,
-                    ProfileAdminListView, ProfileAdminDetailView, MyProfileView
+                    ProfileAdminListView, ProfileAdminDetailView, MyProfileView, license_notify
                     )
 
 from django.contrib.auth.decorators import login_required
@@ -18,4 +18,5 @@ urlpatterns = [
     path('profile_add/', ProfileCreateView.as_view(), name='profile-add'),
     path('profile_update/<int:pk>/', ProfileUpdateView.as_view(), name='profile-update'),
     path('profile_delete/<int:pk>/', ProfileDeleteView.as_view(), name='profile-delete'),
+    path('license_notify/', license_notify, name='license-notify')
 ]

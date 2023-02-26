@@ -34,12 +34,13 @@
                         <h2>Please take note of the mandatory fields </h2>
                         <ul class="nav navbar-right panel_toolbox">
                             
-                        
+                          
                         </ul>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content">
+                    <div class="x_content mx-auto" >
                         <br />
+                        <div class="jumbotron mx-auto"> 
                         <form method="POST" enctype="multipart/form-data" action="">
                             {% csrf_token %}  
                     
@@ -51,14 +52,16 @@
                                     <div class="form-group">
                                         {{ form.current_cost|as_crispy_field}}
                                     </div>
-                                                                                            
+                                    <div class="form-group">
+                                        {{form.service_provider|as_crispy_field}}
+                                    </div>
+                                    <div class="form-group mt-4 text-success"> 
+                                        {{form.is_renewed|as_crispy_field}}                           
+                                    </div>  
+                                                                                               
                                 </div>  
-                                <div class="form-group">
-                                    {{form.service_provider|as_crispy_field}}
-                                </div>
-                                <div class="form-group"> 
-                                    {{form.renewal|as_crispy_field}}                           
-                                </div>         
+                                
+                                       
                                 </div>   
                                 <hr>
                                 <br>
@@ -66,13 +69,15 @@
                                 <div class="ln_solid"></div>
                                 <div class="form-group row btn-inline">
                                     <div class="col-md-12 col-sm-12 offset-md-12">
-                                        <a href="{% url 'ict_licenses:license-admin'%} " class="btn btn-primary" type="button">Cancel</a>
+                                        <a href="{% url 'ict_licenses:license-admin-detail' license.id %} " class="btn btn-primary" type="button">Cancel</a>
                                         <button class="btn btn-warning" type="reset">Reset</button>
                                         <button type="submit" class="btn btn-success">Submit </button>
                                     </div>
                                 </div>
+                            </form>
                             </div>
-                        </form>
+                        
+                    </div>
                     </div>
                 </div>
             </div>

@@ -21,7 +21,7 @@ AGREEMENT_TYPE_CHOICES = [
     ('Subscription Agreement','Subscription Agreement'),
     ('Pay-per-Use','Pay-per-Use'),
 ]
-# Create your models here.
+# Create your models here.  
 class Contract(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
@@ -50,16 +50,11 @@ class Contract(models.Model):
         return self.name
     
     class Meta:
-        ordering = ('-uploaded',)
+        ordering = ('-total_value',)
         
         
     def get_absolute_url(self):
         return reverse ('ict_contracts:contract-admin-detail', kwargs={'pk':self.pk})
-    
-    # def save(self, *args, **kwargs):
-    #     if not self.created_by:
-    #         self.created_by = self.get_current_user()
-    #     super().save(*args, **kwargs)
     
     @property
     def duration(self):

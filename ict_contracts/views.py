@@ -37,7 +37,7 @@ class ContractListView(LoginRequiredMixin ,FilteredListView):
     template_name = 'ict_contracts/contract_list.html'
     filterset_class = ContractFilter
     context_object_name = 'contracts'
-    paginate_by = 5
+    paginate_by = 6
     
     def get_context_data(self, *args, **kwargs):
         context= super(ContractListView, self).get_context_data(*args, **kwargs)
@@ -137,15 +137,19 @@ class ContractAdminDetailView(LoginRequiredMixin,DetailView):
 
 class ContractCreateView(LoginRequiredMixin, CreateView):
     form_class = ContractCreateForm
-    model = Contract
+    model = Contract 
     
     def form_valid(self, form):
-        form.instance.created_by_id = self.request.user.id
-        print('$'* 25)
-        print('CREATED ID: ',self.created_by)
-        print('USER ID', self.request.user.id)
-        print('$'* 25)
+        form.instance.created_by = self.request.user
         return super().form_valid(form)
+    
+# class ContractCreateView(LoginRequiredMixin, CreateView):
+#     form_class = ContractCreateForm
+#     model = Contract 
+    
+#     def form_valid(self, form):
+#         form.instance.created_by = self.request.user
+#         return super().form_valid(form)
 
 class ContractUpdateView(LoginRequiredMixin, UpdateView):
     model = Contract

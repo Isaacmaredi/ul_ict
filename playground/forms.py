@@ -4,7 +4,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.bootstrap import FormActions
 from crispy_forms.layout import Layout, Submit, Row, Column, Button
 
-from .models import License
+from .models import License, Renewal
  
 class DateInput(forms.DateInput):
     input_type = 'date'

@@ -45,3 +45,6 @@ class LicenseFilter(django_filters.FilterSet):
         self.filters['name'].label="Type License Name"
         self.filters['owner'].label="Select License Owner"
         self.filters['software_category'].label="Filter by Software Category"
+        self.filters['name'].lookup_expr = 'icontains'
+        self.filters['name'].auto_complete = True
+        

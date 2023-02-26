@@ -1,11 +1,15 @@
+from django.conf import settings
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (ListView, DetailView, CreateView, 
                                 UpdateView, DeleteView)
 from ict_accounts.models import Profile
+from ict_licenses.models import License
 from .forms import ProfileCreateForm
 from .filters import ProfileFilter
+
 # Create your views here.
 class FilteredListView(ListView):
     
@@ -32,6 +36,7 @@ class ProfileListView(LoginRequiredMixin, FilteredListView):
     filterset_class = ProfileFilter
 
     paginate_by = 6
+
     template_name = 'ict_profiles/profile_list.html'    
 
 class ProfileAdminListView(LoginRequiredMixin, ListView):
@@ -103,3 +108,35 @@ class MyProfileView(LoginRequiredMixin,UserPassesTestMixin,DetailView):
 class ProfileDeleteView(LoginRequiredMixin, DeleteView):
     pass
 
+def license_notify(request):
+    profiles = Profile.objects.all()
+            
+    # for profile in profiles:
+    #     if profile.licenses:
+    #         for license in profile.licenses.all():
+    #             from_email = settings.EMAIL_HOST_USER
+    #             to_email = license.owner.user.email
+    #             subject = "Notification! Software License Renewal Due"
+    #             if license.days_till_renewal <=180:         
+    #                 if license.days_till_renewal > 90:
+    #                     message = 'Alert! Due date for {} license renewal is in less than 6 months.  Renewal date is on {}'.format(license.name, license.next_renewal_date) 
+    #                 elif license.days_till_renewal <= 90 and license.days_till_renewal > 0: 
+    #                     message = 'Warning! Due date for {} license renewal is in less than 6 months.  Renewal date is on {}'.format(license.name, license.next_renewal_date) 
+    #                 else:
+    #                     message = 'Critical! The {} license renewal overdue.  The renewal date was on {}'.format(license.name, license.next_renewal_date) 
+    #                 print(message) 
+    #             send_mail(
+    #                 subject,
+    #                 message,
+    #                 from_email,
+    #                 [to_email],
+    #                 fail_silently = True                      
+    #              )             
+                
+            
+    context = {
+        'profiles':profiles,
+       
+    }
+    
+    return render(request, 'ict_profiles/notify.html',context)

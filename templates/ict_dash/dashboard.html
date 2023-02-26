@@ -5,173 +5,110 @@
 Dashboard
 {% endblock title %}  
 
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/chart.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
 
-{% block scripts %}
-
-<script>
-    const ctx = document.getElementById('myChart');
-    
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-        labels: [{%for item in contract_name_list %}'{{item}}',{%endfor%}]
-        datasets: [{
-            label: '# of Votes',
-            data: ['{{contract_value_list}}'],
-            borderWidth: 1
-        }]
-        },
-        options: {
-        scales: {
-            y: {
-            beginAtZero: true
-            }
-        }
-        }
-    });
-    </script>
-
-{% endblock scripts %}
-
+<!-- <style>
+    .verticalLine {
+        height: 300px;
+        border-right: 1px solid #000900;
+        position: absolute;
+        right: 50%;
+    }
+</style> -->
 
 {% block content %}
-
-
 <!-- page content -->
 <div class="right_col" role="main">
     <div class="">
     <div class="page-title">
         <div class="title_left">
         <h3> ICT Portfolio Dashboard  </h3>
-        </div>
-    
+        </div>    
     </div>
-
     <div class="clearfix"></div>
-
     <div class="row">
         <div class="col-md-12">
-        <div class="x_panel">
-            
+        <div class="x_panel">          
             <div class="x_content">
                 {% include 'partials/_alerts.html' %}
             <div class="row">
-                
 
-
-                <div class="col-md-3">
-            
-                <div class="thumbnail">
-                    
-                    <div class="image view view-first">
-                    <img style="width: 100%; display: block;" src="{% static 'images/contracts.png' %}" alt="image" />
-                    <div class="mask no-caption">
-                        <div class="tools tools-bottom">
-                        
-                            <a href="{% url 'ict_contracts:contract-list' %}"><i class="fa fa-eye text-warning">&nbsp;View Contracts</i>  </a>
-                        </div>
-                    </div>
-                    </div>
+                <div class="col-md-3">                  
                     <a href="{% url 'ict_contracts:contract-list' %} ">
                         <div class="caption">
 
-                        <div style="color:darkred;font-size:xx-large;font-weight:bolder">{{num_contracts}}
+                        <div style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">{{num_contracts}}
                         </div>
                         <p class="text-primary"><strong>ICT Contracts</strong>  </p>
                         </div>
                     </a>
-                    
-                    </div>
-
                 </div>
-                <div class="col-md-3">
-                <div class="thumbnail">
-                    <div class="image view view-first">
-                    <img style="width: 100%; display: block;" src="{% static 'images/licenses.png' %}" alt="image" />
-                    <div class="mask no-caption">
-                        <div class="tools tools-bottom">
-                            <a href="{% url 'ict_licenses:license-list' %}"><i class="fa fa-eye text-warning">&nbsp; View Licenses</i>  </a>
-                        </div>
-                    </div>
-                    </div>
+                <div class="col-md-3">              
                 <a href="{% url 'ict_licenses:license-list' %}">
                     <div class="caption">
-                        <div style="color:darkred;font-size:xx-large;font-weight:bolder">{{num_licenses}} 
+                        <div style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">{{num_licenses}} 
                         </div>
                         <p class="text-primary "> <strong>Software Licenses</strong> </p>
                         </div>
-                </a>
-                    
+                </a>             
                 </div>
-                </div>
-                <div class="col-md-3">
-                <div class="thumbnail">
-                    <div class="image view view-first">
-                    <img style="width: 100%; display: block;" src="{% static 'images/projects.png' %}" alt="image" />
-                    <div class="mask no-caption">
-                        <div class="tools tools-bottom">
-                            <a href="{% url 'ict_projects:project-list' %}"><i class="fa fa-eye text-warning">&nbsp;View Projects</i>  </a>
-                        </div>
-                    </div>
-                    </div>
+                <div class="col-md-3">       
                 <a href="{% url 'ict_projects:project-list' %}">
                     <div class="caption">
-                        <div style="color:darkred;font-size:xx-large;font-weight:bolder">{{num_projects}} 
+                        <div style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">{{num_projects}} 
                         </div>
                         <p class="text-primary"><strong>ICT Projects</strong> </p>
                         </div>
                 </a>
-                
-                </div>
-                </div>
+               </div>
                 <div class="col-md-3">
-                <div class="thumbnail">
-                    <div class="image view view-first">
-                    <img style="width: 100%; display: block;" src="{% static 'images/vendors.png' %}" alt="image" />
-                    <div class="mask no-caption">
-                        <div class="tools tools-bottom">
-                            <a href="{% url 'ict_vendors:vendor-list' %}"><i class="fa fa-eye text-warning">&nbsp;View Vendors</i>  </a>
-                        </div>
-                    </div>
-                    </div>
+             
                 <a href="{% url 'ict_vendors:vendor-list' %}">
                     <div class="caption">
-                        <div style="color:darkred;font-size:xx-large;font-weight:bolder">{{num_vendors}} 
+                        <div style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">{{num_vendors}} 
                         </div>
                         <p class="text-primary"><strong>ICT Vendors</strong> </p>
                         </div>
-                </a>
-                </div>
-                </div>
-            
+                </a>               
+                </div>     
             </div>
-
-
             </div>
-
             <!--Start top leyer graphs-->
             <div class="x_panel">
 
                 <div class="x_content">
-            <div class="row">
-
-                <canvas id="myChart" ></canvas>
-    
+            <div class="row ">
+               <div class="col-md-6 sm-12">
+                
+                {{div|safe}}
+               </div>
+               <div class="col-md-6 sm-12">             
+                {{div2|safe}}
+               </div>  
             </div>
 
-                    
+            <div class="row p-5">
+                <div class="col-md-6 sm-12">
+                    {{div3|safe}}
                 </div>
-            </div>
-        
-        
+
+                <div class="col-md-6 sm-12">
+                    {% if num_projects == 0 %}
+                        <h3> No projects recorded in database! </h3>       
+                    {% else %}
+                        {{div4|safe}}
+                    {% endif %}
+                </div>   
+             </div>             
+                </div>
+            </div>      
         </div>
         </div>
     </div>
     </div>
 </div>
 <!-- /page content -->
-<canvas id="myChart"></canvas>
 
 {% endblock content %}

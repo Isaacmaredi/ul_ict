@@ -11,11 +11,12 @@
 
 <title>UL ICT {% block title %}{% endblock title %} </title>
 
-
 <!-- Bootstrap -->
 <link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}"  rel="stylesheet">
 <!-- Font Awesome -->
 <link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}"  rel="stylesheet">
+<!--Bokeh 3.0.3-->
+
 <!-- NProgress -->
 <link href="{% static 'vendors/nprogress/nprogress.css' %}"  rel="stylesheet">
 <!-- iCheck -->
@@ -62,10 +63,7 @@
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
         })
     </script>
-    <!--CahrtJs-->
-
-    <!-- <script src="https://cdnjs.com/libraries/Chart.js"></script> -->
-
+        
     <!-- jQuery -->
     <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
     <!-- Bootstrap -->
@@ -163,6 +161,18 @@
     <!-- Custom Template JS -->
     <script src="{% static 'build/js/custom.min.js' %}"></script>
     <script src="{% static 'build/js/mycustom.js' %}" ></script>
+    <!--Bokeh CDN Javascript files-->
+   
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.0.3.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.0.3.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.0.3.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-api-3.0.3.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.0.3.min.js"></script>
+    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.0.3.min.js"></script>
 
+    {{script|safe}}
+    {{script2|safe}}
+    {{script3|safe}}
+    {{script4|safe}}
 </body>
 </html>

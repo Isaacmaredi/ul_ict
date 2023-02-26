@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.db.models import Sum 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (ListView,DetailView,
                                 CreateView,UpdateView,DeleteView)
@@ -35,29 +36,18 @@ class LicenseListView(LoginRequiredMixin ,FilteredListView):
     template_name = 'ict_licenses/license_list.html'
     filterset_class = LicenseFilter
     context_object_name = 'licenses'
-    paginate_by = 2
+    paginate_by = 5
     
     def get_context_data(self, *args, **kwargs):
         context= super(LicenseListView, self).get_context_data(*args, **kwargs)
         return context
-
-# class LicenseListView(LoginRequiredMixin, ListView):
-#     model = License  
-#     context_object_name ='licenses'
-#     template_name ='ict_licenses/license_list.html'
-#     paginate_by = 10
-    
-#     def get_context_data(self,*args, **kwargs):
-#         context = super(LicenseListView, self).get_context_data(*args,**kwargs)
-#         context['tot_licenses'] = License.objects.all().count()
-#         return context
 
 class LicenseAdminListView(LoginRequiredMixin, FilteredListView):
     model = License
     context_object_name = 'licenses'
     filterset_class = LicenseFilter
     template_name = 'ict_licenses/license_admin.html'
-    paginate_by = 2
+    paginate_by = 5
     
     def get_context_data(self, *args, **kwargs):
         context = super(LicenseAdminListView, self).get_context_data(*args, **kwargs)
@@ -72,6 +62,11 @@ class LicenseAdminDetailView(LoginRequiredMixin, DetailView):
     model = License
     context_object_name = 'license'
     template_name ='ict_licenses/license_admin_detail.html'
+    
+    def get_context_data(self,*args, **kwargs):     
+        context = super(LicenseAdminDetailView, self).get_context_data(*args,**kwargs)
+        context['amount_outstanding'] = self.object.name
+        return context
     
     
 class LicenseCreateView(LoginRequiredMixin, CreateView):
@@ -109,8 +104,11 @@ class LicenseRenewView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     
     def form_valid(self, form):
         form.instance.owner_id = self.request.user.id
+        form.save()
+        messages.add_message(
+            self.request, messages.SUCCESS, f'{form.instance.name}license has been succesfully renewed! Renewal date starts on {form.instance.start_date}!')
         return super().form_valid(form)
-    
+        
     def test_func(self, *args, **kwargs):
         self.license = self.get_object()
         if self.request.user.id == self.license.owner_id:

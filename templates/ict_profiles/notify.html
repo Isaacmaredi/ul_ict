@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap %}
+{% load crispy_forms_tags %}
+{% load contracts_extras %}
+
+
+{% block title %}
+| Notify
+{% endblock title %}
+
+{% block content %}
+
+
+
+<!-- page content -->
+<div class="right_col" role="main">
+<div class="">
+<div class="page-title">
+	<div class="title_left">
+		<h3>License email notifications &nbsp;&nbsp;&nbsp; <span class="badge badge-info">Total:&nbsp;&nbsp; {{total_contracts}}</span> </h3>	
+	</div>
+	<div class="title_right">
+		<div class="col-md-5 col-sm-12  form-group pull-right top_search">
+		
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb bg-light">
+					<li class="breadcrumb-item"><a href="{% url 'ict_dash:dashboard' %}">Home</a></li>
+					<li class="breadcrumb-item active" aria-current="page">All Contracts</li>
+				</ol>
+			</nav>
+		</div>
+	</div>  
+</div>
+	
+	<!-- <div class="clearfix"></div> -->
+
+	<div class="row">
+	<div class="col-md-12">
+		<div class="x_panel">
+		
+		<div class="x_content"> 
+			<div class="row">
+		
+				
+			</div>
+
+        <div class="card-box table-responsive"> 
+    
+				<!-- start project list -->
+                {% for profile in profiles %}
+               
+                    {% for license in profile.licenses.all %}
+                    {% if license.days_till_renewal <= 180  and license.days_till_renewal > 90 %}
+                        <h2>Software license renewals notifications for {{profile.user}}  </h2>
+                        <ul>
+                        <li ><strong class="text-primary text-bold ">Alert! </strong>  {{license.name}} renewal is in less than 6 months -  <strong> Renewal date is: {{license.next_renewal_date|date:"d F Y"}}</strong></li>
+                        {% elif license.days_till_renewal <= 90 and license.days_till_renewal   %}
+                        <li ><strong class="text-warning text-bold ">Warning! </strong> {{license.name}} renewal is in less than 3 months -  <strong> Renewal date is: {{license.next_renewal_date|date:"d F Y"}}</strong></li>
+                        </ul>
+                        {% endif  %}
+                    {% endfor %}
+                <br>    
+                {% endfor %}
+			<!-- end project list -->
+            <!-- Pagination Section -->
+				<div class="row">
+					<div class="col-md-12" justify-content-right>
+						{% if page_obj.has_other_pages %}
+						<ul class="pagination nav navbar-right mx-right" >
+							{% if page_obj.has_previous %}
+							<li class="page-item">
+								<a href="{% contracts_url page_obj.previous_page_number 'page' request.GET.urlencode %}" class="page-link">Previous</a>
+							</li>
+						
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link">Previous</a>
+							</li>
+							{% endif %}
+							{% for i in page_obj.paginator.page_range %}
+							{% if page_obj.number == i %}
+								<li class="page-item active">
+								<a class="page-link">{{i}}</a>
+								</li>
+							{% else %}
+								<li class="page-item">
+								<a href="{% contracts_url i 'page' request.GET.urlencode %} " class="page-link">{{i}}</a>
+								</li>
+							{% endif %}
+							{% endfor %}
+							{% if page_obj.has_next %}
+							<li class="page-item">
+								<a href="{% contracts_url page_obj.next_page_number 'page'  request.GET.urlencode %}" class="page-link">Next</a>
+							</li>
+							{% else %}
+							<li class="page-item disabled">
+								<a class="page-link">Next</a>
+							</li>
+							{% endif %}
+						</ul>
+						{% endif %}
+					</div>
+				</div>
+				<!--End pagination -->
+
+		</div>
+		</div>
+	</div>
+	</div>
+</div>
+</div>
+<!-- /page content -->
+
+{% endblock content %}

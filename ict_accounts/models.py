@@ -41,7 +41,7 @@ class MyAccountManager(BaseUserManager):
 class Account(AbstractBaseUser):
     first_name      = models.CharField(max_length=50)
     last_name       = models.CharField(max_length=50)
-    username        = models.CharField(max_length=50, unique=True)
+    username        = models.CharField(max_length=50)
     email           = models.EmailField(max_length=100, unique=True)
     mobile_number    = models.CharField(max_length=50)
     office_ext       = models.CharField(max_length=10)
@@ -82,7 +82,6 @@ class Profile(models.Model):
     speed_dial = models.CharField(max_length=50, blank=True, null=True,verbose_name="Speed Dial")
     photo = models.ImageField(default='default2.png', upload_to=user_directory_path)
     
-
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'
 
