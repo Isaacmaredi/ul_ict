@@ -97,8 +97,8 @@ class License(models.Model):
     def __str__(self):
         return self.name
  
-    # class Meta:
-    #     ordering = ('-current_cost',)
+    class Meta:
+        ordering = ('-id',)
         
     def get_absolute_url(self):
         return reverse ('ict_licenses:license-detail', kwargs={'pk':self.pk})

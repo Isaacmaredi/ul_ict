@@ -39,7 +39,7 @@ def dash(request):
     data = pd.Series(x).reset_index(name='value').rename(columns={'index': 'locality'})
     print(data)
     data['angle'] = data['value']/data['value'].sum() * 2*pi
-    data['color'] = Category20c[len(x)]
+    data['color'] = None if len(x) == 0 else Category20c[len(x)]
     
     p3 = figure(height=350, width=600, title="ICT Contracts by Supplier Nationality Footprint", toolbar_location=None,
            tools="hover", tooltips="@locality: @value", x_range=(-0.5, 1.0))
@@ -91,7 +91,7 @@ def dash(request):
         #    legend_field = 'total_values',
            fill_color=factor_cmap(
                'contract_names',
-               palette=Blues5,
+               palette=None if len(data) == 0 else Blues5,
                factors=contract_names,
            ),
            fill_alpha=0.9,
@@ -149,7 +149,7 @@ def dash(request):
             # legend_field='current_values',
             fill_color=factor_cmap(
                'license_names',
-               palette=Reds5,
+               palette= None if len(data) == 0 else Reds5,
                factors=license_names,
                
            ), 
@@ -196,7 +196,7 @@ def dash(request):
             # legend_field='current_values',
             fill_color=factor_cmap(
                'project_names',
-               palette=Greens5,
+               palette=None if len(data) == 0 else Greens5,
                factors=project_names,
                
            ), 
