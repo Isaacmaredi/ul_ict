@@ -18,10 +18,13 @@ from bokeh.embed import components
 from bokeh.models import ColumnDataSource, NumeralTickFormatter, PrintfTickFormatter
 from bokeh.models.tools import HoverTool
 from bokeh.transform import factor_cmap, cumsum
-from bokeh.palettes import Greens5, Reds5, Blues5, Category20_10, Category20c, Category10_3, Vibrant3, Spectral10
+from bokeh.palettes import (Greens5, GnBu5, Reds5, Blues5, Category20c,
+                        Category20_10, Category20c, Category10_3, 
+                        Vibrant3, Spectral10, Cividis, Category20b_3
+                        )
 
 
-# Create your views here.
+# Views functionality for the dashboard graphs.
 def dash(request):
     num_contracts = Contract.objects.all().count()
     num_licenses = License.objects.all().count()
@@ -38,8 +41,13 @@ def dash(request):
     
     data = pd.Series(x).reset_index(name='value').rename(columns={'index': 'locality'})
     print(data)
+    print('@'*25)
+    print('Len Data :',len(data))
+    print('Len X :',len(x))
+    print('@'*25)
+    
     data['angle'] = data['value']/data['value'].sum() * 2*pi
-    data['color'] = None if len(x) == 0 else Category20c[len(x)]
+    data['color'] = None if len(data) == 0 else Category10_3
     
     p3 = figure(height=350, width=600, title="ICT Contracts by Supplier Nationality Footprint", toolbar_location=None,
            tools="hover", tooltips="@locality: @value", x_range=(-0.5, 1.0))
@@ -63,12 +71,13 @@ def dash(request):
     
     
     
-# Plotting Contracts values graph
+# Plotting Contracts values for horizontal bar graph graph
     contracts = Contract.objects.order_by('total_value')
-    
     count = len(contracts)
     contract_names = [c.name for c in contracts][-5:count]
     total_values = [int(v.total_value) for v in contracts][-5:count]
+    print(contract_names)
+    print(total_values)
     contract_type = [v.agreement_type for v in contracts][-5:count]
     supplier = [v.supplier.name for v in contracts][-5:count]
     duration = [v.duration for v in contracts][-5:count]
@@ -85,13 +94,13 @@ def dash(request):
                               )
    
     p = figure(y_range = contract_names, width=600, height=300, 
-               title="Top 10 Contracts by Total Term Value",  toolbar_location=None, tools="")
+               title="Top 5 Contracts by Total Term Value",  toolbar_location=None, tools="")
     p.hbar(y='contract_names', right='total_values', height=0.5, 
            source=source, 
         #    legend_field = 'total_values',
            fill_color=factor_cmap(
                'contract_names',
-               palette=None if len(data) == 0 else Blues5,
+palette=None if len(data) == 0 else Blues5,
                factors=contract_names,
            ),
            fill_alpha=0.9,
@@ -127,7 +136,7 @@ def dash(request):
     categories = [cat.software_category for cat in licenses][-5:count]
     vendor = [v.service_provider.name for v in licenses][-5:count]
     location = [v.service_provider.location_footprint for v in licenses][-5:count]
-    # price = [v.service_provider.name for v in licenses][-5:count]
+    # price = [v.service_provider.name for v in licenses][-1:count]
     
     # print('*'*30)
     # print(license_names)
@@ -149,7 +158,7 @@ def dash(request):
             # legend_field='current_values',
             fill_color=factor_cmap(
                'license_names',
-               palette= None if len(data) == 0 else Reds5,
+               palette= None if len(license_names) == 0 else Reds5,
                factors=license_names,
                
            ), 
@@ -180,27 +189,30 @@ def dash(request):
     projects = Project.objects.order_by('total_cost')
     print('LEGNTH OF PROJECTS : ',len(projects))
     project_names = [c.name for c in projects][-5:count]
+
     project_total_value = [int(v.total_cost) for v in projects][-5:count]
     project_vendor = [v.service_provider.name for v in projects][-5:count]
-    
+    print(project_names)
+    print(project_total_value)
+    print(project_vendor)
     source = ColumnDataSource(data = dict(project_names=project_names, 
                                           project_total_value=project_total_value,
                                           project_vendor = project_vendor,
                                           )
                               )
     
-    p4 = figure(x_range = license_names, width=600, height=300, 
+    p4 = figure(width=600, height=300, 
                 title="Top 5 Projects by Total Cost",  toolbar_location=None, tools="")
-    p4.vbar(x='project_names', top='project_total_value', width=0.5, 
+    p4.vbar(x='project_names', top='project_total_value', bottom=0, width=0.5, 
             source=source, 
             # legend_field='current_values',
+
             fill_color=factor_cmap(
                'project_names',
-               palette=None if len(data) == 0 else Greens5,
-               factors=project_names,
-               
+               palette=None if len(data) == 0 else Cividis[len(data)],
+               factors=project_names,           
            ), 
-            fill_alpha=0.9
+    fill_alpha=0.9
         )
     
     p4.title.align = 'center'
