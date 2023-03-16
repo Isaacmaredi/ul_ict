@@ -15,7 +15,7 @@ from ict_accounts.models import Account
 #imports form bokeh
 from bokeh.plotting import figure, show
 from bokeh.embed import components
-from bokeh.models import ColumnDataSource, NumeralTickFormatter, PrintfTickFormatter
+from bokeh.models import ColumnDataSource, CustomJSTickFormatter
 from bokeh.models.tools import HoverTool
 from bokeh.transform import factor_cmap, cumsum
 from bokeh.palettes import (Greens5, GnBu5, Reds5, Blues5, Category20c,
@@ -36,20 +36,15 @@ def dash(request):
                             'supplier__location_footprint').annotate(
                                 locations = Count('supplier__location_footprint')
                             )
-    print('LOCATIONS :',locations)
     x = dict(locations)
     
     data = pd.Series(x).reset_index(name='value').rename(columns={'index': 'locality'})
-    print(data)
-    print('@'*25)
-    print('Len Data :',len(data))
-    print('Len X :',len(x))
-    print('@'*25)
+ 
     
     data['angle'] = data['value']/data['value'].sum() * 2*pi
     data['color'] = None if len(data) == 0 else Category10_3
     
-    p3 = figure(height=350, width=600, title="ICT Contracts by Supplier Nationality Footprint", toolbar_location=None,
+    p3 = figure(height=400, title="ICT Contracts by Supplier Nationality Footprint", toolbar_location=None,
            tools="hover", tooltips="@locality: @value", x_range=(-0.5, 1.0))
     
     p3.wedge(x=0, y=1, radius=0.4, 
@@ -59,25 +54,17 @@ def dash(request):
     p3.axis.axis_label = None
     p3.axis.visible = False
     p3.grid.grid_line_color = None
+    p3.title.text_font_size = "18px"
     p3.title.align = 'center'
-    
-    # show(p3)
-    
-
-    
-    print('DATA DICT :',data)
+ 
     nationailty_list = [ n[0] for n in locations]
     nationality_counts = [c[1] for c in locations ]
-    
-    
     
 # Plotting Contracts values for horizontal bar graph graph
     contracts = Contract.objects.order_by('total_value')
     count = len(contracts)
     contract_names = [c.name for c in contracts][-5:count]
     total_values = [int(v.total_value) for v in contracts][-5:count]
-    print(contract_names)
-    print(total_values)
     contract_type = [v.agreement_type for v in contracts][-5:count]
     supplier = [v.supplier.name for v in contracts][-5:count]
     duration = [v.duration for v in contracts][-5:count]
@@ -93,27 +80,39 @@ def dash(request):
                                           )
                               )
    
-    p = figure(y_range = contract_names, width=600, height=300, 
+    p = figure(y_range = contract_names,  height=200, 
                title="Top 5 Contracts by Total Term Value",  toolbar_location=None, tools="")
     p.hbar(y='contract_names', right='total_values', height=0.5, 
            source=source, 
         #    legend_field = 'total_values',
            fill_color=factor_cmap(
                'contract_names',
-palette=None if len(data) == 0 else Blues5,
+    palette=None if len(data) == 0 else Blues5,
                factors=contract_names,
            ),
            fill_alpha=0.9,
         )
     
     p.title.align = 'center'
-    p.xaxis.formatter = PrintfTickFormatter(format="R%0.2i ")
-    # p.legend.orientation = 'horizontal'
-    # p.legend.location = 'top'
-    # p.legend.label_text_font_size = '10px'
-   
-    # p.xaxis.formatter = NumeralTickFormatter(format="0.0 %s")
-    
+    p.title.text_font_size = "18px"
+    p.ygrid.grid_line_color = None
+    p.xaxis.minor_tick_line_color = None
+    p.xaxis.formatter = CustomJSTickFormatter(code='''
+                                            if (tick < 1e3){
+                                                var unit = ''
+                                                var num =  (tick).toFixed(2)
+                                              }
+                                              else if (tick < 1e6){
+                                                var unit = 'k'
+                                                var num =  (tick/1e3).toFixed(2)
+                                              }
+                                              else{
+                                                var unit = 'm'
+                                                var num =  (tick/1e6).toFixed(2)
+                                                }
+                                            return `R ${num}${unit}`
+                                           '''
+                                           )
     hover1 = HoverTool()
     hover1.tooltips = """
     <div style = "background-color:rgb(4, 26, 61); color:#fff" width=250, height=250 >
@@ -136,12 +135,6 @@ palette=None if len(data) == 0 else Blues5,
     categories = [cat.software_category for cat in licenses][-5:count]
     vendor = [v.service_provider.name for v in licenses][-5:count]
     location = [v.service_provider.location_footprint for v in licenses][-5:count]
-    # price = [v.service_provider.name for v in licenses][-1:count]
-    
-    # print('*'*30)
-    # print(license_names)
-    # print(current_values)
-    # print('-'*30)
     
     source = ColumnDataSource(data = dict(license_names=license_names, 
                                           current_values=current_values,
@@ -151,14 +144,14 @@ palette=None if len(data) == 0 else Blues5,
                                           )
                               )
    
-    p2 = figure(y_range = license_names, width=600, height=300, 
+    p2 = figure(y_range = license_names,  height=200, 
                 title="Top 5 licenses by Current Value",  toolbar_location=None, tools="")
     p2.hbar(y='license_names', right='current_values', height=0.5, 
             source=source, 
             # legend_field='current_values',
             fill_color=factor_cmap(
                'license_names',
-               palette= None if len(license_names) == 0 else Reds5,
+    palette= None if len(license_names) == 0 else Greens5[:],
                factors=license_names,
                
            ), 
@@ -166,9 +159,25 @@ palette=None if len(data) == 0 else Blues5,
         )
     
     p2.title.align = 'center'
- 
-    p2.xaxis.formatter = PrintfTickFormatter(format="R%0.2i ")
-    
+    p2.title.text_font_size = "18px"
+    p2.ygrid.grid_line_color = None
+    p2.xaxis.minor_tick_line_color = None
+    p2.xaxis.formatter = CustomJSTickFormatter(code='''
+                                            if (tick < 1e3){
+                                                var unit = ''
+                                                var num =  (tick).toFixed(2)
+                                              }
+                                              else if (tick < 1e6){
+                                                var unit = 'k'
+                                                var num =  (tick/1e3).toFixed(2)
+                                              }
+                                              else{
+                                                var unit = 'm'
+                                                var num =  (tick/1e6).toFixed(2)
+                                                }
+                                            return `R ${num}${unit}`
+                                           '''
+                                           )
     # Tooltips
     hover = HoverTool()
     hover.tooltips = """
@@ -180,60 +189,80 @@ palette=None if len(data) == 0 else Blues5,
     """
     p2.add_tools(hover)
     
-# Projects graph
+# Plotting Project graphs
     try:
         pass
     except:
         pass
     
-    projects = Project.objects.order_by('total_cost')
-    print('LEGNTH OF PROJECTS : ',len(projects))
+    projects = Project.objects.order_by('-total_cost')
     project_names = [c.name for c in projects][-5:count]
 
     project_total_value = [int(v.total_cost) for v in projects][-5:count]
     project_vendor = [v.service_provider.name for v in projects][-5:count]
-    print(project_names)
-    print(project_total_value)
-    print(project_vendor)
+
     source = ColumnDataSource(data = dict(project_names=project_names, 
-                                          project_total_value=project_total_value,
+                                          project_total_value=project_total_value, 
                                           project_vendor = project_vendor,
                                           )
-                              )
-    
-    p4 = figure(width=600, height=300, 
-                title="Top 5 Projects by Total Cost",  toolbar_location=None, tools="")
-    p4.vbar(x='project_names', top='project_total_value', bottom=0, width=0.5, 
+                            ) 
+    p4 = figure(x_range= project_names,
+                height=400, 
+                title="Top 5 Projects by Total Cost",  
+                toolbar_location=None, tools="")
+    p4.vbar(x ="project_names", top="project_total_value",  
+            width=0.2, 
             source=source, 
-            # legend_field='current_values',
+            legend_field='project_total_value',
+            bottom=0,
 
             fill_color=factor_cmap(
                'project_names',
-               palette=None if len(data) == 0 else Cividis[len(data)],
+               palette=  Reds5, #None if len(data) == 0 else Cividis[len(data)],
                factors=project_names,           
            ), 
-    fill_alpha=0.9
+             fill_alpha=0.9
         )
     
-    p4.title.align = 'center'
-    p4.xaxis.formatter = PrintfTickFormatter(format="R%0.2i ")
+    p4.yaxis.minor_tick_line_color = None
+    p4.title.text_font_size = "18px"
+    p4.yaxis.formatter = CustomJSTickFormatter(code='''
+                                            if (tick < 1e3){
+                                                var unit = ''
+                                                var num =  (tick).toFixed(2)
+                                              }
+                                              else if (tick < 1e6){
+                                                var unit = 'k'
+                                                var num =  (tick/1e3).toFixed(2)
+                                              }
+                                              else{
+                                                var unit = 'm'
+                                                var num =  (tick/1e6).toFixed(2)
+                                                }
+                                            return `R ${num}${unit}`
+                                           '''
+                                           )
     
+    p4.title.align = 'center'
+    # p4.yaxis.formatter = PrintfTickFormatter(format="%0.2i ")
+
+    p4.xaxis.major_label_orientation = 1
+    p4.xgrid.grid_line_color = None
+    p4.legend.location = "top_right"
+
     hover4 = HoverTool()
     hover4.tooltips = """
-        <div style = "background-color:rgb(4, 26, 61); color:#fff" width=250, height=250 >
-            <!--<img src="@logo" alt="" height=40 width=60 >--!>
-        <h3><strong >Service Provider: </strong>@project_vendor</h3>
-        <h3 style="color:orange"> <strong  >Total Cost: </strong> R@project_total_value</h3>  
+        <div style = "background-color:rgb(4, 26, 61); color:#f2f2f2" >
+        <p><strong >Service Provider: </strong>@project_vendor
+        </p>
+        <span style="color:orange"> <strong>Total Cost: </strong> R@project_total_value</span>  
         </div>   
     """
     p4.add_tools(hover4)
-    
-    
     script, div = components(p)
     script2, div2 = components(p2)
     script3, div3 = components(p3)
-    script4, div4 = components(p4)
-      
+    script4, div4 = components(p4)    
     context = {
         'num_contracts': num_contracts,
         'num_licenses': num_licenses,
@@ -257,7 +286,8 @@ class ContractValueView(TemplateView):
      
     def get_context_data(self, *args, **kwargs):
         context = super(ContractValueView, self).get_context_data(*args, **kwargs)
-        
+        context['qs'] = Contract.objects.all().order_by('-total_value')[:5]
         context['contract_name_list'] = [item[0] for item in Contract.objects.values_list('name').order_by('-total_value')]
         context['contract_value_list'] = [int(item[0]) for item in Contract.objects.values_list('total_value').order_by('-total_value')]
+       
         return context

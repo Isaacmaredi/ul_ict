@@ -1,0 +1,26 @@
+{% block subject %}
+Licenses expiry notification
+{% endblock subject %}
+
+{% block html_body %}
+        <h4> Dear Mr {{license_owner}}  </h4>  
+       <p>Please take note of the software licenses that are about to expire and need your urgent attention.</p> 
+        {% for msg, days_left in message_list %}
+        <p>
+        <ul>  
+            <li>
+              <p style="color: darkred;">{{msg}} 
+                <span style="font-weight:bold;color:black">{{days_left}}</span> 
+            </p>  
+            </li>
+        </ul>
+        </p>
+        {% endfor %}
+
+    <p>Sincerly, </p>
+<h4>Contracts Administration</h4>
+<h4>Contact Ext: 3919</h4>
+
+{% endblock html_body %}
+
+{

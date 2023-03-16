@@ -1,7 +1,7 @@
 from django.template import Template, Context
 from django.conf import settings
 from django.core.mail import send_mail
-# from templated_mail.mail import BaseEmailMessage
+from templated_mail.mail import BaseEmailMessage
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from celery import shared_task
@@ -11,60 +11,49 @@ from ict_licenses.models import License
 
 @shared_task
 def license_renewal_notify():
-    lic_users = License.objects.all()
-    # for lic_user in lic_users:
-    #     if lic_user.days_till_renewal <= 180 and lic_user.days_till_renewal >= 90:
-    #         subject = 'Alert! License renewal due'
-    #         message = 'Attention {}! Due date for {} license renewal is  in less than six months from now.  Exact renewal date is on {}'.format(lic_user.owner,lic_user.name, lic_user.next_renewal_date)
-    #         recipient = lic_user.owner.user.email
-    #         send_mail(
-    #         subject,
-    #         message,
-    #         settings.EMAIL_HOST_USER,
-    #         [recipient,'isaac.maredi@ul.ac.za'],
-    #         fail_silently=True
-    #         )
-    #         print(lic_user.days_till_renewal)
-        
-    #     elif lic_user.days_till_renewal < 90 and lic_user.days_till_renewal > 0:
-    #         subject = 'Warning! License renewal due'
-    #         message = 'Warning {}! Due date for {} license renewal is  in less than three months from now.  Exact renewal date is on {}'.format(lic_user.owner,lic_user.name, lic_user.next_renewal_date)
-    #         recipient = lic_user.owner.user.email
-    #         print(lic_user.owner.user.email)
-    #         send_mail(
-    #         subject,
-    #         message,
-    #         settings.EMAIL_HOST_USER,
-    #         [recipient,'isaac.maredi@ul.ac.za'],
-    #         fail_silently=True
-    #         )
-    #     else:
-    #         pass
-            
     profiles = Profile.objects.all()
-    for profile in profiles:
-        if profile.licenses:
-            for license in profile.licenses.all():
-              
-                from_email = settings.EMAIL_HOST_USER
-                to_email = license.owner.user.email
-                subject = "Notification! Software License Renewal Due"
-                if license.days_till_renewal <=180:         
-                    if license.days_till_renewal > 90:
-                        message = 'Alert! Due date for {} license renewal is in less than 6 months.  Renewal date is on {}'.format(license.name, license.next_renewal_date) 
-                    elif license.days_till_renewal <= 90 and license.days_till_renewal > 0: 
-                        message = 'Warning! Due date for {} license renewal is in less than 6 months.  Renewal date is on {}'.format(license.name, license.next_renewal_date) 
-                    else:
-                        message = 'Critical! The {} license renewal overdue.  The renewal date was on {}'.format(license.name, license.next_renewal_date)         
-                send_mail(
-                    subject,
-                    message,
-                    from_email,
-                    [to_email,'ikemaredi.developer@gmail.com'],
-                    fail_silently = True                      
-                    )             
+    lic_users = License.objects.all()
+    msg_list = []
 
-                 
+    days_left_list   = []
+    
+    for profile in profiles:
+        if profile.licenses.all().count() > 0:
+            count = profile.licenses.all().count()
+            # print('@'*25)
+            # print('No. of Licenses for', profile, ':',count )
+            # print('@'*25)
+            licenses = profile.licenses.all()       
+            for license in licenses:
+                if license.days_till_renewal <= 180:
+                    msg = f'Warning!  - {license.name} license expires in less than 6 months. {license.next_renewal_date} - and you have {license.days_till_renewal} days left to renew!'  if license.days_till_renewal >90 else f'Critical! {license.name} license expires in less than 3 months. The expiry date is {license.next_renewal_date} - and you have {license.days_till_renewal} days left to renew!'
+                    # print('OWNER: ',license.owner,'LICENSE: ', license.name)
+                    days_left_list.append(license.days_till_renewal)
+                    msg_list.append(msg)
+                
+                days_left_list = days_left_list
+                msg_list = msg_list
+                message_list = zip(msg_list, days_left_list)
+                license_owner = license.owner
+                to_email = license.owner.user.email
+            BaseEmailMessage (
+                        template_name = 'emails/license_notification.html',
+                        context = {
+                            'days_left_list':days_left_list,
+                            'license_owner':license_owner,
+                            'message_list':message_list,
+                            },      
+                            
+                ).send(to=[to_email])
+        for m in message_list:
+            print(m)
+        msg_list = []
+        days_left_list = []
+        message_list = []
+        
+    
+            
+   
                 
         
     

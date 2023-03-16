@@ -13,3 +13,4 @@ class ProjectFilter(django_filters.FilterSet):
         self.filters['description'].label = "Type project description to search"
         self.filters['service_provider'].label = "Filter by service provider"
         self.filters['status'].label = "Filter by project status"
+        self.filters['name'].lookup_expr = "icontains"

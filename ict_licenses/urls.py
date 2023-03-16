@@ -11,6 +11,6 @@ urlpatterns = [
     path('license_admin_detail/<int:pk>/',views.LicenseAdminDetailView.as_view(), name='license-admin-detail'),
     path('license_add/', views.LicenseCreateView.as_view(), name='license-add'),
     path('license_update/<int:pk>/', views.LicenseUpdateView.as_view(), name='license-update'),
-    path('license_renew/<int:pk>/', views.LicenseRenewView.as_view(), name='license-renew'),
+    path('license_renewal/', views.LicenseRenewalView.as_view(), name='license-renew'),
     path('license_delete/<int:pk>/', views.LicenseDeleteView.as_view(), name='license-delete'),
 ]

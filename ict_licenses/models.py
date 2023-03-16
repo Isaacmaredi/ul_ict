@@ -123,14 +123,37 @@ class License(models.Model):
         int_days_until = int(days_until)
         return int_days_until  
     
-class Renewal(models.Model):
+class LicenseRenewal(models.Model):
     license = models.ForeignKey(License, on_delete=models.DO_NOTHING, related_name='renewals')
     renewal_date = models.DateField()
-    amount = models.DecimalField(default=Decimal(0.0), max_digits=8, decimal_places=2)
+    renewal_amount = models.DecimalField(default=Decimal(0.0), max_digits=10, decimal_places=2)
+    pr_number = models.CharField(max_length=30, null=True, blank=True)
+    po_number = models.CharField(max_length=30, null=True, blank=True)
     is_paid = models.BooleanField(default=False)
     # renewal_count = models.IntegerField(default=0, verbose_name='Renewal Count')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return f'{self.license} renewal for R{self.amount} - {self.renewal_date}'
+        return f'{self.license} renewal on - {self.renewal_date} for {self.renewal_amount}'
+    
+    def save(self, *args, **kwargs):
+        if self.po_number is not None:
+            self.is_paid = True
+        return super(LicenseRenewal, self).save(*args, **kwargs)
+            
+    
+    @property
+    def renewal_status(self):
+        if self.pr_number == None and self.po_number == None:
+            status = "Not started"
+        elif self.pr_number  and self.po_number == None:
+            status = "PR stage"
+        elif self.po_number:
+            status = "Renewal completed"
+        return status
+          
+    
+            
+    
+    

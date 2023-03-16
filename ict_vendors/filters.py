@@ -15,3 +15,5 @@ class VendorFilter(FilterSet):
         self.filters['name'].label ="Search by Vendor Name"
         self.filters['location_footprint'].label ="Filter by Vendor Footprint"
         self.filters['supplier_channel'].label = "Filter by Supplier Channel"
+        self.filters['name'].lookup_expr = 'icontains'
+        self.filters['name'].auto_complete = True

@@ -9,14 +9,6 @@ Dashboard
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/chart.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
 
-<!-- <style>
-    .verticalLine {
-        height: 300px;
-        border-right: 1px solid #000900;
-        position: absolute;
-        right: 50%;
-    }
-</style> -->
 
 {% block content %}
 <!-- page content -->
@@ -37,41 +29,41 @@ Dashboard
 
                 <div class="col-md-3" >                  
                     <a href="{% url 'ict_contracts:contract-list' %} ">
-                        <div class="caption">
-
-                        <div style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">{{num_contracts}}
-                        </div>
-                        <p class="text-primary"><strong>ICT Contracts</strong>  </p>
+                        <div class="caption text-center" style="background-color:rgb(102, 205, 170, 0.6)">
+                            <div class="glyphicon glyphicon-folder-open text-danger" > 
+                                <span class="text-muted" style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">   {{num_contracts}}<span style="font-size:x-large"> Contracts</span> </span> 
+                            </div>
+                        
                         </div>
                     </a>
                 </div>
                 <div class="col-md-3">              
                 <a href="{% url 'ict_licenses:license-list' %}">
-                    <div class="caption">
-                        <div style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">{{num_licenses}} 
+                    <div class="caption text-center" style="background-color:rgb(135, 206, 235, 0.6)">
+                        <div class="glyphicon glyphicon-file text-success" > 
+                            <span  class="text-muted" style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">   {{num_licenses}}<span style="font-size:x-large;font-weight:bolder"> Software Licenses</span> </span> 
                         </div>
-                        <p class="text-primary "> <strong>Software Licenses</strong> </p>
-                        </div>
+                    </div>
                 </a>             
                 </div>
                 <div class="col-md-3">       
                 <a href="{% url 'ict_projects:project-list' %}">
-                    <div class="caption">
-                        <div style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">{{num_projects}} 
-                        </div>
-                        <p class="text-primary"><strong>ICT Projects</strong> </p>
-                        </div>
+                    <div class="caption text-center" style="background-color:rgb(255, 215, 0, 0.6)">
+                        <div class="glyphicon glyphicon-tasks text-primary" > 
+                            <span class="text-muted" style="color:rgb(214, 76, 76);font-size:xx-large;font-weight:bolder">   {{num_projects}}<span x style="font-size:x-large; font-weight:bolder"> Projects</span> </span> 
+                        </div>               
+                    </div>
                 </a>
                </div>
                 <div class="col-md-3">
-             
-                <a href="{% url 'ict_vendors:vendor-list' %}">
-                    <div class="caption">
-                        <div style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">{{num_vendors}} 
-                        </div>
-                        <p class="text-primary"><strong>ICT Vendors</strong> </p>
-                        </div>
-                </a>               
+            <a href="{% url 'ict_vendors:vendor-list' %}">
+                    <div class="caption text-center" style="background-color:rgba(250, 128, 114, 0.6)">
+                        <div class="glyphicon glyphicon-home text-secondary" > 
+                            <span class="text-muted" style="color:rgb(59, 47, 47);font-size:xx-large;font-weight:bolder">   {{num_vendors}}<span style="font-size:x-large"> Vendors</span> </span> 
+                        </div>                 
+                    </div>            
+                </a>   
+                      
                 </div>     
             </div>
             </div>
@@ -79,7 +71,11 @@ Dashboard
             <div class="x_panel">
 
                 <div class="x_content">
-            <div class="row ">
+            
+
+            </div>      
+            <div class="row">
+            <div class="jumbotron p-3 col-md-12 sm-12">
                <div class="col-md-6 sm-12">
                 {% if num_contracts == 0 %}
                     <h2> Data not available! Graph will show once data has been captured. </h2>       
@@ -93,33 +89,41 @@ Dashboard
                 {% else %}            
                     {{div2|safe}}
                 {% endif %}
-               </div>  
+               </div> 
             </div>
+            </div>
+         
+            <div class="row ">
+                <div class="jumbotron p-3 col-md-12 sm-12">
+                    <div class="col-md-6 sm-12">
+                        {% if num_contracts == 0 %}
+                            <h2> Data not available! Graph will show once data has been captured. </h2>       
+                        {% else %}
+                        {{div3|safe}}
+                        {% endif %}
+                    </div>
 
-            <div class="row p-5">
-                <div class="col-md-6 sm-12">
-                    {% if num_contracts == 0 %}
-                        <h2> Data not available! Graph will show once data has been captured. </h2>       
-                    {% else %}
-                    {{div3|safe}}
-                    {% endif %}
+                    <div class="col-md-6 sm-12">
+                        {% if num_projects == 0 %}
+                            <h2> Data not available! Graph will show once data has been captured. </h2>       
+                        {% else %}
+                            {{div4|safe}}
+                        {% endif %}
+                    </div> 
                 </div>
+             </div>  
+             
+             
 
-                <div class="col-md-6 sm-12">
-                    {% if num_projects == 0 %}
-                        <h2> Data not available! Graph will show once data has been captured. </h2>       
-                    {% else %}
-                        {{div4|safe}}
-                    {% endif %}
-                </div>   
-             </div>             
-                </div>
-            </div>      
+            </div>
+        </div>      
         </div>
         </div>
     </div>
     </div>
 </div>
 <!-- /page content -->
+
+
 
 {% endblock content %}

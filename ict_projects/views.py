@@ -40,7 +40,7 @@ class ProjectListView(LoginRequiredMixin, FilteredListView):
     template_name = 'ict_projects/project_list.html'
     filterset_class = ProjectFilter
     context_object_name = 'projects'
-    paginate_by = 1
+    paginate_by = 8
     
     
     # def get_context_data(self, *args, **kwargs):
@@ -53,7 +53,7 @@ class ProjectAdminListView(LoginRequiredMixin,FilteredListView):
     template_name = 'ict_projects/project_admin.html'
     filterset_class = ProjectFilter
     context_object_name = 'projects'
-    paginate_by = 1
+    paginate_by = 8
     
         
         

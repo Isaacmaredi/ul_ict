@@ -33,16 +33,13 @@
 <!-- Custom Theme Style -->
 <link href="{% static 'build/css/custom.min.css' %}"  rel="stylesheet">
 
-<!--ChartJS CDN-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/chart.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
 
 <script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous"></script>
 </head>
 
 <body class="nav-md" >
 <div class="container body"  >
-    <div class="main_container" >
+    <div class="main_container" > 
         {% include 'partials/_topnav.html' %}
         {% include 'partials/_sidenav.html' %}
 
@@ -63,116 +60,119 @@
             event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
         })
     </script>
-        
-    <!-- jQuery -->
-    <script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
-    <!-- Bootstrap -->
-    <script src="{% static 'vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
-    <!-- FastClick -->
-    <script src="{% static 'vendors/fastclick/lib/fastclick.js' %}"></script>
-    <!-- NProgress -->
-    <script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
-    <!-- Chart.js -->
-    <!-- <script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script> -->
-    <!-- gauge.js -->
-    <script src="{% static 'vendors/gauge.js/dist/gauge.min.js' %}"></script>
-    <!-- bootstrap-progressbar -->
-    <script src="{% static 'vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
-    <!-- iCheck -->
-    <script src="{% static 'vendors/iCheck/icheck.min.js' %}"></script>
-    <!-- Skycons -->
-    <script src="{% static 'vendors/skycons/skycons.js' %}"></script>
-    <!-- Flot -->
-    <script src="{% static 'vendors/Flot/jquery.flot.js' %}"></script>
-    <script src="{% static 'vendors/Flot/jquery.flot.pie.js' %}"></script>
-    <script src="{% static 'vendors/Flot/jquery.flot.time.js' %}"></script>
-    <script src="{% static 'vendors/Flot/jquery.flot.stack.js' %}"></script>
-    <script src="{% static 'vendors/Flot/jquery.flot.resize.js' %}"></script>
-    <!-- Flot plugins -->
-    <script src="{% static 'vendors/flot.orderbars/js/jquery.flot.orderBars.js' %}"></script>
-    <script src="{% static 'vendors/flot-spline/js/jquery.flot.spline.min.js' %}"></script>
-    <script src="{% static 'vendors/flot.curvedlines/curvedLines.js' %}"></script>
-    <!-- DateJS -->
-    <script src="{% static 'vendors/DateJS/build/date.js' %}"></script>
-    <!-- JQVMap -->
-    <script src="{% static 'vendors/jqvmap/dist/jquery.vmap.js' %}"></script>
-    <script src="{% static 'vendors/jqvmap/dist/maps/jquery.vmap.world.js' %}"></script>
-    <script src="{% static 'vendors/jqvmap/examples/js/jquery.vmap.sampledata.js' %}"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
-    <script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
-    <!-- Chart.js -->
-    <!-- <script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script> -->
-    <!-- jQuery Sparklines -->
-    <script src="{% static 'vendors/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
-    <!-- morris.js -->
-    <script src="{% static 'vendors/raphael/raphael.min.js' %}"></script>
-    <script src="{% static 'vendors/morris.js/morris.min.js' %}"></script>
-    <!-- gauge.js -->
-    <script src="{% static 'vendors/gauge.js/dist/gauge.min.js' %}"></script>
 
-    <!-- Datatables -->
-    <script src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
-    <script src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
-    <script src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
-    <script src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
-    <script src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
-    <!-- iCheck -->
-	<script src="{% static 'vendors/iCheck/icheck.min.js' %}"></script>
-	<!-- bootstrap-daterangepicker -->
-	<script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
-	<script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
-	<!-- bootstrap-wysiwyg -->
-	<script src="{% static 'vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js' %}"></script>
-	<script src="{% static 'vendors/jquery.hotkeys/jquery.hotkeys.js' %}"></script>
-	<script src="{% static 'vendors/google-code-prettify/src/prettify.js' %}"></script>
-	<!-- jQuery Tags Input -->
-	<script src="{% static 'vendors/jquery.tagsinput/src/jquery.tagsinput.js' %}"></script>
-	<!-- Switchery -->
-	<script src="{% static 'vendors/switchery/dist/switchery.min.js' %}"></script>
-	<!-- Select2 -->
-	<script src="{% static 'vendors/select2/dist/js/select2.full.min.js' %}"></script>
-	<!-- Parsley -->
-	<script src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
-	<!-- Autosize -->
-	<script src="{% static 'vendors/autosize/dist/autosize.min.js' %}"></script>
-	<!-- jQuery autocomplete -->
-	<script src="{% static 'vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js' %}"></script>
-	<!-- starrr -->
-	<script src="{% static 'vendors/starrr/dist/starrr.js' %}"></script>
-    <!-- NProgress -->
-    <script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
-    <!-- bootstrap-progressbar -->
-    <script src="{% static 'vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
-    <!-- PNotify -->
-    <script src="{% static 'vendors/pnotify/dist/pnotify.js' %}"></script>
-    <script src="{% static 'vendors/pnotify/dist/pnotify.buttons.js' %}"></script>
-    <script src="{% static 'vendors/pnotify/dist/pnotify.nonblock.js' %}"></script>
-    <!-- Custom Template JS -->
-    <script src="{% static 'build/js/custom.min.js' %}"></script>
-    <script src="{% static 'build/js/mycustom.js' %}" ></script>
-    <!--Bokeh CDN Javascript files-->
-   
-    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.0.3.min.js"></script>
-    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.0.3.min.js"></script>
-    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.0.3.min.js"></script>
-    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-api-3.0.3.min.js"></script>
-    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.0.3.min.js"></script>
-    <script src="https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.0.3.min.js"></script>
+<!-- jQuery -->
+<script src="{% static 'vendors/jquery/dist/jquery.min.js' %}"></script>
+<!-- Chart.js -->
+<script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script>∏
+<!-- Bootstrap -->
+<script src="{% static 'vendors/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+<!-- FastClick -->
+<script src="{% static 'vendors/fastclick/lib/fastclick.js' %}"></script>
+<!-- NProgress -->
+<script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
 
-    {{script|safe}}
-    {{script2|safe}}
-    {{script3|safe}}
-    {{script4|safe}}
+<!-- gauge.js -->
+<script src="{% static 'vendors/gauge.js/dist/gauge.min.js' %}"></script>
+<!-- bootstrap-progressbar -->
+<script src="{% static 'vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
+<!-- iCheck -->
+<script src="{% static 'vendors/iCheck/icheck.min.js' %}"></script>
+<!-- Skycons -->
+<script src="{% static 'vendors/skycons/skycons.js' %}"></script>
+<!-- Flot -->
+<script src="{% static 'vendors/Flot/jquery.flot.js' %}"></script>
+<script src="{% static 'vendors/Flot/jquery.flot.pie.js' %}"></script>
+<script src="{% static 'vendors/Flot/jquery.flot.time.js' %}"></script>
+<script src="{% static 'vendors/Flot/jquery.flot.stack.js' %}"></script>
+<script src="{% static 'vendors/Flot/jquery.flot.resize.js' %}"></script>
+<!-- Flot plugins -->
+<script src="{% static 'vendors/flot.orderbars/js/jquery.flot.orderBars.js' %}"></script>
+<script src="{% static 'vendors/flot-spline/js/jquery.flot.spline.min.js' %}"></script>
+<script src="{% static 'vendors/flot.curvedlines/curvedLines.js' %}"></script>
+<!-- DateJS -->
+<script src="{% static 'vendors/DateJS/build/date.js' %}"></script>
+<!-- JQVMap -->
+<script src="{% static 'vendors/jqvmap/dist/jquery.vmap.js' %}"></script>
+<script src="{% static 'vendors/jqvmap/dist/maps/jquery.vmap.world.js' %}"></script>
+<script src="{% static 'vendors/jqvmap/examples/js/jquery.vmap.sampledata.js' %}"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
+<script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+<!-- Chart.js -->
+
+<!-- jQuery Sparklines -->
+<script src="{% static 'vendors/jquery-sparkline/dist/jquery.sparkline.min.js' %}"></script>
+<!-- morris.js -->
+<script src="{% static 'vendors/raphael/raphael.min.js' %}"></script>
+<script src="{% static 'vendors/morris.js/morris.min.js' %}"></script>
+<!-- gauge.js -->
+<script src="{% static 'vendors/gauge.js/dist/gauge.min.js' %}"></script>
+
+<!-- Datatables -->
+<script src="{% static 'vendors/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js' %}"></script>
+<script src="{% static 'vendors/datatables.net-scroller/js/dataTables.scroller.min.js' %}"></script>
+<script src="{% static 'vendors/jszip/dist/jszip.min.js' %}"></script>
+<script src="{% static 'vendors/pdfmake/build/pdfmake.min.js' %}"></script>
+<script src="{% static 'vendors/pdfmake/build/vfs_fonts.js' %}"></script>
+<!-- iCheck -->
+<script src="{% static 'vendors/iCheck/icheck.min.js' %}"></script>
+<!-- bootstrap-daterangepicker -->
+<script src="{% static 'vendors/moment/min/moment.min.js' %}"></script>
+<script src="{% static 'vendors/bootstrap-daterangepicker/daterangepicker.js' %}"></script>
+<!-- bootstrap-wysiwyg -->
+<script src="{% static 'vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js' %}"></script>
+<script src="{% static 'vendors/jquery.hotkeys/jquery.hotkeys.js' %}"></script>
+<script src="{% static 'vendors/google-code-prettify/src/prettify.js' %}"></script>
+<!-- jQuery Tags Input -->
+<script src="{% static 'vendors/jquery.tagsinput/src/jquery.tagsinput.js' %}"></script>
+<!-- Switchery -->
+<script src="{% static 'vendors/switchery/dist/switchery.min.js' %}"></script>
+<!-- Select2 -->
+<script src="{% static 'vendors/select2/dist/js/select2.full.min.js' %}"></script>
+<!-- Parsley -->
+<script src="{% static 'vendors/parsleyjs/dist/parsley.min.js' %}"></script>
+<!-- Autosize -->
+<script src="{% static 'vendors/autosize/dist/autosize.min.js' %}"></script>
+<!-- jQuery autocomplete -->
+<script src="{% static 'vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js' %}"></script>
+<!-- starrr -->
+<script src="{% static 'vendors/starrr/dist/starrr.js' %}"></script>
+<!-- Chart.js -->
+<script src="{% static 'vendors/Chart.js/dist/Chart.min.js' %}"></script>
+<!-- NProgress -->
+<script src="{% static 'vendors/nprogress/nprogress.js' %}"></script>
+<!-- bootstrap-progressbar -->
+<script src="{% static 'vendors/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
+<!-- PNotify -->
+<script src="{% static 'vendors/pnotify/dist/pnotify.js' %}"></script>
+<script src="{% static 'vendors/pnotify/dist/pnotify.buttons.js' %}"></script>
+<script src="{% static 'vendors/pnotify/dist/pnotify.nonblock.js' %}"></script>
+<!-- Custom Template JS -->
+<script src="{% static 'build/js/custom.min.js' %}"></script>
+<script src="{% static 'build/js/mycustom.js' %}" ></script>
+
+<!--Bokeh CDN Javascript files-->
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-3.0.3.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.0.3.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.0.3.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-api-3.0.3.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.0.3.min.js"></script>
+<script src="https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.0.3.min.js"></script>
+
+{{script|safe}}
+{{script2|safe}}
+{{script3|safe}}
+{{script4|safe}}
 </body>
 </html>

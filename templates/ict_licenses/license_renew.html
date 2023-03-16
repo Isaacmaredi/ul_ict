@@ -20,7 +20,7 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb bg-light">
                             <li class="breadcrumb-item"><a href="{% url 'ict_licenses:license-admin' %}">All Licenses</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">{{license.name}}</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{license.name}} renewal</li>
                         </ol>
                     </nav>
                 </div>
@@ -31,7 +31,7 @@
             <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>Please take note of the mandatory fields </h2>
+                        <h2>Renewal of {{license_renewal.license.name}} - {{license_renewal.license.service_provider}}</h2>
                         <ul class="nav navbar-right panel_toolbox">
                             
                           
@@ -47,16 +47,16 @@
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                     <div class="form-group">
-                                        {{ form.start_date|as_crispy_field }}
+                                        {{ form.renewal_date|as_crispy_field }}
                                     </div>
                                     <div class="form-group">
-                                        {{ form.current_cost|as_crispy_field}}
+                                        {{ form.renewal_amount|as_crispy_field}}
                                     </div>
                                     <div class="form-group">
-                                        {{form.service_provider|as_crispy_field}}
+                                        {{form.pr_number|as_crispy_field}}
                                     </div>
                                     <div class="form-group mt-4 text-success"> 
-                                        {{form.is_renewed|as_crispy_field}}                           
+                                        {{form.po_number|as_crispy_field}}                           
                                     </div>  
                                                                                                
                                 </div>  
@@ -69,7 +69,7 @@
                                 <div class="ln_solid"></div>
                                 <div class="form-group row btn-inline">
                                     <div class="col-md-12 col-sm-12 offset-md-12">
-                                        <a href="{% url 'ict_licenses:license-admin-detail' license.id %} " class="btn btn-primary" type="button">Cancel</a>
+                                        <a href="{% url 'ict_licenses:license-admin' %} " class="btn btn-primary" type="button">Cancel</a>
                                         <button class="btn btn-warning" type="reset">Reset</button>
                                         <button type="submit" class="btn btn-success">Submit </button>
                                     </div>

@@ -58,6 +58,7 @@ class Project(models.Model):
     def __str__(self):
         return self.name
     
+       
     
     def get_absolute_url(self,**kwargs):
         return reverse('ict_projects:project-list')

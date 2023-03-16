@@ -18,10 +18,24 @@
       <div class="clearfix"></div>
 
       <div class="row">
-        {% for license in profiles.licenses.all %}
-        <strong class="text-primary">{{license.owner}} - {{license.name}} expires on {{license.next_renewal_date}}<br>
-            
+        <p>  {{name}} </p> <br>
+      </div>
+      <div>
+        <p>{{names}}</p>
+      </div>
+      <div>
+        {% for n in names %}
+        <p>{{n}}</p>
         {% endfor %}
+      </div>
+      <div>
+        <h2></h2>
+        
+            
+            {% for msg in msg_list %}
+            <p> <strong>{{msg}}: </strong> Days left - {{msg.days_till_renewal}}</p>
+            {% endfor %}
+     
       </div>
       <div class="clearfix"></div>
       <br />
